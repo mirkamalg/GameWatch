@@ -15,12 +15,6 @@ import kotlinx.android.synthetic.main.fragment_container_intro.*
  */
 class IntroContainerFragment : Fragment() {
 
-    enum class IntroPageType(val imageResource: Int, val text: String) {
-        INTRO_1(R.drawable.drawable_intro_background_1, "Intro 1"),
-        INTRO_2(R.drawable.drawable_intro_background_2, "Intro 2"),
-        INTRO_3(R.drawable.drawable_intro_background_3, "Intro 3")
-    }
-
     private val fragments = listOf(IntroFragment(), IntroFragment(), IntroFragment())
 
     override fun onCreateView(
@@ -55,12 +49,7 @@ class IntroContainerFragment : Fragment() {
         pagerIndicatorViewIntro.selection = 1
     }
 
-    fun getType(fragment: Fragment): IntroPageType {
-        return when (fragments.indexOf(fragment)) {
-            0 -> IntroPageType.INTRO_1
-            1 -> IntroPageType.INTRO_2
-            2 -> IntroPageType.INTRO_3
-            else -> IntroPageType.INTRO_1
-        }
+    fun getIndex(fragment: Fragment): Int {
+        return fragments.indexOf(fragment)
     }
 }
