@@ -1,7 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GameWatch</string>
     <string name="action_lets_go">Let\'s go</string>
     <string name="info_intro_1">Manage your games with ease and discover new games!</string>
     <string name="info_intro_2">Track game discounts across different game stores!</string>
-    <string name="info_intro_3">Check to see if the games you cannot afford are cracked!</string>
 </resources>
