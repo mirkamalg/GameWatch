@@ -4,4 +4,8 @@
     <string name="info_intro_1">Manage your games with ease and discover new games!</string>
     <string name="info_intro_2">Track game discounts across different game stores!</string>
     <string name="info_intro_3">Check to see if the games you cannot afford are cracked!</string>
+    <string name="info_password">Password</string>
+    <string name="info_email">Email</string>
+    <string name="action_log_in">Log in</string>
+    <string name="action_are_you_a_new_member">Are you a new member?</string>
 </resources>

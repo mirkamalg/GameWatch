@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph_main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
     app:startDestination="@id/introContainerFragment">
 
     <fragment
         android:id="@+id/introContainerFragment"
         android:name="com.mirkamal.gamewatch.ui.fragments.intro.IntroContainerFragment"
-        android:label="IntroContainerFragment" />
+        android:label="IntroContainerFragment"
+        tools:layout="@layout/fragment_container_intro">
+        <action
+            android:id="@+id/action_introContainerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mirkamal.gamewatch.ui.fragments.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" />
 </navigation>
