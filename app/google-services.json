@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "379457203704",
+    "firebase_url": "https://gamewatch-5f5c0.firebaseio.com",
+    "project_id": "gamewatch-5f5c0",
+    "storage_bucket": "gamewatch-5f5c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379457203704:android:64c6ee1967c0b85f9eba0d",
+        "android_client_info": {
+          "package_name": "com.mirkamal.gamewatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379457203704-3siem7jp3nvv4ro80tq1gentbhi7f0u5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mirkamal.gamewatch",
+            "certificate_hash": "af2ce8a3e4ae191c72bbff84cc56aab527ff81e5"
+          }
+        },
+        {
+          "client_id": "379457203704-los9arhl9je0sjs1i145gkbhqdscukur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdhLK2kmO1PkCitG9zPyaRipDywHz-L48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379457203704-los9arhl9je0sjs1i145gkbhqdscukur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
