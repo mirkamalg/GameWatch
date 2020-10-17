@@ -8,7 +8,7 @@
         android:id="@+id/viewPagerHost"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintBottom_toTopOf="@id/viewHalfwayBottomNavBar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
@@ -16,11 +16,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:mbn_circleColor="?attr/colorSecondaryVariant"
         app:mbn_backgroundBottomColor="?attr/colorOnPrimary"
+        app:mbn_circleColor="?attr/colorSecondaryVariant"
         app:mbn_defaultIconColor="#ae9990"
-        app:mbn_selectedIconColor="?attr/colorPrimary"
         app:mbn_rippleColor="#2f424242"
-        app:mbn_shadowColor="#26AE9990"/>
+        app:mbn_selectedIconColor="?attr/colorPrimary"
+        app:mbn_shadowColor="#26AE9990" />
+
+    <View
+        android:id="@+id/viewHalfwayBottomNavBar"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bottomNavigationView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
