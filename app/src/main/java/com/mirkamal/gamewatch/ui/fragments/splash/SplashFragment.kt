@@ -1,5 +1,7 @@
 package com.mirkamal.gamewatch.ui.fragments.splash
 
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -33,6 +35,8 @@ class SplashFragment : Fragment() {
         val user = Firebase.auth.currentUser
         handler = Handler(Looper.getMainLooper())
 
+        configureStatusBarColor()
+
         if (user == null) {
             //Not logged in
             //Navigate to intro
@@ -43,10 +47,15 @@ class SplashFragment : Fragment() {
             //Logged in
             //Navigate to main part
             handler.postDelayed({
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToIntroContainerFragment())
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHostFragment())
             }, 2000)
         }
+    }
 
-
+    private fun configureStatusBarColor() {
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> activity?.window?.statusBarColor = Color.parseColor("#00000000")
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> activity?.window?.statusBarColor = Color.parseColor("#8a0035")
+        }
     }
 }

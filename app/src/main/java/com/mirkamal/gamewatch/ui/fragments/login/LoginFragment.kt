@@ -79,7 +79,7 @@ class LoginFragment : Fragment() {
     private fun onSuccessfulSignIn() {
         if (FirebaseAuth.getInstance().currentUser?.isEmailVerified!!) {
             //Navigate to main part
-            Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHostFragment())
         } else {
             Toast.makeText(context, "Please, verify your mail!", Toast.LENGTH_SHORT).show()
             FirebaseAuth.getInstance().signOut()
