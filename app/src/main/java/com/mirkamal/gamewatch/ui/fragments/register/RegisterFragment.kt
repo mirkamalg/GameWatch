@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.utils.Validator
 import kotlinx.android.synthetic.main.fragment_register.*
+
 
 /**
  * Created by Mirkamal on 17 October 2020
@@ -45,22 +47,31 @@ class RegisterFragment : Fragment() {
                     textInputEditTextPassword.text.toString()
                 ).addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        onSuccessfulSignIn()
+                        onSuccessfulRegister()
                     } else {
-                        onFailedSignIn()
+                        task.exception?.let { it1 -> onFailedRegister(it1) }
                     }
                 }
             }
         }
     }
 
-    private fun onSuccessfulSignIn() {
-        Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
-        overlayLayout.visibility = View.INVISIBLE
+    private fun onSuccessfulRegister() {
+        Toast.makeText(
+            context,
+            "Successfully registered, please check your mail for confirmation",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        //Send verification mail and sign out (verification is required in order to log in)
+        FirebaseAuth.getInstance().currentUser?.sendEmailVerification()
+        FirebaseAuth.getInstance().signOut()
+
+        findNavController().popBackStack()
     }
 
-    private fun onFailedSignIn() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+    private fun onFailedRegister(e: Exception) {
+        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         overlayLayout.visibility = View.INVISIBLE
     }
 
