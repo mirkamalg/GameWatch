@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.mirkamal.gamewatch.R
 import kotlinx.android.synthetic.main.fragment_intro.*
 
@@ -46,7 +47,12 @@ class IntroFragment : Fragment() {
             2 -> {
                 imageViewIntro.setImageResource(R.drawable.drawable_intro_background_3)
                 textViewIntro.text = getString(R.string.info_intro_3)
-                buttonLetsGo.visibility = View.VISIBLE
+                buttonLetsGo.apply {
+                    this.visibility = View.VISIBLE
+                    this.setOnClickListener {
+                        findNavController().navigate(IntroContainerFragmentDirections.actionIntroContainerFragmentToLoginFragment())
+                    }
+                }
             }
         }
 

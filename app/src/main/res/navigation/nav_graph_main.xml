@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph_main"
-    app:startDestination="@id/introContainerFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/introContainerFragment"
         android:name="com.mirkamal.gamewatch.ui.fragments.intro.IntroContainerFragment"
-        android:label="IntroContainerFragment" />
+        android:label="IntroContainerFragment"
+        tools:layout="@layout/fragment_container_intro">
+        <action
+            android:id="@+id/action_introContainerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/introContainerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mirkamal.gamewatch.ui.fragments.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.mirkamal.gamewatch.ui.fragments.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_introContainerFragment"
+            app:destination="@id/introContainerFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.mirkamal.gamewatch.ui.fragments.register.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register"/>
 </navigation>
