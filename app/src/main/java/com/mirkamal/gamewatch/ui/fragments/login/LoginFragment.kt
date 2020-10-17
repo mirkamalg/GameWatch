@@ -1,5 +1,6 @@
 package com.mirkamal.gamewatch.ui.fragments.login
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -64,7 +65,7 @@ class LoginFragment : Fragment() {
                     if (task.isSuccessful) {
                         onSuccessfulSignIn()
                     } else {
-                        onFailedSignIn()
+                        task.exception?.let { it1 -> onFailedSignIn(it1) }
                     }
                 }
             }
@@ -76,12 +77,28 @@ class LoginFragment : Fragment() {
     }
 
     private fun onSuccessfulSignIn() {
-        Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+        if (FirebaseAuth.getInstance().currentUser?.isEmailVerified!!) {
+            //Navigate to main part
+            Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Please, verify your mail!", Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
+
+            //In case if there are no email clients
+            try {
+                val intent = Intent(Intent.ACTION_MAIN)
+                intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+                activity?.startActivity(intent)
+            } catch (e: Exception) {
+            }
+        }
+
+
         overlayLayout.visibility = View.INVISIBLE
     }
 
-    private fun onFailedSignIn() {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+    private fun onFailedSignIn(e: Exception) {
+        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         overlayLayout.visibility = View.INVISIBLE
     }
 
