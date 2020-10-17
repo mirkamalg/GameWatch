@@ -8,4 +8,6 @@
     <string name="info_email">Email</string>
     <string name="action_log_in">Log in</string>
     <string name="action_are_you_a_new_member">Are you a new member?</string>
+    <string name="info_confirm_password">Confirm password</string>
+    <string name="action_sign_up">Sign up</string>
 </resources>
