@@ -81,5 +81,8 @@ dependencies {
     //Spinner kit (Custom progress bars)
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
+    //Search bar
+    implementation 'com.github.arimorty:floatingsearchview:2.1.1'
+
 
 }

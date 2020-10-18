@@ -1,4 +1,4 @@
-package com.mirkamal.gamewatch.ui.fragments.mygames
+package com.mirkamal.gamewatch.ui.fragments.discover
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +10,16 @@ import com.mirkamal.gamewatch.R
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class InnerMyGamesFragment : Fragment() {
+class InnerDiscoverFragment : Fragment() {
 
-    var type: Int = 0
+    var type: Int = 3
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_inner_my_games, container, false)
+        return inflater.inflate(R.layout.fragment_inner_discover, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
