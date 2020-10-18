@@ -40,8 +40,10 @@ class HostFragment : Fragment() {
 
     private fun configureStatusBarColor() {
         when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-            Configuration.UI_MODE_NIGHT_YES -> activity?.window?.statusBarColor = Color.parseColor("#00000000")
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> activity?.window?.statusBarColor = Color.parseColor("#8a0035")
+            Configuration.UI_MODE_NIGHT_YES -> activity?.window?.statusBarColor =
+                Color.parseColor("#00000000")
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> activity?.window?.statusBarColor =
+                Color.parseColor("#8a0035")
         }
     }
 
