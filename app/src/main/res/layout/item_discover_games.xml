@@ -70,8 +70,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imageViewStar"
                 app:layout_constraintTop_toTopOf="@id/imageViewStar"
-                tools:text="8/10"
-                android:text="@{game.aggregated_rating}"/>
+                tools:text="8/10"/>
 
             <ImageView
                 android:id="@+id/imageViewController"

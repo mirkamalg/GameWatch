@@ -1,7 +1,6 @@
 package com.mirkamal.gamewatch.repositories
 
 import com.mirkamal.gamewatch.utils.libs.network.NetworkState
-import com.mirkamal.gamewatch.utils.libs.network.ResponseParentData
 import retrofit2.Response
 import java.io.IOException
 
@@ -10,14 +9,14 @@ import java.io.IOException
  */
 open class ParentRepository {
 
-    fun <T> getNetworkState(response: Response<ResponseParentData<T>>?): NetworkState {
+    fun <T> getNetworkState(response: Response<List<T>>?): NetworkState {
 
         return try {
             if (response?.isSuccessful == true) {
                 if (response.body() != null) {
 
                     val data = response.body()
-                    when ((data as ResponseParentData<*>).status) {
+                    when (response.code()) {
                         200 -> NetworkState.Success(data)
                         402->NetworkState.Error("Wrong Header")
                         403->NetworkState.Error("Wrong Credentials")

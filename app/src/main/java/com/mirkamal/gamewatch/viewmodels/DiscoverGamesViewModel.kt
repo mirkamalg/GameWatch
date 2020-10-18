@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.mirkamal.gamewatch.model.pojo.GamePOJO
 import com.mirkamal.gamewatch.repositories.DiscoverGamesRepository
 import com.mirkamal.gamewatch.utils.libs.network.NetworkState
-import com.mirkamal.gamewatch.utils.libs.network.ResponseParentData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,7 +25,7 @@ class DiscoverGamesViewModel : ViewModel() {
             val response = discoverGamesRepository.searchForGames(name)
             if (response is NetworkState.Success<*>) {
                 withContext(Dispatchers.Main) {
-                    resultGames.value = (response.data as? ResponseParentData<List<GamePOJO>>)?.data
+                    resultGames.value = response.data as List<GamePOJO>?
                 }
             }
         }
