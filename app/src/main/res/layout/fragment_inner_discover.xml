@@ -19,7 +19,8 @@
         app:floatingSearch_suggestionsListAnimDuration="250"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:floatingSearch_backgroundColor="?attr/colorOnPrimary"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDiscover"

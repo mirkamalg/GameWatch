@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.utils.TYPE_GAMES
+import com.mirkamal.gamewatch.utils.TYPE_USERS
 
 /**
  * Created by Mirkamal on 18 October 2020
@@ -24,5 +26,28 @@ class InnerDiscoverFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        configureSearchViewBackgroundColor()
+        configureFragment()
+    }
+
+//    private fun configureSearchViewBackgroundColor() {
+//        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+//            Configuration.UI_MODE_NIGHT_YES -> searchViewDiscover.setBackgroundColor(Color.parseColor("#1f1f1f"))
+//            Configuration.UI_MODE_NIGHT_NO -> searchViewDiscover.setBackgroundColor(Color.parseColor("#ffffff"))
+//        }
+//    }
+
+    private fun configureFragment() {
+        if (type == TYPE_GAMES) configureFragmentForGames()
+        else if (type == TYPE_USERS) configureFragmentForUsers()
+    }
+
+    private fun configureFragmentForUsers() {
+
+    }
+
+    private fun configureFragmentForGames() {
+
     }
 }
