@@ -7,7 +7,7 @@ import com.squareup.moshi.Json
  */
 data class GamePOJO(
     @Json(name = "id") val id: Long?,
-    @Json(name = "aggregated_rating") val aggregated_rating: Int?,
+    @Json(name = "rating") var rating: Double?,
     @Json(name = "artworks") val artworks: List<Long>?,
     @Json(name = "cover") val cover: Long?,
     @Json(name = "first_release_date") val first_release_date: Long?,

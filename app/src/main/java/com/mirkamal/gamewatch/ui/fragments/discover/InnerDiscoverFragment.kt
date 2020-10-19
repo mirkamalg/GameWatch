@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.arlib.floatingsearchview.FloatingSearchView
@@ -23,7 +24,7 @@ class InnerDiscoverFragment : Fragment() {
 
     var type: Int = 3
     private lateinit var discoverGamesViewModel: DiscoverGamesViewModel
-    private lateinit var adapter: DiscoverGamesListAdapter
+    private lateinit var discoverGamesListAdapter: DiscoverGamesListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,13 +67,14 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureRecyclerViewForGames() {
-        adapter = DiscoverGamesListAdapter()
-        recyclerViewDiscover.adapter = adapter
+        discoverGamesListAdapter = DiscoverGamesListAdapter()
+        recyclerViewDiscover.adapter = discoverGamesListAdapter
     }
 
     private fun configureObservers() {
         discoverGamesViewModel.resultGames.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
+            discoverGamesListAdapter.submitList(it)
+            hideLoadingAnimation()
         })
     }
 
@@ -84,8 +86,18 @@ class InnerDiscoverFragment : Fragment() {
 
             override fun onSearchAction(currentQuery: String?) {
                 discoverGamesViewModel.onSearch(currentQuery ?: "")
+
+                showLoadingAnimation()
             }
 
         })
+    }
+
+    private fun showLoadingAnimation() {
+        progressBarDiscoverGames.isVisible = true
+    }
+
+    private fun hideLoadingAnimation() {
+        progressBarDiscoverGames.isVisible = false
     }
 }

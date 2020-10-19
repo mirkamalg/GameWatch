@@ -10,4 +10,5 @@
     <string name="action_are_you_a_new_member">Are you a new member?</string>
     <string name="info_confirm_password">Confirm password</string>
     <string name="action_sign_up">Sign up</string>
+    <string name="info_game_item_rating">something</string>
 </resources>

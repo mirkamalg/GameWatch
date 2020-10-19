@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="game"
-            type="com.mirkamal.gamewatch.model.pojo.GamePOJO" />
+            type="com.mirkamal.gamewatch.model.entity.Game" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -29,7 +30,7 @@
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.25" />
+                app:layout_constraintWidth_percent="0.25"/>
 
             <TextView
                 android:id="@+id/textViewGameName"
@@ -38,13 +39,13 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
+                android:text="@{game.name}"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageViewGameItem"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Game name here"
-                android:text="@{game.name}"/>
+                tools:text="Game name here" />
 
             <ImageView
                 android:id="@+id/imageViewStar"
@@ -64,13 +65,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="32dp"
+                android:text="@{String.valueOf(game.rating) + `/100`}"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@id/imageViewStar"
                 app:layout_constraintEnd_toStartOf="@+id/imageViewController"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imageViewStar"
                 app:layout_constraintTop_toTopOf="@id/imageViewStar"
-                tools:text="8/10"/>
+                tools:text="8/10" />
 
             <ImageView
                 android:id="@+id/imageViewController"

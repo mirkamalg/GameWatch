@@ -7,6 +7,7 @@ import com.mirkamal.gamewatch.databinding.ItemDiscoverGamesBinding
 import com.mirkamal.gamewatch.model.pojo.GamePOJO
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.diffutilcallbacks.DiscoverGameDiffCallback
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.viewholders.DiscoverGamesListViewHolder
+import com.mirkamal.gamewatch.utils.toGameEntity
 
 /**
  * Created by Mirkamal on 18 October 2020
@@ -20,6 +21,6 @@ class DiscoverGamesListAdapter: ListAdapter<GamePOJO, DiscoverGamesListViewHolde
     }
 
     override fun onBindViewHolder(holder: DiscoverGamesListViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position).toGameEntity())
     }
 }

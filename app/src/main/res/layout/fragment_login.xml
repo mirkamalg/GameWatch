@@ -116,7 +116,6 @@
         android:elevation="48dp">
 
         <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/progressBar"
             style="@style/SpinKitView.WanderingCubes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
