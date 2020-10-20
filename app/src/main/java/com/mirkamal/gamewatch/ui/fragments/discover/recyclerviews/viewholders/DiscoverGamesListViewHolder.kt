@@ -15,6 +15,9 @@ class DiscoverGamesListViewHolder private constructor(private val binding: ItemD
             this.game = game
             executePendingBindings()
         }
+
+        //Make textview selected for marquee
+        binding.textViewGameName.isSelected = true
     }
 
     companion object {

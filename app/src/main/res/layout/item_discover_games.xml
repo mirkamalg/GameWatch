@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,14 +38,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:text="@{game.name}"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageViewGameItem"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Game name here" />
+                tools:text="Game name here"
+                android:ellipsize="marquee"
+                android:singleLine="true" />
 
             <ImageView
                 android:id="@+id/imageViewStar"
