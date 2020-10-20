@@ -56,7 +56,7 @@ class IntroFragment : Fragment() {
             }
         }
 
-        val typeface = Typeface.createFromAsset(activity?.assets, "fonts/PT_Sans/PTSans-Regular.ttf")
+        val typeface = Typeface.createFromAsset(activity?.assets, "fonts/PT_Sans/ptsans_regular.ttf")
         textViewIntro.typeface = typeface
 
     }

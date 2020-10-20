@@ -1,6 +1,5 @@
 package com.mirkamal.gamewatch.repositories
 
-import android.util.Log
 import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.model.pojo.CoverPOJO
 import com.mirkamal.gamewatch.network.ApiInitHelper
@@ -40,14 +39,12 @@ class DiscoverGamesRepository : ParentRepository() {
                 for (game in responseBody) {
                     val temp = game.toGameEntity()
                     if (game.cover != null) {
-                        temp.coverURL = coverPojoMap[game.cover]?.url ?: "helo"
-                        Log.e("HELP", temp.coverURL)
+                        temp.coverURL = coverPojoMap[game.cover]?.url ?: "null"
                     } else {
                         temp.coverURL = "null"
                     }
                     games.add(temp)
                 }
-                Log.e("SIZE", games.size.toString())
                 games
             } else {
                 null
