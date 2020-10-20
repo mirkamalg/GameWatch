@@ -48,9 +48,9 @@ class HostFragment : Fragment() {
     }
 
     private fun configureBottomNavBar() {
-        bottomNavigationView.add(MeowBottomNavigation.Model(1, R.drawable.home))
-        bottomNavigationView.add(MeowBottomNavigation.Model(2, R.drawable.home))
-        bottomNavigationView.add(MeowBottomNavigation.Model(3, R.drawable.home))
+        bottomNavigationView.add(MeowBottomNavigation.Model(1, R.drawable.ic_home))
+        bottomNavigationView.add(MeowBottomNavigation.Model(2, R.drawable.ic_discover))
+        bottomNavigationView.add(MeowBottomNavigation.Model(3, R.drawable.ic_profile))
 
         bottomNavigationView.setOnClickMenuListener {
             viewPagerHost.currentItem = it.id - 1

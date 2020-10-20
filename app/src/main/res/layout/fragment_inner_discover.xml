@@ -20,7 +20,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:floatingSearch_backgroundColor="?attr/colorOnPrimary"/>
+        app:floatingSearch_backgroundColor="?attr/colorOnPrimary"
+        android:elevation="9dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDiscover"
