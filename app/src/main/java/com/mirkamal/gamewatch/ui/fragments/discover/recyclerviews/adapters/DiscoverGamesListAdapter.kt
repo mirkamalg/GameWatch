@@ -21,5 +21,4 @@ class DiscoverGamesListAdapter: ListAdapter<Game, DiscoverGamesListViewHolder>(D
     override fun onBindViewHolder(holder: DiscoverGamesListViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }

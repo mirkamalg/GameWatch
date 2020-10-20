@@ -1,8 +1,9 @@
 package com.mirkamal.gamewatch.repositories
 
-import android.util.Log
 import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.pojo.CoverPOJO
 import com.mirkamal.gamewatch.network.ApiInitHelper
+import com.mirkamal.gamewatch.utils.libs.coverPOJOListToCoverPOJOMap
 import com.mirkamal.gamewatch.utils.toGameEntity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -20,7 +21,7 @@ class DiscoverGamesRepository : ParentRepository() {
         return try {
 
             val body =
-                "fields *; where name = \"$name\";".toRequestBody("text/plain".toMediaTypeOrNull())
+                "search \"$name\"; fields *; limit 50;".toRequestBody("text/plain".toMediaTypeOrNull())
             val mainResponse = searchGameService.searchGames(body = body)
 
             if (mainResponse.isSuccessful) {
@@ -31,56 +32,44 @@ class DiscoverGamesRepository : ParentRepository() {
                     ids.add(item.cover ?: 0)
                 }
 
-                val urls = fetchCoverURLs(ids)
+                val coverPojos = fetchCoverURLs(ids)
+                val coverPojoMap = coverPOJOListToCoverPOJOMap(coverPojos)
                 val games = arrayListOf<Game>()
-                for (index in 0..games.size) {
-                    try {
-                        val temp = responseBody[index].toGameEntity()
-                        temp.coverURL = urls[index]
-                        games.add(temp)
-                    } catch (e: Exception) {break}
 
-//                val temp = item.toGameEntity()
-//                temp.coverURL = urls[responseBody.indexOf(item)]
-//                games.add(temp)
+                for (game in responseBody) {
+                    val temp = game.toGameEntity()
+                    if (game.cover != null) {
+                        temp.coverURL = coverPojoMap[game.cover]?.url ?: "null"
+                    } else {
+                        temp.coverURL = "null"
+                    }
+                    games.add(temp)
                 }
-
                 games
             } else {
                 null
             }
-
         } catch (e: IOException) {
             arrayListOf()
         }
     }
 
-    private suspend fun fetchCoverURLs(IDs: ArrayList<Long>): List<String> {
+    private suspend fun fetchCoverURLs(IDs: ArrayList<Long>): List<CoverPOJO> {
         return try {
             val body =
-                "fields url; where id = (${IDs.joinToString(", ")});".toRequestBody("text/plain".toMediaTypeOrNull())
+                "fields url; where id = (${IDs.joinToString(", ")}); limit 50;".toRequestBody("text/plain".toMediaTypeOrNull())
             val response = searchGameService.fetchCovers(body = body)
             val responseBody = response.body()
 
             if (responseBody != null) {
-                val coverURLs = arrayListOf<String>()
+
+                val parsedCovers = arrayListOf<CoverPOJO>()
+
                 for (item in responseBody) {
-
-                    //Refactor url to prevent Glide errors
-                    item.url = "https://" + item.url?.removeRange(0, 2)
-                    Log.e("HERE", item.url?:"null")
-                    coverURLs.add(
-                        item.url
-                            ?: "https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-stock-vector-no-image-available-icon-flat-vector-illustration.jpg?ver=6"
-                    )
-
-                    if (item.url == null) {
-                        Log.e("FETCH_COVER_URL", "URL is null")
-                    } else {
-                        Log.d("FETCH_COVER_URL", item.url!!)
-                    }
+                    item.url = "https:" + item.url
+                    parsedCovers.add(item)
                 }
-                coverURLs
+                parsedCovers
             } else {
                 emptyList()
             }
