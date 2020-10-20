@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -56,7 +57,7 @@ class LoginFragment : Fragment() {
     private fun setOnClickListeners() {
         buttonLogin.setOnClickListener {
             if (validateFields()) {
-                overlayLayout.visibility = View.VISIBLE
+                overlayLayout.isVisible = true
 
                 auth.signInWithEmailAndPassword(
                     textInputEditTextEmail.text.toString(),
@@ -94,12 +95,12 @@ class LoginFragment : Fragment() {
         }
 
 
-        overlayLayout.visibility = View.INVISIBLE
+        overlayLayout.isVisible = false
     }
 
     private fun onFailedSignIn(e: Exception) {
         Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-        overlayLayout.visibility = View.INVISIBLE
+        overlayLayout.isVisible = false
     }
 
     private fun validateFields(): Boolean {

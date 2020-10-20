@@ -10,7 +10,7 @@ import com.mirkamal.gamewatch.R
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class InnerMyGamesFragment() : Fragment() {
+class InnerMyGamesFragment : Fragment() {
 
     var type: Int = 0
 

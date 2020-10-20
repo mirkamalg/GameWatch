@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.utils.TYPE_PLAYED
+import com.mirkamal.gamewatch.utils.TYPE_PLAYING
+import com.mirkamal.gamewatch.utils.TYPE_WANT_TO_PLAY
 import kotlinx.android.synthetic.main.fragment_my_games.*
 
 /**
@@ -34,9 +37,10 @@ class MyGamesFragment : Fragment() {
     }
 
     private fun configureViewPager() {
-        for (fragment in fragments) {
-            fragment.type = fragments.indexOf(fragment)
-        }
+        fragments[0].type = TYPE_PLAYING
+        fragments[1].type = TYPE_WANT_TO_PLAY
+        fragments[2].type = TYPE_PLAYED
+
         viewPagerMyGames.adapter = MyGamesPagerAdapter(this, fragments)
     }
 
