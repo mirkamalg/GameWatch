@@ -4,16 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.mirkamal.gamewatch.databinding.ItemDiscoverGamesBinding
-import com.mirkamal.gamewatch.model.pojo.GamePOJO
+import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.diffutilcallbacks.DiscoverGameDiffCallback
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.viewholders.DiscoverGamesListViewHolder
-import com.mirkamal.gamewatch.utils.toGameEntity
 
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class DiscoverGamesListAdapter: ListAdapter<GamePOJO, DiscoverGamesListViewHolder>(DiscoverGameDiffCallback()) {
-
+class DiscoverGamesListAdapter: ListAdapter<Game, DiscoverGamesListViewHolder>(DiscoverGameDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscoverGamesListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemDiscoverGamesBinding.inflate(layoutInflater, parent, false)
@@ -21,6 +19,7 @@ class DiscoverGamesListAdapter: ListAdapter<GamePOJO, DiscoverGamesListViewHolde
     }
 
     override fun onBindViewHolder(holder: DiscoverGamesListViewHolder, position: Int) {
-        holder.bind(getItem(position).toGameEntity())
+        holder.bind(getItem(position))
     }
+
 }

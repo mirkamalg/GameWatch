@@ -23,7 +23,7 @@ interface SearchGameService {
     ): Response<List<GamePOJO>>
 
     @POST("covers/")
-    suspend fun fetchCoverURLs(
+    suspend fun fetchCovers(
         @Header("Client-ID") clientID: String = IGDB_CLIENT_ID,
         @Header("Authorization") authorization: String = IGDB_AUTHORIZATION,
         @Body body: RequestBody

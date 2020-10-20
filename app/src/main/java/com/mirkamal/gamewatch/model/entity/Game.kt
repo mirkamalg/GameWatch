@@ -18,5 +18,5 @@ data class Game(
     var summary: String,
     var url: String,
     var videos: List<Long>,
-    var coverLink: String
+    var coverURL: String
 )

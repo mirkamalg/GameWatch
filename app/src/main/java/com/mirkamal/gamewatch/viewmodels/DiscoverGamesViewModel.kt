@@ -1,11 +1,11 @@
 package com.mirkamal.gamewatch.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mirkamal.gamewatch.model.pojo.GamePOJO
+import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.repositories.DiscoverGamesRepository
-import com.mirkamal.gamewatch.utils.libs.network.NetworkState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,15 +17,20 @@ class DiscoverGamesViewModel : ViewModel() {
 
     private val discoverGamesRepository = DiscoverGamesRepository()
 
-    val resultGames = MutableLiveData<List<GamePOJO>>()
+    private val _resultGames = MutableLiveData<List<Game>>()
+    val resultGames: LiveData<List<Game>>
+        get() = _resultGames
 
     @Suppress("UNCHECKED_CAST")
     fun onSearch(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = discoverGamesRepository.searchForGames(name)
-            if (response is NetworkState.Success<*>) {
-                withContext(Dispatchers.Main) {
-                    resultGames.value = response.data as List<GamePOJO>?
+
+            withContext(Dispatchers.Main) {
+                if (response != null) {
+                    _resultGames.value = response
+                } else {
+                    _resultGames.value = emptyList()
                 }
             }
         }
