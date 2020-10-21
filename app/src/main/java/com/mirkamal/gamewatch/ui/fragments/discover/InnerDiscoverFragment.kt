@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
 import com.mirkamal.gamewatch.utils.TYPE_GAMES
 import com.mirkamal.gamewatch.utils.TYPE_USERS
@@ -69,6 +73,36 @@ class InnerDiscoverFragment : Fragment() {
     private fun configureRecyclerViewForGames() {
         discoverGamesListAdapter = DiscoverGamesListAdapter()
         recyclerViewDiscover.adapter = discoverGamesListAdapter
+
+        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+            ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.RIGHT
+            ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                val pos = viewHolder.adapterPosition
+                val tempList = arrayListOf<Game>()
+                tempList.addAll(discoverGamesListAdapter.currentList)
+                tempList.removeAt(pos)
+                discoverGamesListAdapter.submitList(tempList)
+                discoverGamesListAdapter.notifyDataSetChanged()
+
+                Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
+
+                //TODO implement game addition
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerViewDiscover)
     }
 
     private fun configureObservers() {

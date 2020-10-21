@@ -21,7 +21,7 @@ class DiscoverGamesRepository : ParentRepository() {
         return try {
 
             val body =
-                "search \"$name\"; fields *; limit 50;".toRequestBody("text/plain".toMediaTypeOrNull())
+                "search \"$name\"; fields *; limit 25;".toRequestBody("text/plain".toMediaTypeOrNull())
             val mainResponse = searchGameService.searchGames(body = body)
 
             if (mainResponse.isSuccessful) {
@@ -57,7 +57,7 @@ class DiscoverGamesRepository : ParentRepository() {
     private suspend fun fetchCoverURLs(IDs: ArrayList<Long>): List<CoverPOJO> {
         return try {
             val body =
-                "fields url; where id = (${IDs.joinToString(", ")}); limit 50;".toRequestBody("text/plain".toMediaTypeOrNull())
+                "fields url; where id = (${IDs.joinToString(", ")}); limit 25;".toRequestBody("text/plain".toMediaTypeOrNull())
             val response = searchGameService.fetchCovers(body = body)
             val responseBody = response.body()
 

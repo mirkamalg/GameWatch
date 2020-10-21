@@ -1,6 +1,5 @@
 package com.mirkamal.gamewatch.ui.fragments.login
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -85,13 +84,12 @@ class LoginFragment : Fragment() {
             Toast.makeText(context, "Please, verify your mail!", Toast.LENGTH_SHORT).show()
             FirebaseAuth.getInstance().signOut()
 
-            //In case if there are no email clients
-            try {
-                val intent = Intent(Intent.ACTION_MAIN)
-                intent.addCategory(Intent.CATEGORY_APP_EMAIL)
-                activity?.startActivity(intent)
-            } catch (e: Exception) {
-            }
+//            try {
+//                val intent = Intent(Intent.ACTION_MAIN)
+//                intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+//                activity?.startActivity(intent)
+//            } catch (e: Exception) {
+//            }
         }
 
 
