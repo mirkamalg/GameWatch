@@ -13,13 +13,17 @@ import kotlinx.coroutines.withContext
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class DiscoverGamesViewModel : ViewModel() {
+class GamesViewModel : ViewModel() {
 
     private val discoverGamesRepository = DiscoverGamesRepository()
 
     private val _resultGames = MutableLiveData<List<Game>>()
     val resultGames: LiveData<List<Game>>
         get() = _resultGames
+
+    private val _wantToPlayGames = MutableLiveData<List<Game>>()
+    val wantToPlayGames: LiveData<List<Game>>
+        get() = _wantToPlayGames
 
     @Suppress("UNCHECKED_CAST")
     fun onSearch(name: String) {
@@ -31,6 +35,20 @@ class DiscoverGamesViewModel : ViewModel() {
                     _resultGames.value = response
                 } else {
                     _resultGames.value = emptyList()
+                }
+            }
+        }
+    }
+
+    fun onLoadUserGames(ids: List<Long>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = discoverGamesRepository.fetchGamesByIDs(ids)
+
+            withContext(Dispatchers.Main) {
+                if (response != null) {
+                    _wantToPlayGames.value = response
+                } else {
+                    _wantToPlayGames.value = emptyList()
                 }
             }
         }

@@ -22,8 +22,9 @@ import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
 import com.mirkamal.gamewatch.utils.TYPE_GAMES
 import com.mirkamal.gamewatch.utils.TYPE_USERS
+import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION
 import com.mirkamal.gamewatch.utils.isDarkThemeOn
-import com.mirkamal.gamewatch.viewmodels.DiscoverGamesViewModel
+import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_inner_discover.*
 
 
@@ -33,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_inner_discover.*
 class InnerDiscoverFragment : Fragment() {
 
     var type: Int = 3
-    private lateinit var discoverGamesViewModel: DiscoverGamesViewModel
+    private lateinit var gamesViewModel: GamesViewModel
     private lateinit var discoverGamesListAdapter: DiscoverGamesListAdapter
 
     private val db = Firebase.firestore
@@ -72,8 +73,8 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureFragmentForGames() {
-        val viewmodel: DiscoverGamesViewModel by viewModels()
-        discoverGamesViewModel = viewmodel
+        val viewmodel: GamesViewModel by viewModels()
+        gamesViewModel = viewmodel
 
         configureRecyclerViewForGames()
         configureSearch()
@@ -109,12 +110,12 @@ class InnerDiscoverFragment : Fragment() {
                 Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
 
                 //Add game to "Want to play" array in firebase
-                db.collection("userdata").document(email).get().addOnSuccessListener {
+                db.collection(USER_DATA_COLLECTION).document(email).get().addOnSuccessListener {
                     if (it.exists()) {
                         val games = it.get("wanttoplay") as ArrayList<Long>
                         if (!games.contains(game)) {
                             games.add(game)
-                            db.collection("userdata").document(email).set(hashMapOf("wanttoplay" to games), SetOptions.merge())
+                            db.collection(USER_DATA_COLLECTION).document(email).set(hashMapOf("wanttoplay" to games), SetOptions.merge())
                         }
                     }
                 }
@@ -126,7 +127,7 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureObservers() {
-        discoverGamesViewModel.resultGames.observe(viewLifecycleOwner, {
+        gamesViewModel.resultGames.observe(viewLifecycleOwner, {
             discoverGamesListAdapter.submitList(it)
             hideLoadingAnimation()
         })
@@ -139,7 +140,7 @@ class InnerDiscoverFragment : Fragment() {
             override fun onSuggestionClicked(searchSuggestion: SearchSuggestion?) {}
 
             override fun onSearchAction(currentQuery: String?) {
-                discoverGamesViewModel.onSearch(currentQuery ?: "")
+                gamesViewModel.onSearch(currentQuery ?: "")
 
                 showLoadingAnimation()
             }
