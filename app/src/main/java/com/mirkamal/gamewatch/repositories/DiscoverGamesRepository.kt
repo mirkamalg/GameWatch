@@ -21,7 +21,7 @@ class DiscoverGamesRepository : ParentRepository() {
         return try {
 
             val body =
-                "search \"$name\"; fields *; limit 50;".toRequestBody("text/plain".toMediaTypeOrNull())
+                "search \"$name\"; fields *; limit 25;".toRequestBody("text/plain".toMediaTypeOrNull())
             val mainResponse = searchGameService.searchGames(body = body)
 
             if (mainResponse.isSuccessful) {
@@ -57,7 +57,7 @@ class DiscoverGamesRepository : ParentRepository() {
     private suspend fun fetchCoverURLs(IDs: ArrayList<Long>): List<CoverPOJO> {
         return try {
             val body =
-                "fields url; where id = (${IDs.joinToString(", ")}); limit 50;".toRequestBody("text/plain".toMediaTypeOrNull())
+                "fields url; where id = (${IDs.joinToString(", ")}); limit 25;".toRequestBody("text/plain".toMediaTypeOrNull())
             val response = searchGameService.fetchCovers(body = body)
             val responseBody = response.body()
 
@@ -75,6 +75,42 @@ class DiscoverGamesRepository : ParentRepository() {
             }
         } catch (e: IOException) {
             emptyList()
+        }
+    }
+
+    suspend fun fetchGamesByIDs(ids: List<Long>): ArrayList<Game>? {
+        return try {
+            val body =
+                "fields *; where id = (${ids.joinToString(", ")});".toRequestBody("text/plain".toMediaTypeOrNull())
+            val mainResponse = searchGameService.searchGames(body = body)
+
+            if (mainResponse.isSuccessful) {
+                val responseBody = mainResponse.body()!!
+
+                val ids = arrayListOf<Long>()
+                for (item in responseBody) {
+                    ids.add(item.cover ?: 0)
+                }
+
+                val coverPojos = fetchCoverURLs(ids)
+                val coverPojoMap = coverPOJOListToCoverPOJOMap(coverPojos)
+                val games = arrayListOf<Game>()
+
+                for (game in responseBody) {
+                    val temp = game.toGameEntity()
+                    if (game.cover != null) {
+                        temp.coverURL = coverPojoMap[game.cover]?.url ?: "null"
+                    } else {
+                        temp.coverURL = "null"
+                    }
+                    games.add(temp)
+                }
+                games
+            } else {
+                null
+            }
+        } catch (e: IOException) {
+            arrayListOf()
         }
     }
 

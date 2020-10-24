@@ -1,5 +1,8 @@
 package com.mirkamal.gamewatch.utils
 
+import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -39,4 +42,9 @@ fun ImageView.loadImage(url: String) {
         .placeholder(R.drawable.drawable_loading_placeholder)
         .centerCrop()
         .into(this)
+}
+
+fun Context.isDarkThemeOn(): Boolean {
+    return resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
 }

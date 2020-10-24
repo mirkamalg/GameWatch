@@ -31,7 +31,8 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:paddingTop="8dp"
         android:paddingBottom="64dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:paddingHorizontal="8dp"/>
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progressBarDiscoverGames"

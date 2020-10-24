@@ -23,3 +23,5 @@ const val PC_ID = 6
 val XBOX_IDs = listOf(12, 49, 169) //XBox 360, one, series x
 val PLAYSTATION_IDs = listOf(9, 48, 167) //PS3, PS4, PS5
 const val NINTENDO_SWITCH_ID = 130
+
+const val USER_DATA_COLLECTION = "userdata"

@@ -28,4 +28,11 @@ interface SearchGameService {
         @Header("Authorization") authorization: String = IGDB_AUTHORIZATION,
         @Body body: RequestBody
     ): Response<List<CoverPOJO>>
+
+    @POST("games/")
+    suspend fun fetchGamesByIDs(
+        @Header("Client-ID") clientID: String = IGDB_CLIENT_ID,
+        @Header("Authorization") authorization: String = IGDB_AUTHORIZATION,
+        @Body body: RequestBody
+    ): Response<List<GamePOJO>>
 }

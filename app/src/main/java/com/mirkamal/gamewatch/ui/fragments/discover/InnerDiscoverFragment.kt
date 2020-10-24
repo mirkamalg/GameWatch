@@ -1,19 +1,30 @@
 package com.mirkamal.gamewatch.ui.fragments.discover
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
 import com.mirkamal.gamewatch.utils.TYPE_GAMES
 import com.mirkamal.gamewatch.utils.TYPE_USERS
-import com.mirkamal.gamewatch.viewmodels.DiscoverGamesViewModel
+import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION
+import com.mirkamal.gamewatch.utils.isDarkThemeOn
+import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_inner_discover.*
 
 
@@ -23,8 +34,11 @@ import kotlinx.android.synthetic.main.fragment_inner_discover.*
 class InnerDiscoverFragment : Fragment() {
 
     var type: Int = 3
-    private lateinit var discoverGamesViewModel: DiscoverGamesViewModel
+    private lateinit var gamesViewModel: GamesViewModel
     private lateinit var discoverGamesListAdapter: DiscoverGamesListAdapter
+
+    private val db = Firebase.firestore
+    private val email = Firebase.auth.currentUser?.email ?: ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,16 +51,17 @@ class InnerDiscoverFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        configureSearchViewBackgroundColor()
+        configureSearchViewBackgroundColor()
         configureFragment()
     }
 
-//    private fun configureSearchViewBackgroundColor() {
-//        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-//            Configuration.UI_MODE_NIGHT_YES -> searchViewDiscover.setBackgroundColor(Color.parseColor("#1f1f1f"))
-//            Configuration.UI_MODE_NIGHT_NO -> searchViewDiscover.setBackgroundColor(Color.parseColor("#ffffff"))
-//        }
-//    }
+    private fun configureSearchViewBackgroundColor() {
+        if (context?.isDarkThemeOn() == true) {
+            searchViewDiscover.setBackgroundColor(Color.parseColor("#1f1f1f"))
+        } else {
+            searchViewDiscover.setBackgroundColor(Color.parseColor("#ffffff"))
+        }
+    }
 
     private fun configureFragment() {
         if (type == TYPE_GAMES) configureFragmentForGames()
@@ -58,8 +73,8 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureFragmentForGames() {
-        val viewmodel: DiscoverGamesViewModel by viewModels()
-        discoverGamesViewModel = viewmodel
+        val viewmodel: GamesViewModel by viewModels()
+        gamesViewModel = viewmodel
 
         configureRecyclerViewForGames()
         configureSearch()
@@ -69,10 +84,50 @@ class InnerDiscoverFragment : Fragment() {
     private fun configureRecyclerViewForGames() {
         discoverGamesListAdapter = DiscoverGamesListAdapter()
         recyclerViewDiscover.adapter = discoverGamesListAdapter
+
+        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+            ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.RIGHT
+            ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                val pos = viewHolder.adapterPosition
+                val game = discoverGamesListAdapter.currentList[pos].id
+                val tempList = arrayListOf<Game>()
+                tempList.addAll(discoverGamesListAdapter.currentList)
+                tempList.removeAt(pos)
+                discoverGamesListAdapter.submitList(tempList)
+                discoverGamesListAdapter.notifyDataSetChanged()
+
+                Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
+
+                //Add game to "Want to play" array in firebase
+                db.collection(USER_DATA_COLLECTION).document(email).get().addOnSuccessListener {
+                    if (it.exists()) {
+                        val games = it.get("wanttoplay") as ArrayList<Long>
+                        if (!games.contains(game)) {
+                            games.add(game)
+                            db.collection(USER_DATA_COLLECTION).document(email).set(hashMapOf("wanttoplay" to games), SetOptions.merge())
+                        }
+                    }
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerViewDiscover)
     }
 
     private fun configureObservers() {
-        discoverGamesViewModel.resultGames.observe(viewLifecycleOwner, {
+        gamesViewModel.resultGames.observe(viewLifecycleOwner, {
             discoverGamesListAdapter.submitList(it)
             hideLoadingAnimation()
         })
@@ -85,7 +140,7 @@ class InnerDiscoverFragment : Fragment() {
             override fun onSuggestionClicked(searchSuggestion: SearchSuggestion?) {}
 
             override fun onSearchAction(currentQuery: String?) {
-                discoverGamesViewModel.onSearch(currentQuery ?: "")
+                gamesViewModel.onSearch(currentQuery ?: "")
 
                 showLoadingAnimation()
             }

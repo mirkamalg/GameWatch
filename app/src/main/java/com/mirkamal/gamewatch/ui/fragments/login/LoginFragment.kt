@@ -1,6 +1,5 @@
 package com.mirkamal.gamewatch.ui.fragments.login
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION
 import com.mirkamal.gamewatch.utils.Validator
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -78,20 +79,36 @@ class LoginFragment : Fragment() {
     }
 
     private fun onSuccessfulSignIn() {
-        if (FirebaseAuth.getInstance().currentUser?.isEmailVerified!!) {
+        // Create user document in firebase if it doesn't exist
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser?.isEmailVerified!!) {
+            Firebase.firestore.collection(USER_DATA_COLLECTION).document(currentUser.email ?: "").get()
+                .addOnSuccessListener {
+                    if (!it.exists()) {
+                        Firebase.firestore.collection(USER_DATA_COLLECTION).document(currentUser.email ?: "")
+                            .set(
+                                hashMapOf(
+                                    "email" to currentUser.email,
+                                    "wanttoplay" to emptyList<Long>(),
+                                    "playing" to emptyList<Long>(),
+                                    "played" to emptyList<Long>()
+                                )
+                            )
+                    }
+                }
+
             //Navigate to main part
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHostFragment())
         } else {
             Toast.makeText(context, "Please, verify your mail!", Toast.LENGTH_SHORT).show()
             FirebaseAuth.getInstance().signOut()
 
-            //In case if there are no email clients
-            try {
-                val intent = Intent(Intent.ACTION_MAIN)
-                intent.addCategory(Intent.CATEGORY_APP_EMAIL)
-                activity?.startActivity(intent)
-            } catch (e: Exception) {
-            }
+//            try {
+//                val intent = Intent(Intent.ACTION_MAIN)
+//                intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+//                activity?.startActivity(intent)
+//            } catch (e: Exception) {
+//            }
         }
 
 
