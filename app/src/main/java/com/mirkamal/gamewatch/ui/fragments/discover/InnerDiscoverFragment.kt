@@ -1,5 +1,6 @@
 package com.mirkamal.gamewatch.ui.fragments.discover
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,16 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
 import com.mirkamal.gamewatch.utils.TYPE_GAMES
 import com.mirkamal.gamewatch.utils.TYPE_USERS
+import com.mirkamal.gamewatch.utils.isDarkThemeOn
 import com.mirkamal.gamewatch.viewmodels.DiscoverGamesViewModel
 import kotlinx.android.synthetic.main.fragment_inner_discover.*
 
@@ -30,6 +36,9 @@ class InnerDiscoverFragment : Fragment() {
     private lateinit var discoverGamesViewModel: DiscoverGamesViewModel
     private lateinit var discoverGamesListAdapter: DiscoverGamesListAdapter
 
+    private val db = Firebase.firestore
+    private val email = Firebase.auth.currentUser?.email ?: ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,16 +50,17 @@ class InnerDiscoverFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        configureSearchViewBackgroundColor()
+        configureSearchViewBackgroundColor()
         configureFragment()
     }
 
-//    private fun configureSearchViewBackgroundColor() {
-//        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-//            Configuration.UI_MODE_NIGHT_YES -> searchViewDiscover.setBackgroundColor(Color.parseColor("#1f1f1f"))
-//            Configuration.UI_MODE_NIGHT_NO -> searchViewDiscover.setBackgroundColor(Color.parseColor("#ffffff"))
-//        }
-//    }
+    private fun configureSearchViewBackgroundColor() {
+        if (context?.isDarkThemeOn() == true) {
+            searchViewDiscover.setBackgroundColor(Color.parseColor("#1f1f1f"))
+        } else {
+            searchViewDiscover.setBackgroundColor(Color.parseColor("#ffffff"))
+        }
+    }
 
     private fun configureFragment() {
         if (type == TYPE_GAMES) configureFragmentForGames()
@@ -89,6 +99,7 @@ class InnerDiscoverFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 val pos = viewHolder.adapterPosition
+                val game = discoverGamesListAdapter.currentList[pos].id
                 val tempList = arrayListOf<Game>()
                 tempList.addAll(discoverGamesListAdapter.currentList)
                 tempList.removeAt(pos)
@@ -97,7 +108,16 @@ class InnerDiscoverFragment : Fragment() {
 
                 Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
 
-                //TODO implement game addition
+                //Add game to "Want to play" array in firebase
+                db.collection("userdata").document(email).get().addOnSuccessListener {
+                    if (it.exists()) {
+                        val games = it.get("wanttoplay") as ArrayList<Long>
+                        if (!games.contains(game)) {
+                            games.add(game)
+                            db.collection("userdata").document(email).set(hashMapOf("wanttoplay" to games), SetOptions.merge())
+                        }
+                    }
+                }
             }
         }
 

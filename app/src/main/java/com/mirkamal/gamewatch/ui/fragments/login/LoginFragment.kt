@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.utils.Validator
@@ -77,7 +78,24 @@ class LoginFragment : Fragment() {
     }
 
     private fun onSuccessfulSignIn() {
-        if (FirebaseAuth.getInstance().currentUser?.isEmailVerified!!) {
+        // Create user document in firebase if it doesn't exist
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser?.isEmailVerified!!) {
+            Firebase.firestore.collection("userdata").document(currentUser.email ?: "").get()
+                .addOnSuccessListener {
+                    if (!it.exists()) {
+                        Firebase.firestore.collection("userdata").document(currentUser.email ?: "")
+                            .set(
+                                hashMapOf(
+                                    "email" to currentUser.email,
+                                    "wanttoplay" to emptyList<Long>(),
+                                    "playing" to emptyList<Long>(),
+                                    "played" to emptyList<Long>()
+                                )
+                            )
+                    }
+                }
+
             //Navigate to main part
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHostFragment())
         } else {
