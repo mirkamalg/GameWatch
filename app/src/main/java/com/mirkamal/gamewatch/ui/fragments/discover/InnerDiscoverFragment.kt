@@ -20,10 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
-import com.mirkamal.gamewatch.utils.TYPE_GAMES
-import com.mirkamal.gamewatch.utils.TYPE_USERS
-import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION
-import com.mirkamal.gamewatch.utils.isDarkThemeOn
+import com.mirkamal.gamewatch.utils.*
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_inner_discover.*
 
@@ -110,12 +107,16 @@ class InnerDiscoverFragment : Fragment() {
                 Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
 
                 //Add game to "Want to play" array in firebase
-                db.collection(USER_DATA_COLLECTION).document(email).get().addOnSuccessListener {
+                db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
                     if (it.exists()) {
-                        val games = it.get("wanttoplay") as ArrayList<Long>
+                        val games = it.get(GAMES_KEY) as ArrayList<Long>
                         if (!games.contains(game)) {
                             games.add(game)
-                            db.collection(USER_DATA_COLLECTION).document(email).set(hashMapOf("wanttoplay" to games), SetOptions.merge())
+                            db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
+                                hashMapOf(
+                                    GAMES_KEY to games
+                                ), SetOptions.merge()
+                            )
                         }
                     }
                 }
