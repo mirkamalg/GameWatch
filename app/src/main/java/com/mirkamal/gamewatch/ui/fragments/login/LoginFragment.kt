@@ -15,7 +15,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION
+import com.mirkamal.gamewatch.utils.EMAIL_KEY
+import com.mirkamal.gamewatch.utils.GAMES_KEY
+import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION_KEY
 import com.mirkamal.gamewatch.utils.Validator
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -82,16 +84,14 @@ class LoginFragment : Fragment() {
         // Create user document in firebase if it doesn't exist
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser?.isEmailVerified!!) {
-            Firebase.firestore.collection(USER_DATA_COLLECTION).document(currentUser.email ?: "").get()
+            Firebase.firestore.collection(USER_DATA_COLLECTION_KEY).document(currentUser.email ?: "").get()
                 .addOnSuccessListener {
                     if (!it.exists()) {
-                        Firebase.firestore.collection(USER_DATA_COLLECTION).document(currentUser.email ?: "")
+                        Firebase.firestore.collection(USER_DATA_COLLECTION_KEY).document(currentUser.email ?: "")
                             .set(
                                 hashMapOf(
-                                    "email" to currentUser.email,
-                                    "wanttoplay" to emptyList<Long>(),
-                                    "playing" to emptyList<Long>(),
-                                    "played" to emptyList<Long>()
+                                    EMAIL_KEY to currentUser.email,
+                                    GAMES_KEY to emptyList<Long>()
                                 )
                             )
                     }

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp">
+        app:cardElevation="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,8 +50,6 @@
                 app:layout_constraintStart_toEndOf="@id/imageViewGameItem"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Game name here" />
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

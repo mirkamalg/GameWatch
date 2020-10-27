@@ -12,4 +12,5 @@
     <string name="info_confirm_password">Confirm password</string>
     <string name="action_sign_up">Sign up</string>
     <string name="info_game_item_rating">something</string>
+    <string name="this_place_is_empty_ngo_discover_some_new_games">This place is empty!\nGo discover some new games!</string>
 </resources>
