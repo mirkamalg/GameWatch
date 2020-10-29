@@ -124,5 +124,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
+    //Dropdown textview
+    implementation 'com.github.hakobast:dropdown-textview:0.3.2'
+
 
 }

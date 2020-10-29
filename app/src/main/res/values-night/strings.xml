@@ -13,4 +13,6 @@
     <string name="action_sign_up">Sign up</string>
     <string name="info_game_item_rating">something</string>
     <string name="this_place_is_empty_ngo_discover_some_new_games">This place is empty!\nGo discover some new games!</string>
+    <string name="title_game_details">Game details</string>
+    <string name="msg_sales">Sales</string>
 </resources>

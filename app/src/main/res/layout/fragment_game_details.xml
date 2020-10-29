@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageViewGoBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewGameDetailsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="marquee"
+        android:fontFamily="@font/ptsans_regular"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:text="@string/title_game_details"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
+        app:layout_constraintStart_toEndOf="@id/imageViewGoBack"
+        app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewGameDetailsLabel">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageViewCover"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <hakobastvatsatryan.DropdownTextView
+                android:id="@+id/dropDownTextViewGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:bg_drawable_expanded="@drawable/drawable_dropdown_textview_bg"
+                app:bg_drawable_regular="@drawable/drawable_dropdown_textview_bg"
+                app:content_font="@font/ptsans_regular"
+                app:content_padding="8dp"
+                app:content_text="Placeholder"
+                app:content_text_color="@color/dark_gray"
+                app:content_text_size="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewCover"
+                app:panel_padding="8dp"
+                app:title_font="@font/ptsans_bold"
+                app:title_text="Placeholder"
+                app:title_text_color="@android:color/black"
+                app:title_text_size="18sp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/dark_gray"
+                app:layout_constraintBottom_toBottomOf="@id/textViewRating"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/dropDownTextViewGame" />
+
+            <ImageView
+                android:id="@+id/imageViewStar"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_star"
+                app:layout_constraintEnd_toStartOf="@id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dropDownTextViewGame" />
+
+            <TextView
+                android:id="@+id/textViewRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewStar"
+                tools:text="80/100" />
+
+            <ImageView
+                android:id="@+id/imageViewControllerButtons"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_controller_buttons"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view"
+                app:layout_constraintTop_toTopOf="@id/imageViewStar" />
+
+            <TextView
+                android:id="@+id/textViewGenre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view"
+                app:layout_constraintTop_toBottomOf="@id/imageViewControllerButtons"
+                tools:text="Genre" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewScreenshots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <TextView
+                android:id="@+id/textViewSalesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_sales"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewScreenshots" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
