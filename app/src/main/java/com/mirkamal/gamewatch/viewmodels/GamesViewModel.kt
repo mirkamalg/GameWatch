@@ -34,6 +34,14 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
     val screenshots: LiveData<List<ScreenshotPOJO>>
         get() = _screenshots
 
+    private val _coverUrl = MutableLiveData<String>()
+    val coverUrl: LiveData<String>
+        get() = _coverUrl
+
+    private val _genreName = MutableLiveData<String>()
+    val genreName: LiveData<String>
+        get() = _genreName
+
     @Suppress("UNCHECKED_CAST")
     fun onSearch(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -67,12 +75,41 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
         return gamesRepository.fetchGame(ID)
     }
 
+    fun saveGameToLocalDatabase(gameEntity: GameEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            gamesRepository.saveGameToLocalDatabase(gameEntity)
+        }
+    }
+
     fun loadScreenShots(gameID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = gamesRepository.fetchScreenshots(gameID)
 
             withContext(Dispatchers.Main) {
                 _screenshots.value = response
+            }
+        }
+    }
+
+    fun loadCoverPhoto(gameID: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            var url = gamesRepository.fetchCoverByGameID(gameID)
+            if (url.isNotEmpty()) {
+                url = "https:$url".replace("t_thumb", "t_screenshot_med")
+                withContext(Dispatchers.Main) {
+                    _coverUrl.value = url
+                }
+            }
+        }
+    }
+
+    fun fetchGenre(genreIDs: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val genre = gamesRepository.fetchGenreByIDs(genreIDs)
+            if (genre.isNotEmpty()) {
+                withContext(Dispatchers.Main) {
+                    _genreName.value = genre
+                }
             }
         }
     }

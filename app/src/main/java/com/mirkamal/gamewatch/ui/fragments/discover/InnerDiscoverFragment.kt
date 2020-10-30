@@ -97,7 +97,7 @@ class InnerDiscoverFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 val pos = viewHolder.adapterPosition
-                val game = discoverGamesListAdapter.currentList[pos].id
+                val game = discoverGamesListAdapter.currentList[pos]
                 val tempList = arrayListOf<Game>()
                 tempList.addAll(discoverGamesListAdapter.currentList)
                 tempList.removeAt(pos)
@@ -106,20 +106,23 @@ class InnerDiscoverFragment : Fragment() {
 
                 Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
 
-                //Add game to "Want to play" array in firebase
+                //Add game to "games" array in firebase
                 db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
                     if (it.exists()) {
-                        val games = it.get(GAMES_KEY) as ArrayList<Long>
-                        if (!games.contains(game)) {
-                            games.add(game)
+                        val gameIDs = it.get(GAMES_KEY) as ArrayList<Long>
+                        if (!gameIDs.contains(game.id)) {
+                            gameIDs.add(game.id)
                             db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
                                 hashMapOf(
-                                    GAMES_KEY to games
+                                    GAMES_KEY to gameIDs
                                 ), SetOptions.merge()
                             )
                         }
                     }
                 }
+
+                //Save to local database
+                gamesViewModel.saveGameToLocalDatabase(game.toGameEntity())
             }
         }
 

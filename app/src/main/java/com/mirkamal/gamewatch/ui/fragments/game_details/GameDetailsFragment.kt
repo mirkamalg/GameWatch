@@ -10,9 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
+import com.ethanhua.skeleton.ViewSkeletonScreen
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
+import com.mirkamal.gamewatch.utils.loadImage
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_game_details.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
@@ -28,7 +30,8 @@ class GameDetailsFragment : Fragment() {
 
     private lateinit var screenshotsAdapter: ScreenshotsListAdapter
 
-    private lateinit var skeletonScreen: RecyclerViewSkeletonScreen
+    private lateinit var skeletonScreenshots: RecyclerViewSkeletonScreen
+    private lateinit var skeletonCover: ViewSkeletonScreen
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,36 +47,64 @@ class GameDetailsFragment : Fragment() {
         gameEntity = gamesViewModel.fetchGameFromLocalDatabase(args.gameID)
 
         OverScrollDecoratorHelper.setUpOverScroll(scrollViewGameDetails)
+
+        configureGameData()
         configureRecyclerViews()
+        configureShimmerAnimations()
         setOnClickListeners()
         configureObservers()
     }
 
     override fun onStart() {
         super.onStart()
-        loadScreenshots()
+        loadImages()
+    }
+
+    private fun configureGameData() {
+        dropDownTextViewGame.setTitleText(gameEntity.name)
+        dropDownTextViewGame.setContentText(gameEntity.summary)
+
+        //TODO update to spannable string
+        textViewRating.text = "${gameEntity.rating}/100"
+        gamesViewModel.fetchGenre(gameEntity.genres)
+    }
+
+    private fun configureShimmerAnimations() {
+        skeletonScreenshots = Skeleton.bind(recyclerViewScreenshots)
+            .adapter(screenshotsAdapter)
+            .load(R.layout.item_skeleton_screenshots)
+            .show()
+        skeletonCover = Skeleton.bind(imageViewCover)
+            .load(R.layout.bg_skeletoon_imageview)
+            .show()
     }
 
     private fun configureObservers() {
         gamesViewModel.screenshots.observe(viewLifecycleOwner, {
             screenshotsAdapter.submitList(it)
-            skeletonScreen.hide()
+            skeletonScreenshots.hide()
+        })
+        gamesViewModel.coverUrl.observe(viewLifecycleOwner, {
+            imageViewCover.loadImage(it)
+            skeletonCover.hide()
+        })
+        gamesViewModel.genreName.observe(viewLifecycleOwner, {
+            textViewGenre.text = it
+            textViewGenre.isSelected = true //Enable marquee
         })
     }
 
     private fun configureRecyclerViews() {
         screenshotsAdapter = ScreenshotsListAdapter()
         recyclerViewScreenshots.adapter = screenshotsAdapter
-        skeletonScreen = Skeleton.bind(recyclerViewScreenshots)
-            .adapter(screenshotsAdapter)
-            .load(R.layout.item_skeleton_screenshots)
-            .show()
     }
 
-    private fun loadScreenshots() {
+    private fun loadImages() {
         if (screenshotsAdapter.currentList.isEmpty()) {
             gamesViewModel.loadScreenShots(args.gameID)
         }
+
+        gamesViewModel.loadCoverPhoto(gameEntity.id)
     }
 
     private fun setOnClickListeners() {

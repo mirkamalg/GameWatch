@@ -66,7 +66,7 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
             val response = searchGameService.fetchCovers(body = body)
             val responseBody = response.body()
 
-            if (responseBody != null) {
+            if (response.isSuccessful && responseBody != null) {
 
                 val parsedCovers = arrayListOf<CoverPOJO>()
 
@@ -80,6 +80,40 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
             }
         } catch (e: IOException) {
             emptyList()
+        }
+    }
+
+    suspend fun fetchCoverByGameID(gameID: Long): String {
+        return try {
+            val body = "fields url; where game = $gameID;".toRequestBody("text/plain".toMediaTypeOrNull())
+            val response = searchGameService.fetchCovers(body = body)
+            val responseBody = response.body()
+
+            if (response.isSuccessful && responseBody != null) {
+                return responseBody[0].url ?: ""
+            }
+            ""  //Return empty string
+        } catch (e: IOException) {
+            ""
+        }
+    }
+
+    suspend fun fetchGenreByIDs(genreIDs: String): String {
+        return try {
+            val body = "fields name; where id = ($genreIDs);".toRequestBody("text/plain".toMediaTypeOrNull())
+            val response = gameDetailsService.fetchGameGenre(body = body)
+            val responseBody = response.body()
+
+            if (response.isSuccessful && responseBody != null) {
+                val genres = arrayListOf<String>()
+                for (genrePOJO in responseBody) {
+                    genres.add(genrePOJO.name ?: "")
+                }
+                return genres.joinToString(", ")
+            }
+            ""  //Return empty string
+        } catch (e: IOException) {
+            ""
         }
     }
 
@@ -137,6 +171,10 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
         } catch (e: Exception) {
             emptyList()
         }
+    }
+
+    suspend fun saveGameToLocalDatabase(gameEntity: GameEntity) {
+        gameDao.addGame(gameEntity)
     }
 
 }
