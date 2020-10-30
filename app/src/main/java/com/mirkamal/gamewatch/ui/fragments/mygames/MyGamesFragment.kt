@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.ui.fragments.host.HostFragmentDirections
 import com.mirkamal.gamewatch.ui.fragments.mygames.recyclerviews.MyGamesListAdapter
 import com.mirkamal.gamewatch.utils.GAMES_KEY
 import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION_KEY
@@ -29,7 +31,9 @@ class MyGamesFragment : Fragment() {
 
     private val db = Firebase.firestore
     private val email = Firebase.auth.currentUser?.email ?: ""
-    private val myGamesListAdapter = MyGamesListAdapter()
+    private val myGamesListAdapter = MyGamesListAdapter {game ->
+        findNavController().navigate(HostFragmentDirections.actionHostFragmentToGameDetailsFragment(game.id))
+    }
     private val viewModel: GamesViewModel by viewModels()
 
     override fun onCreateView(

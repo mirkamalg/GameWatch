@@ -55,5 +55,18 @@
         android:id="@+id/hostFragment"
         android:name="com.mirkamal.gamewatch.ui.fragments.host.HostFragment"
         android:label="HostFragment"
-        tools:layout="@layout/fragment_host"/>
+        tools:layout="@layout/fragment_host">
+        <action
+            android:id="@+id/action_hostFragment_to_gameDetailsFragment"
+            app:destination="@id/gameDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameDetailsFragment"
+        android:name="com.mirkamal.gamewatch.ui.fragments.game_details.GameDetailsFragment"
+        android:label="GameDetailsFragment"
+        tools:layout="@layout/fragment_game_details">
+        <argument
+            android:name="gameID"
+            app:argType="long" />
+    </fragment>
 </navigation>

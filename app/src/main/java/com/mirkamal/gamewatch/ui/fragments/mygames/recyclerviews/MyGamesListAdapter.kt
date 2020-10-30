@@ -9,12 +9,12 @@ import com.mirkamal.gamewatch.model.entity.Game
 /**
  * Created by Mirkamal on 24 October 2020
  */
-class MyGamesListAdapter : ListAdapter<Game, MyGamesListViewHolder>(MyGamesDiffCallback()) {
+class MyGamesListAdapter(private val listener: (game: Game) -> Unit) : ListAdapter<Game, MyGamesListViewHolder>(MyGamesDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyGamesListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemMyGamesBinding.inflate(layoutInflater, parent, false)
-        return MyGamesListViewHolder.from(binding)
+        return MyGamesListViewHolder.from(binding, listener)
     }
 
     override fun onBindViewHolder(holder: MyGamesListViewHolder, position: Int) {
