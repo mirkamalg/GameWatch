@@ -27,3 +27,6 @@ const val NINTENDO_SWITCH_ID = 130
 const val USER_DATA_COLLECTION_KEY = "userdata"
 const val GAMES_KEY = "games"
 const val EMAIL_KEY = "email"
+
+//Local database
+const val LOCAL_DATABASE_NAME = "gamesdb"

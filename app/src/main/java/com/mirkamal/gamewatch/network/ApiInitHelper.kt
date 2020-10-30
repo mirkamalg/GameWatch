@@ -2,6 +2,7 @@ package com.mirkamal.gamewatch.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.mirkamal.gamewatch.BuildConfig
+import com.mirkamal.gamewatch.network.services.GameDetailsService
 import com.mirkamal.gamewatch.network.services.SearchGameService
 import com.mirkamal.gamewatch.utils.IGDB_BASE_URL
 import com.squareup.moshi.Moshi
@@ -57,4 +58,5 @@ object ApiInitHelper {
     }
 
     val searchGameService: SearchGameService by lazy { getClient().create(SearchGameService::class.java) }
+    val gameDetailsService: GameDetailsService by lazy { getClient().create(GameDetailsService::class.java) }
 }

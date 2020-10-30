@@ -14,4 +14,9 @@
     <string name="this_place_is_empty_ngo_discover_some_new_games">This place is empty!\nGo discover some new games!</string>
     <string name="title_game_details">Game details</string>
     <string name="msg_sales">Sales</string>
+    <string name="msg_screenshots">Screenshots</string>
+    <string name="msg_crack_status">Crack status</string>
+    <string name="msg_similar_games">Similar games</string>
+    <string name="msg_cracked">Cracked</string>
+    <string name="msg_uncracked">Uncracked</string>
 </resources>

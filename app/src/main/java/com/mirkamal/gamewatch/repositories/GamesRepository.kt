@@ -1,7 +1,11 @@
 package com.mirkamal.gamewatch.repositories
 
+import android.util.Log
+import com.mirkamal.gamewatch.local.dao.GameDao
 import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.model.pojo.CoverPOJO
+import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.network.ApiInitHelper
 import com.mirkamal.gamewatch.utils.libs.coverPOJOListToCoverPOJOMap
 import com.mirkamal.gamewatch.utils.toGameEntity
@@ -12,9 +16,10 @@ import java.io.IOException
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class DiscoverGamesRepository : ParentRepository() {
+class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
 
     private val searchGameService = ApiInitHelper.searchGameService
+    private val gameDetailsService = ApiInitHelper.gameDetailsService
 
     // Get pojos but return Game entities so that image URL can be sent to itemview of recyclerview
     suspend fun searchForGames(name: String): ArrayList<Game>? {
@@ -111,6 +116,27 @@ class DiscoverGamesRepository : ParentRepository() {
             }
         } catch (e: IOException) {
             arrayListOf()
+        }
+    }
+
+    fun fetchGame(ID: Long): GameEntity {
+        return gameDao.getGameByID(ID)
+    }
+
+    suspend fun fetchScreenshots(gameID: Long): List<ScreenshotPOJO> {
+        return try {
+            val body = "fields *; where game = $gameID;".toRequestBody("text/plain".toMediaTypeOrNull())
+            val response = gameDetailsService.fetchScreenshots(body = body)
+            val responseBody = response.body()
+
+            if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
+                Log.e("GameRepository", "Screenshots response is successful and not null")
+                Log.e("GameRepository", "${responseBody.size}")
+                return responseBody
+            }
+            emptyList()
+        } catch (e: Exception) {
+            emptyList()
         }
     }
 

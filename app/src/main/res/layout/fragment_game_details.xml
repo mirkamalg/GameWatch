@@ -24,15 +24,27 @@
         android:fontFamily="@font/ptsans_regular"
         android:marqueeRepeatLimit="marquee_forever"
         android:text="@string/title_game_details"
-        android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
         app:layout_constraintStart_toEndOf="@id/imageViewGoBack"
         app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
 
+    <ImageView
+        android:id="@+id/imageViewShare"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="24dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_share"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+
     <ScrollView
+        android:id="@+id/scrollViewGameDetails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewGameDetailsLabel">
@@ -79,7 +91,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/textViewRating"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/dropDownTextViewGame" />
+                app:layout_constraintTop_toBottomOf="@id/dropDownTextViewGame" />
 
             <ImageView
                 android:id="@+id/imageViewStar"
@@ -114,15 +126,30 @@
 
             <TextView
                 android:id="@+id/textViewGenre"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="8dp"
+                android:ellipsize="marquee"
                 android:fontFamily="@font/ptsans_regular"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:textAlignment="center"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/view"
                 app:layout_constraintTop_toBottomOf="@id/imageViewControllerButtons"
                 tools:text="Genre" />
+
+            <TextView
+                android:id="@+id/textViewScreenshotsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_screenshots"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewScreenshots"
@@ -133,7 +160,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view" />
+                app:layout_constraintTop_toBottomOf="@id/textViewScreenshotsLabel"
+                tools:listitem="@layout/item_screenshots" />
 
             <TextView
                 android:id="@+id/textViewSalesLabel"
@@ -146,6 +174,74 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewScreenshots" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSales"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewSalesLabel" />
+
+            <TextView
+                android:id="@+id/textViewCrackStatusLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_crack_status"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewSales" />
+
+            <ImageView
+                android:id="@+id/imageViewCrackStatus"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_shield"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewCrackStatusLabel" />
+
+            <TextView
+                android:id="@+id/textViewCrackStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/ptsans_bold"
+                android:text="@string/msg_uncracked"
+                android:textColor="@color/colorGreen"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewCrackStatus" />
+
+            <TextView
+                android:id="@+id/textViewSimilarGamesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_similar_games"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewCrackStatus" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSimilarGames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewSimilarGamesLabel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
