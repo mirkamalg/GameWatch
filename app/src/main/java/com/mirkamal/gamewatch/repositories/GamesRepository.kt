@@ -131,7 +131,6 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
 
             if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
                 Log.e("GameRepository", "Screenshots response is successful and not null")
-                Log.e("GameRepository", "${responseBody.size}")
                 return responseBody
             }
             emptyList()

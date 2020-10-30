@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
+import com.ethanhua.skeleton.Skeleton
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
@@ -25,6 +27,8 @@ class GameDetailsFragment : Fragment() {
     private lateinit var gameEntity: GameEntity
 
     private lateinit var screenshotsAdapter: ScreenshotsListAdapter
+
+    private lateinit var skeletonScreen: RecyclerViewSkeletonScreen
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,24 +50,30 @@ class GameDetailsFragment : Fragment() {
     }
 
     override fun onStart() {
-        loadScreenshots()
-
         super.onStart()
+        loadScreenshots()
     }
 
     private fun configureObservers() {
         gamesViewModel.screenshots.observe(viewLifecycleOwner, {
             screenshotsAdapter.submitList(it)
+            skeletonScreen.hide()
         })
     }
 
     private fun configureRecyclerViews() {
         screenshotsAdapter = ScreenshotsListAdapter()
         recyclerViewScreenshots.adapter = screenshotsAdapter
+        skeletonScreen = Skeleton.bind(recyclerViewScreenshots)
+            .adapter(screenshotsAdapter)
+            .load(R.layout.item_skeleton_screenshots)
+            .show()
     }
 
     private fun loadScreenshots() {
-        gamesViewModel.loadScreenShots(args.gameID)
+        if (screenshotsAdapter.currentList.isEmpty()) {
+            gamesViewModel.loadScreenShots(args.gameID)
+        }
     }
 
     private fun setOnClickListeners() {

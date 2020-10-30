@@ -15,7 +15,7 @@ class ScreenshotsListViewHolder private constructor(itemView: View) : RecyclerVi
 
     fun bind(screenshotPOJO: ScreenshotPOJO) {
         val url = "https:" + screenshotPOJO.url
-        val formattedUrl = url.replace("t_thumb", "t_screenshot_huge")
+        val formattedUrl = url.replace("t_thumb", "t_screenshot_med")
         Log.i("ScreenshotsViewHolder", "Loading image: $formattedUrl")
         itemView.findViewById<ImageView>(R.id.imageViewScreenshot).loadImage(formattedUrl)
     }
