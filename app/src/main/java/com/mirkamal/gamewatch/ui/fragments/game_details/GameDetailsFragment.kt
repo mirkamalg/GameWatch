@@ -1,15 +1,16 @@
 package com.mirkamal.gamewatch.ui.fragments.game_details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.bumptech.glide.Glide
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.ViewSkeletonScreen
@@ -19,6 +20,7 @@ import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.Deal
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
 import com.mirkamal.gamewatch.utils.loadImage
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
+import com.stfalcon.imageviewer.StfalconImageViewer
 import kotlinx.android.synthetic.main.fragment_game_details.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
@@ -100,12 +102,17 @@ class GameDetailsFragment : Fragment() {
         })
         gamesViewModel.gameDeals.observe(viewLifecycleOwner, {
             gameDealsAdapter.submitList(it)
-            Log.e("MYTAG", gameDealsAdapter.currentList.size.toString())
         })
     }
 
     private fun configureRecyclerViews() {
-        screenshotsAdapter = ScreenshotsListAdapter()
+        screenshotsAdapter = ScreenshotsListAdapter {
+            StfalconImageViewer.Builder(context, arrayOf(it)) { view, pojo ->
+                val url = pojo.url?.replace("t_thumb", "t_screenshot_huge")
+                Glide.with(requireContext()).load("https:$url").into(view)
+            }.withBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blackAlpha))
+                .show()
+        }
         recyclerViewScreenshots.adapter = screenshotsAdapter
 
         gameDealsAdapter = DealsListAdapter()
