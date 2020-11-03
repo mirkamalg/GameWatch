@@ -194,7 +194,6 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
                 responseDealsBody.forEach {
                     it.storePOJOs = responseStoresBody
                 }
-                Log.e("MYTAG", responseDealsBody.size.toString())
                 return responseDealsBody
             }
             emptyList()

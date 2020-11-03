@@ -9,12 +9,12 @@ import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 /**
  * Created by Mirkamal on 30 October 2020
  */
-class ScreenshotsListAdapter :
+class ScreenshotsListAdapter(private val listener: (ScreenshotPOJO) -> Unit) :
     ListAdapter<ScreenshotPOJO, ScreenshotsListViewHolder>(ScreenshotDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScreenshotsListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val rootView = inflater.inflate(R.layout.item_screenshots, parent, false)
-        return ScreenshotsListViewHolder.from(rootView)
+        return ScreenshotsListViewHolder.from(rootView, listener)
     }
 
     override fun onBindViewHolder(holder: ScreenshotsListViewHolder, position: Int) {

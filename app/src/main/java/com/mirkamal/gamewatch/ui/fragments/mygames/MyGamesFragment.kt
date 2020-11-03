@@ -62,6 +62,7 @@ class MyGamesFragment : Fragment() {
             myGamesListAdapter.submitList(it)
             myGamesListAdapter.notifyDataSetChanged()
             progressBarMyGames.isVisible = false
+            overlayLayout.isVisible = false
             updateVisibility()
         })
 
@@ -139,6 +140,7 @@ class MyGamesFragment : Fragment() {
     private fun configureSwipeRefreshLayout() {
         swipeRefreshLayoutMyGames.setOnRefreshListener {
             swipeRefreshLayoutMyGames.isRefreshing = false
+            overlayLayout.isVisible = true
             progressBarMyGames.isVisible = true
             refreshMyGames()
         }
