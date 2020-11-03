@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.mirkamal.gamewatch.local.GamesDataBase
 import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.model.entity.GameEntity
+import com.mirkamal.gamewatch.model.pojo.GameDealPOJO
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.repositories.GamesRepository
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +42,10 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
     private val _genreName = MutableLiveData<String>()
     val genreName: LiveData<String>
         get() = _genreName
+
+    private val _gameDeals = MutableLiveData<List<GameDealPOJO>>()
+    val gameDeals: LiveData<List<GameDealPOJO>>
+        get() = _gameDeals
 
     @Suppress("UNCHECKED_CAST")
     fun onSearch(name: String) {
@@ -109,6 +114,17 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
             if (genre.isNotEmpty()) {
                 withContext(Dispatchers.Main) {
                     _genreName.value = genre
+                }
+            }
+        }
+    }
+
+    fun fetchDeals(title: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val deals = gamesRepository.fetchGameDeals(title).sortedWith(compareBy { it.salePrice?.toDouble() })
+            if (deals.isNotEmpty()) {
+                withContext(Dispatchers.Main) {
+                    _gameDeals.value = deals
                 }
             }
         }

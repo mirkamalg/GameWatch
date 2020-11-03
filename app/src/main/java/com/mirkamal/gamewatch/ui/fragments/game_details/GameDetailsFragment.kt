@@ -1,6 +1,7 @@
 package com.mirkamal.gamewatch.ui.fragments.game_details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.ViewSkeletonScreen
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.GameEntity
+import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.DealsListAdapter
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
 import com.mirkamal.gamewatch.utils.loadImage
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
@@ -25,10 +27,11 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 class GameDetailsFragment : Fragment() {
 
     private val gamesViewModel: GamesViewModel by viewModels()
-    val args: GameDetailsFragmentArgs by navArgs()
+    private val args: GameDetailsFragmentArgs by navArgs()
     private lateinit var gameEntity: GameEntity
 
     private lateinit var screenshotsAdapter: ScreenshotsListAdapter
+    private lateinit var gameDealsAdapter: DealsListAdapter
 
     private lateinit var skeletonScreenshots: RecyclerViewSkeletonScreen
     private lateinit var skeletonCover: ViewSkeletonScreen
@@ -58,6 +61,7 @@ class GameDetailsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         loadImages()
+        loadDeals()
     }
 
     private fun configureGameData() {
@@ -92,11 +96,18 @@ class GameDetailsFragment : Fragment() {
             textViewGenre.text = it
             textViewGenre.isSelected = true //Enable marquee
         })
+        gamesViewModel.gameDeals.observe(viewLifecycleOwner, {
+            gameDealsAdapter.submitList(it)
+            Log.e("MYTAG", gameDealsAdapter.currentList.size.toString())
+        })
     }
 
     private fun configureRecyclerViews() {
         screenshotsAdapter = ScreenshotsListAdapter()
         recyclerViewScreenshots.adapter = screenshotsAdapter
+
+        gameDealsAdapter = DealsListAdapter()
+        recyclerViewDeals.adapter = gameDealsAdapter
     }
 
     private fun loadImages() {
@@ -105,6 +116,12 @@ class GameDetailsFragment : Fragment() {
         }
 
         gamesViewModel.loadCoverPhoto(gameEntity.id)
+    }
+
+    private fun loadDeals() {
+        if (gameDealsAdapter.currentList.isEmpty()) {
+            gamesViewModel.fetchDeals(gameEntity.name.split(" ").joinToString("+"))
+        }
     }
 
     private fun setOnClickListeners() {

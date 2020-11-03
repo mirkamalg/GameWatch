@@ -170,13 +170,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:fontFamily="@font/ptsans_regular"
-                android:text="@string/msg_sales"
+                android:text="@string/msg_deals"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewScreenshots" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewSales"
+                android:id="@+id/recyclerViewDeals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -184,7 +184,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewSalesLabel" />
+                app:layout_constraintTop_toBottomOf="@id/textViewSalesLabel"
+                tools:listitem="@layout/item_game_deals" />
 
             <TextView
                 android:id="@+id/textViewCrackStatusLabel"
@@ -196,7 +197,7 @@
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recyclerViewSales" />
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewDeals" />
 
             <ImageView
                 android:id="@+id/imageViewCrackStatus"

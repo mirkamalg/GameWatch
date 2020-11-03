@@ -20,4 +20,8 @@
     <string name="msg_similar_games">Similar games</string>
     <string name="msg_cracked">Cracked</string>
     <string name="msg_uncracked">Uncracked</string>
+    <string name="msg_deals">Deals</string>
+    <string name="msg_steam">Steam</string>
+    <string name="placeholder_price">$59.99</string>
+    <string name="placeholder_price_lower">$29.99</string>
 </resources>

@@ -5,6 +5,7 @@ import com.mirkamal.gamewatch.local.dao.GameDao
 import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.model.pojo.CoverPOJO
+import com.mirkamal.gamewatch.model.pojo.GameDealPOJO
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.network.ApiInitHelper
 import com.mirkamal.gamewatch.utils.libs.coverPOJOListToCoverPOJOMap
@@ -20,6 +21,7 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
 
     private val searchGameService = ApiInitHelper.searchGameService
     private val gameDetailsService = ApiInitHelper.gameDetailsService
+    private val gameDealsService = ApiInitHelper.gameDealsService
 
     // Get pojos but return Game entities so that image URL can be sent to itemview of recyclerview
     suspend fun searchForGames(name: String): ArrayList<Game>? {
@@ -85,7 +87,8 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
 
     suspend fun fetchCoverByGameID(gameID: Long): String {
         return try {
-            val body = "fields url; where game = $gameID;".toRequestBody("text/plain".toMediaTypeOrNull())
+            val body =
+                "fields url; where game = $gameID;".toRequestBody("text/plain".toMediaTypeOrNull())
             val response = searchGameService.fetchCovers(body = body)
             val responseBody = response.body()
 
@@ -100,7 +103,8 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
 
     suspend fun fetchGenreByIDs(genreIDs: String): String {
         return try {
-            val body = "fields name; where id = ($genreIDs);".toRequestBody("text/plain".toMediaTypeOrNull())
+            val body =
+                "fields name; where id = ($genreIDs);".toRequestBody("text/plain".toMediaTypeOrNull())
             val response = gameDetailsService.fetchGameGenre(body = body)
             val responseBody = response.body()
 
@@ -159,7 +163,8 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
 
     suspend fun fetchScreenshots(gameID: Long): List<ScreenshotPOJO> {
         return try {
-            val body = "fields *; where game = $gameID;".toRequestBody("text/plain".toMediaTypeOrNull())
+            val body =
+                "fields *; where game = $gameID;".toRequestBody("text/plain".toMediaTypeOrNull())
             val response = gameDetailsService.fetchScreenshots(body = body)
             val responseBody = response.body()
 
@@ -168,7 +173,32 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
                 return responseBody
             }
             emptyList()
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            emptyList()
+        }
+    }
+
+
+    suspend fun fetchGameDeals(title: String): List<GameDealPOJO> {
+        return try {
+            val responseDeals = gameDealsService.getGameDeals(title)
+            val responseStores = gameDealsService.getStores()
+
+            val responseDealsBody = responseDeals.body()?.filter { it.isOnSale == "1" }
+            val responseStoresBody = responseStores.body()
+
+            if (responseDeals.isSuccessful && responseStores.isSuccessful
+                && responseDealsBody != null && responseStoresBody != null
+            ) {
+                //Optimize this approach
+                responseDealsBody.forEach {
+                    it.storePOJOs = responseStoresBody
+                }
+                Log.e("MYTAG", responseDealsBody.size.toString())
+                return responseDealsBody
+            }
+            emptyList()
+        } catch (e: IOException) {
             emptyList()
         }
     }
