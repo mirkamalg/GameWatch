@@ -2,8 +2,10 @@ package com.mirkamal.gamewatch.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.mirkamal.gamewatch.BuildConfig
+import com.mirkamal.gamewatch.network.services.GameDealsService
 import com.mirkamal.gamewatch.network.services.GameDetailsService
 import com.mirkamal.gamewatch.network.services.SearchGameService
+import com.mirkamal.gamewatch.utils.CHEAPSHARK_BASE_URL
 import com.mirkamal.gamewatch.utils.IGDB_BASE_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -43,20 +45,31 @@ object ApiInitHelper {
      * object.
      */
 
-    private fun getClient(): Retrofit {
-        when (retrofit) {
-            null -> {
-                retrofit = Retrofit.Builder()
-                    .addConverterFactory(MoshiConverterFactory.create(moshi))
-                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                    .client(okHttpClient())
-                    .baseUrl(IGDB_BASE_URL)
-                    .build()
-            }
-        }
+    private fun getClient(baseUrl: String): Retrofit {
+        retrofit = Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .client(okHttpClient())
+            .baseUrl(baseUrl)
+            .build()
+
+
         return retrofit as Retrofit
     }
 
-    val searchGameService: SearchGameService by lazy { getClient().create(SearchGameService::class.java) }
-    val gameDetailsService: GameDetailsService by lazy { getClient().create(GameDetailsService::class.java) }
+    val searchGameService: SearchGameService by lazy {
+        getClient(IGDB_BASE_URL).create(
+            SearchGameService::class.java
+        )
+    }
+    val gameDetailsService: GameDetailsService by lazy {
+        getClient(IGDB_BASE_URL).create(
+            GameDetailsService::class.java
+        )
+    }
+    val gameDealsService: GameDealsService by lazy {
+        getClient(CHEAPSHARK_BASE_URL).create(
+            GameDealsService::class.java
+        )
+    }
 }

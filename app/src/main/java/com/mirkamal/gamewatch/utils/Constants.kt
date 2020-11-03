@@ -18,6 +18,9 @@ const val IGDB_CLIENT_ID = "4iltm3ili411wdllzr2l95m4dh9315"
 const val IGDB_AUTHORIZATION = "Bearer ibfadvnqgnjv2mwr9z41u6b4wz8p45"
 const val IGDB_BASE_URL = "https://api.igdb.com/v4/"
 
+//Network constants CheapShark
+const val CHEAPSHARK_BASE_URL = "https://www.cheapshark.com/api/1.0/"
+
 //Platform IDs
 const val PC_ID = 6
 val XBOX_IDs = listOf(12, 49, 169) //XBox 360, one, series x
