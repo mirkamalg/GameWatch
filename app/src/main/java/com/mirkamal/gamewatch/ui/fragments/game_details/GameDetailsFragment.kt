@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.ViewSkeletonScreen
@@ -20,6 +21,7 @@ import com.mirkamal.gamewatch.utils.loadImage
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_game_details.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+
 
 /**
  * Created by Mirkamal on 28 October 2020
@@ -108,6 +110,7 @@ class GameDetailsFragment : Fragment() {
 
         gameDealsAdapter = DealsListAdapter()
         recyclerViewDeals.adapter = gameDealsAdapter
+        LinearSnapHelper().attachToRecyclerView(recyclerViewScreenshots)
     }
 
     private fun loadImages() {
