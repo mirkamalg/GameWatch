@@ -40,6 +40,8 @@ class GameDetailsFragment : Fragment() {
     private lateinit var skeletonScreenshots: RecyclerViewSkeletonScreen
     private lateinit var skeletonCover: ViewSkeletonScreen
 
+    private var coverUrl = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -94,6 +96,7 @@ class GameDetailsFragment : Fragment() {
         })
         gamesViewModel.coverUrl.observe(viewLifecycleOwner, {
             imageViewCover.loadImage(it)
+            coverUrl = it
             skeletonCover.hide()
         })
         gamesViewModel.genreName.observe(viewLifecycleOwner, {
@@ -110,7 +113,7 @@ class GameDetailsFragment : Fragment() {
             StfalconImageViewer.Builder(context, arrayOf(it)) { view, pojo ->
                 val url = pojo.url?.replace("t_thumb", "t_screenshot_huge")
                 Glide.with(requireContext()).load("https:$url").into(view)
-            }.withBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blackAlpha))
+            }.withBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blackAlphaDark))
                 .show()
         }
         recyclerViewScreenshots.adapter = screenshotsAdapter
@@ -137,6 +140,19 @@ class GameDetailsFragment : Fragment() {
     private fun setOnClickListeners() {
         imageViewGoBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+        imageViewCover.setOnClickListener {
+            StfalconImageViewer.Builder(context, arrayOf(coverUrl)) { view, url ->
+                val parsedUrl = url.replace("t_screenshot_med", "t_screenshot_huge")
+                Glide.with(requireContext()).load(parsedUrl).into(view)
+            }.withTransitionFrom(imageViewCover)
+                .withBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.blackAlphaDark
+                    )
+                )
+                .show()
         }
     }
 }

@@ -5,49 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageViewGoBack"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="?attr/colorOnPrimary"
+        android:elevation="2dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textViewGameDetailsLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:ellipsize="marquee"
-        android:fontFamily="@font/ptsans_regular"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:text="@string/title_game_details"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
-        app:layout_constraintStart_toEndOf="@id/imageViewGoBack"
-        app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+        <ImageView
+            android:id="@+id/imageViewGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageViewShare"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="24dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_share"
-        app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+        <TextView
+            android:id="@+id/textViewGameDetailsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/ptsans_regular"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="@string/title_game_details"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
+            app:layout_constraintStart_toEndOf="@id/imageViewGoBack"
+            app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+
+        <ImageView
+            android:id="@+id/imageViewShare"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="24dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_share"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:id="@+id/scrollViewGameDetails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:elevation="0dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewGameDetailsLabel">
+        app:layout_constraintTop_toBottomOf="@id/topBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
