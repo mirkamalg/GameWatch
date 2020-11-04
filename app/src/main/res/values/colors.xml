@@ -12,6 +12,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blackAlpha">#4D000000</color>
+    <color name="blackAlphaDark">#E6000000</color>
     <color name="colorPurple">#1f3c88</color>
     <color name="colorGreen">#00c80e</color>
     <color name="colorRed">#c80000</color>
