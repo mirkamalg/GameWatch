@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.ViewSkeletonScreen
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.GameEntity
+import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.DealsListAdapter
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
 import com.mirkamal.gamewatch.utils.loadImage
@@ -42,6 +44,12 @@ class GameDetailsFragment : Fragment() {
 
     private var coverUrl = ""
 
+    private lateinit var imageViewerOverlayViewCover: View
+    private lateinit var imageViewOverlayViewScreenshots: View
+    private lateinit var screenshots: List<ScreenshotPOJO>
+    private lateinit var imageViewerScreenshots: StfalconImageViewer<ScreenshotPOJO>
+    private lateinit var imageViewerCover: StfalconImageViewer<String>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,7 +71,7 @@ class GameDetailsFragment : Fragment() {
         setOnClickListeners()
         configureObservers()
     }
-
+    
     override fun onStart() {
         super.onStart()
         loadImages()
@@ -92,6 +100,8 @@ class GameDetailsFragment : Fragment() {
     private fun configureObservers() {
         gamesViewModel.screenshots.observe(viewLifecycleOwner, {
             screenshotsAdapter.submitList(it)
+            screenshots = it
+            configureImageViewers()
             skeletonScreenshots.hide()
         })
         gamesViewModel.coverUrl.observe(viewLifecycleOwner, {
@@ -110,11 +120,7 @@ class GameDetailsFragment : Fragment() {
 
     private fun configureRecyclerViews() {
         screenshotsAdapter = ScreenshotsListAdapter {
-            StfalconImageViewer.Builder(context, arrayOf(it)) { view, pojo ->
-                val url = pojo.url?.replace("t_thumb", "t_screenshot_huge")
-                Glide.with(requireContext()).load("https:$url").into(view)
-            }.withBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blackAlphaDark))
-                .show()
+            imageViewerScreenshots.show()
         }
         recyclerViewScreenshots.adapter = screenshotsAdapter
 
@@ -142,17 +148,57 @@ class GameDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
         imageViewCover.setOnClickListener {
-            StfalconImageViewer.Builder(context, arrayOf(coverUrl)) { view, url ->
-                val parsedUrl = url.replace("t_screenshot_med", "t_screenshot_huge")
-                Glide.with(requireContext()).load(parsedUrl).into(view)
-            }.withTransitionFrom(imageViewCover)
-                .withBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.blackAlphaDark
-                    )
-                )
-                .show()
+            imageViewerCover.show()
         }
+    }
+
+    private fun configureImageViewers() {
+        imageViewerOverlayViewCover = activity?.layoutInflater?.inflate(
+            R.layout.overlay_image_viewer,
+            imageViewCover.parent as ViewGroup?,
+            false
+        )!!
+
+        imageViewOverlayViewScreenshots = activity?.layoutInflater?.inflate(
+            R.layout.overlay_image_viewer,
+            recyclerViewScreenshots.parent as ViewGroup?,
+            false
+        )!!
+
+        imageViewerCover = StfalconImageViewer.Builder(context, arrayOf(coverUrl)) { view, url ->
+            val parsedUrl = url.replace("t_screenshot_med", "t_screenshot_huge")
+            Glide.with(requireContext()).load(parsedUrl).into(view)
+        }.withTransitionFrom(imageViewCover)
+            .withBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.blackAlphaDark
+                )
+            )
+            .withOverlayView(imageViewerOverlayViewCover)
+            .build()
+
+        imageViewerScreenshots =
+            StfalconImageViewer.Builder(context, screenshots.toTypedArray()) { view, pojo ->
+                val url = pojo.url?.replace("t_thumb", "t_screenshot_huge")
+                Glide.with(requireContext()).load("https:$url").into(view)
+            }.withBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.blackAlphaDark
+                )
+            )
+                .allowSwipeToDismiss(false)
+                .withOverlayView(imageViewOverlayViewScreenshots)
+                .build()
+
+        imageViewerOverlayViewCover.findViewById<ImageView>(R.id.imageViewClose)
+            .setOnClickListener {
+                imageViewerCover.dismiss()
+            }
+        imageViewOverlayViewScreenshots.findViewById<ImageView>(R.id.imageViewClose)
+            .setOnClickListener {
+                imageViewerScreenshots.dismiss()
+            }
     }
 }
