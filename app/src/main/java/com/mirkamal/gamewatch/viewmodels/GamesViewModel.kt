@@ -47,6 +47,10 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
     val gameDeals: LiveData<List<GameDealPOJO>>
         get() = _gameDeals
 
+    private val _similarGames = MutableLiveData<List<Game>>()
+    val similarGames: LiveData<List<Game>>
+        get() = _similarGames
+
     @Suppress("UNCHECKED_CAST")
     fun onSearch(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -121,11 +125,21 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
 
     fun fetchDeals(title: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val deals = gamesRepository.fetchGameDeals(title).sortedWith(compareBy { it.salePrice?.toDouble() })
+            val deals = gamesRepository.fetchGameDeals(title)
+                .sortedWith(compareBy { it.salePrice?.toDouble() })
             if (deals.isNotEmpty()) {
                 withContext(Dispatchers.Main) {
                     _gameDeals.value = deals
                 }
+            }
+        }
+    }
+
+    fun fetchSimilarGames(ids: List<Long>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val games = gamesRepository.fetchGamesByIDs(ids)
+            withContext(Dispatchers.Main) {
+                _similarGames.value = games
             }
         }
     }
