@@ -20,6 +20,7 @@ import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.DealsListAdapter
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
+import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.similar_games.SimilarGamesListAdapter
 import com.mirkamal.gamewatch.utils.loadImage
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -38,6 +39,7 @@ class GameDetailsFragment : Fragment() {
 
     private lateinit var screenshotsAdapter: ScreenshotsListAdapter
     private lateinit var gameDealsAdapter: DealsListAdapter
+    private lateinit var similarGamesAdapter: SimilarGamesListAdapter
 
     private lateinit var skeletonScreenshots: RecyclerViewSkeletonScreen
     private lateinit var skeletonCover: ViewSkeletonScreen
@@ -76,6 +78,7 @@ class GameDetailsFragment : Fragment() {
         super.onStart()
         loadImages()
         loadDeals()
+        loadSimilarGames()
     }
 
     private fun configureGameData() {
@@ -116,6 +119,9 @@ class GameDetailsFragment : Fragment() {
         gamesViewModel.gameDeals.observe(viewLifecycleOwner, {
             gameDealsAdapter.submitList(it)
         })
+        gamesViewModel.similarGames.observe(viewLifecycleOwner, {
+            similarGamesAdapter.submitList(it ?: emptyList())
+        })
     }
 
     private fun configureRecyclerViews() {
@@ -127,6 +133,9 @@ class GameDetailsFragment : Fragment() {
         gameDealsAdapter = DealsListAdapter()
         recyclerViewDeals.adapter = gameDealsAdapter
         LinearSnapHelper().attachToRecyclerView(recyclerViewScreenshots)
+
+        similarGamesAdapter = SimilarGamesListAdapter()
+        recyclerViewSimilarGames.adapter = similarGamesAdapter
     }
 
     private fun loadImages() {
@@ -140,6 +149,14 @@ class GameDetailsFragment : Fragment() {
     private fun loadDeals() {
         if (gameDealsAdapter.currentList.isEmpty()) {
             gamesViewModel.fetchDeals(gameEntity.name.split(" ").joinToString("+"))
+        }
+    }
+
+    private fun loadSimilarGames() {
+        if (similarGamesAdapter.currentList.isEmpty()) {
+            gamesViewModel.fetchSimilarGames(gameEntity.similar_games.split(", ").map {
+                it.toLong()
+            })
         }
     }
 
