@@ -9,7 +9,7 @@ import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 /**
  * Created by Mirkamal on 30 October 2020
  */
-class ScreenshotsListAdapter(private val listener: (ScreenshotPOJO) -> Unit) :
+class ScreenshotsListAdapter(private val listener: (ScreenshotPOJO, Int) -> Unit) :
     ListAdapter<ScreenshotPOJO, ScreenshotsListViewHolder>(ScreenshotDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScreenshotsListViewHolder {
         val inflater = LayoutInflater.from(parent.context)

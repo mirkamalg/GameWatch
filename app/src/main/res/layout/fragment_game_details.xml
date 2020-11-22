@@ -106,8 +106,8 @@
 
             <ImageView
                 android:id="@+id/imageViewStar"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/ic_star"
                 app:layout_constraintEnd_toStartOf="@id/view"
@@ -128,8 +128,8 @@
 
             <ImageView
                 android:id="@+id/imageViewControllerButtons"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/ic_controller_buttons"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/view"
@@ -191,12 +191,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:minHeight="120dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewSalesLabel"
                 tools:listitem="@layout/item_game_deals" />
+
+            <ImageView
+                android:id="@+id/imageViewPlaceHolderDeals"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="16dp"
+                android:src="@drawable/drawable_no_data_concept"
+                app:layout_constraintBottom_toBottomOf="@id/recyclerViewDeals"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/recyclerViewDeals" />
+
 
             <TextView
                 android:id="@+id/textViewCrackStatusLabel"
@@ -254,7 +267,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewSimilarGamesLabel" />
+                app:layout_constraintTop_toBottomOf="@id/textViewSimilarGamesLabel"
+                tools:listitem="@layout/item_similar_games" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
