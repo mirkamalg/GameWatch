@@ -24,4 +24,5 @@
     <string name="msg_steam">Steam</string>
     <string name="placeholder_price">$59.99</string>
     <string name="placeholder_price_lower">$29.99</string>
+    <string name="title_my_games">My Games</string>
 </resources>

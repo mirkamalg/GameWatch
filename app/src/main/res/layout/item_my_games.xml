@@ -10,48 +10,92 @@
             type="com.mirkamal.gamewatch.model.entity.Game" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="1dp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/imageViewGameItem"
+            imageURL="@{game.coverURL.replace(`t_thumb`, `t_screenshot_med`)}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageViewGameItem"
-                imageURL="@{game.coverURL}"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.25" />
+        <TextView
+            android:id="@+id/textViewGameName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/ptsans_regular"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@{game.name}"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageViewDelete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewGameItem"
+            tools:text="Game name here" />
 
-            <TextView
-                android:id="@+id/textViewGameName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:ellipsize="marquee"
-                android:fontFamily="@font/ptsans_regular"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:singleLine="true"
-                android:text="@{game.name}"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageViewGameItem"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Game name here" />
+        <ImageView
+            android:id="@+id/imageViewDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewGameItem"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_delete"
+            android:layout_marginEnd="16dp"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    <!--    <com.google.android.material.card.MaterialCardView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        app:cardCornerRadius="16dp"-->
+    <!--        app:cardElevation="1dp">-->
+
+    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/imageViewGameItem"-->
+    <!--                imageURL="@{game.coverURL}"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:scaleType="centerCrop"-->
+    <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                app:layout_constraintDimensionRatio="1:1"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="parent"-->
+    <!--                app:layout_constraintWidth_percent="0.25" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/textViewGameName"-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginStart="8dp"-->
+    <!--                android:layout_marginEnd="8dp"-->
+    <!--                android:ellipsize="marquee"-->
+    <!--                android:fontFamily="@font/ptsans_regular"-->
+    <!--                android:marqueeRepeatLimit="marquee_forever"-->
+    <!--                android:singleLine="true"-->
+    <!--                android:text="@{game.name}"-->
+    <!--                android:textSize="24sp"-->
+    <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintStart_toEndOf="@id/imageViewGameItem"-->
+    <!--                app:layout_constraintTop_toTopOf="parent"-->
+    <!--                tools:text="Game name here" />-->
+
+    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--    </com.google.android.material.card.MaterialCardView>-->
 </layout>
