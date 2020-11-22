@@ -11,7 +11,7 @@ import com.mirkamal.gamewatch.utils.loadImage
 /**
  * Created by Mirkamal on 30 October 2020
  */
-class ScreenshotsListViewHolder private constructor(itemView: View, private val listener: (ScreenshotPOJO) -> Unit) : RecyclerView.ViewHolder(itemView) {
+class ScreenshotsListViewHolder private constructor(itemView: View, private val listener: (ScreenshotPOJO, Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(screenshotPOJO: ScreenshotPOJO) {
         val url = "https:" + screenshotPOJO.url
@@ -20,12 +20,12 @@ class ScreenshotsListViewHolder private constructor(itemView: View, private val 
         itemView.findViewById<ImageView>(R.id.imageViewScreenshot).loadImage(formattedUrl)
 
         itemView.setOnClickListener {
-            listener(screenshotPOJO)
+            listener(screenshotPOJO, adapterPosition)
         }
     }
 
     companion object {
-        fun from(itemView: View, listener: (ScreenshotPOJO) -> Unit): ScreenshotsListViewHolder {
+        fun from(itemView: View, listener: (ScreenshotPOJO, Int) -> Unit): ScreenshotsListViewHolder {
             return ScreenshotsListViewHolder(itemView, listener)
         }
     }
