@@ -24,4 +24,7 @@
     <string name="placeholder_price">$59.99</string>
     <string name="placeholder_price_lower">$29.99</string>
     <string name="title_my_games">My Games</string>
+    <string name="title_share">Share</string>
+    <string name="msg_image">Image</string>
+    <string name="msg_text">Text</string>
 </resources>

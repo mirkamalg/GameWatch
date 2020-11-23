@@ -68,5 +68,13 @@
         <argument
             android:name="gameID"
             app:argType="long" />
+        <action
+            android:id="@+id/action_gameDetailsFragment_to_bottomSheetShareGameDetails"
+            app:destination="@id/bottomSheetShareGameDetails" />
     </fragment>
+    <dialog
+        android:id="@+id/bottomSheetShareGameDetails"
+        android:name="com.mirkamal.gamewatch.ui.fragments.dialogs.BottomSheetShareGameDetails"
+        android:label="BottomSheetShareGameDetails"
+        tools:layout="@layout/dialog_share_game_details"/>
 </navigation>
