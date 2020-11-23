@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
@@ -24,6 +25,7 @@ import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION_KEY
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_my_games.*
 
+
 /**
  * Created by Mirkamal on 17 October 2020
  */
@@ -31,8 +33,12 @@ class MyGamesFragment : Fragment() {
 
     private val db = Firebase.firestore
     private val email = Firebase.auth.currentUser?.email ?: ""
-    private val myGamesListAdapter = MyGamesListAdapter {game ->
-        findNavController().navigate(HostFragmentDirections.actionHostFragmentToGameDetailsFragment(game.id))
+    private val myGamesListAdapter = MyGamesListAdapter { game ->
+        findNavController().navigate(
+            HostFragmentDirections.actionHostFragmentToGameDetailsFragment(
+                game.id
+            )
+        )
     }
     private val viewModel: GamesViewModel by viewModels()
 
@@ -67,6 +73,13 @@ class MyGamesFragment : Fragment() {
         })
 
         recyclerViewMyGames.adapter = myGamesListAdapter
+
+        recyclerViewMyGames.addItemDecoration(
+            DividerItemDecoration(
+                activity,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
             ItemTouchHelper.SimpleCallback(
