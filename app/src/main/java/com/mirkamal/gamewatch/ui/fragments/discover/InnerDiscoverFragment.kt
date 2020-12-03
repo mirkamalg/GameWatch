@@ -82,7 +82,7 @@ class InnerDiscoverFragment : Fragment() {
 
     private fun configureRecyclerViewForGames() {
         discoverGamesListAdapter = DiscoverGamesListAdapter {
-            findNavController().navigate(HostFragmentDirections.actionHostFragmentToGameDetailsFragment(it.id))
+            findNavController().navigate(HostFragmentDirections.actionHostFragmentToGameDetailsFragment(it))
         }
         recyclerViewDiscover.adapter = discoverGamesListAdapter
 
@@ -124,9 +124,6 @@ class InnerDiscoverFragment : Fragment() {
                         }
                     }
                 }
-
-                //Save to local database
-                gamesViewModel.saveGameToLocalDatabase(game.toGameEntity())
             }
         }
 

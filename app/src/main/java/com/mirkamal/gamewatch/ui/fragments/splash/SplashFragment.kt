@@ -42,13 +42,13 @@ class SplashFragment : Fragment() {
             //Navigate to intro
             handler.postDelayed({
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToIntroContainerFragment())
-            }, 2000)
+            }, 500)
         } else {
             //Logged in
             //Navigate to main part
             handler.postDelayed({
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHostFragment())
-            }, 2000)
+            }, 500)
         }
     }
 

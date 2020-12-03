@@ -1,9 +1,7 @@
 package com.mirkamal.gamewatch.repositories
 
 import android.util.Log
-import com.mirkamal.gamewatch.local.dao.GameDao
 import com.mirkamal.gamewatch.model.entity.Game
-import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.model.pojo.CoverPOJO
 import com.mirkamal.gamewatch.model.pojo.GameDealPOJO
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
@@ -17,7 +15,7 @@ import java.io.IOException
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
+class GamesRepository() : ParentRepository() {
 
     private val searchGameService = ApiInitHelper.searchGameService
     private val gameDetailsService = ApiInitHelper.gameDetailsService
@@ -157,10 +155,6 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
         }
     }
 
-    fun fetchGame(ID: Long): GameEntity {
-        return gameDao.getGameByID(ID)
-    }
-
     suspend fun fetchScreenshots(gameID: Long): List<ScreenshotPOJO> {
         return try {
             val body =
@@ -200,10 +194,6 @@ class GamesRepository(private val gameDao: GameDao) : ParentRepository() {
         } catch (e: IOException) {
             emptyList()
         }
-    }
-
-    suspend fun saveGameToLocalDatabase(gameEntity: GameEntity) {
-        gameDao.addGame(gameEntity)
     }
 
 }

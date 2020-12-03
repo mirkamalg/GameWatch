@@ -66,8 +66,8 @@
         android:label="GameDetailsFragment"
         tools:layout="@layout/fragment_game_details">
         <argument
-            android:name="gameID"
-            app:argType="long" />
+            android:name="game"
+            app:argType="com.mirkamal.gamewatch.model.entity.Game" />
         <action
             android:id="@+id/action_gameDetailsFragment_to_bottomSheetShareGameDetails"
             app:destination="@id/bottomSheetShareGameDetails" />

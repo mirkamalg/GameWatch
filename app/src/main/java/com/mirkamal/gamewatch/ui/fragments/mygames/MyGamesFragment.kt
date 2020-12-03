@@ -36,7 +36,7 @@ class MyGamesFragment : Fragment() {
     private val myGamesListAdapter = MyGamesListAdapter { game ->
         findNavController().navigate(
             HostFragmentDirections.actionHostFragmentToGameDetailsFragment(
-                game.id
+                game
             )
         )
     }
