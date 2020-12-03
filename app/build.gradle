@@ -108,7 +108,7 @@ dependencies {
     implementation 'me.itangqi.waveloadingview:library:0.3.5'
 
     //Blur view
-    implementation 'jp.wasabeef:blurry:4.0.0'
+//    implementation 'jp.wasabeef:blurry:4.0.0'
 
     //Spinner kit (Custom progress bars)
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
@@ -121,10 +121,10 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     //Room for local database
-    def room_version = "2.2.5"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+//    def room_version = "2.2.5"
+//    implementation "androidx.room:room-runtime:$room_version"
+//    kapt "androidx.room:room-compiler:$room_version"
+//    implementation "androidx.room:room-ktx:$room_version"
 
     //Dropdown textview
     implementation 'com.github.hakobast:dropdown-textview:0.3.2'

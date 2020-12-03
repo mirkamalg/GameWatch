@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
@@ -20,6 +21,7 @@ import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
+import com.mirkamal.gamewatch.ui.fragments.host.HostFragmentDirections
 import com.mirkamal.gamewatch.utils.*
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_inner_discover.*
@@ -79,7 +81,9 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureRecyclerViewForGames() {
-        discoverGamesListAdapter = DiscoverGamesListAdapter()
+        discoverGamesListAdapter = DiscoverGamesListAdapter {
+            findNavController().navigate(HostFragmentDirections.actionHostFragmentToGameDetailsFragment(it))
+        }
         recyclerViewDiscover.adapter = discoverGamesListAdapter
 
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
@@ -120,9 +124,6 @@ class InnerDiscoverFragment : Fragment() {
                         }
                     }
                 }
-
-                //Save to local database
-                gamesViewModel.saveGameToLocalDatabase(game.toGameEntity())
             }
         }
 

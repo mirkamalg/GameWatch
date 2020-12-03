@@ -5,9 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mirkamal.gamewatch.local.GamesDataBase
 import com.mirkamal.gamewatch.model.entity.Game
-import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.model.pojo.GameDealPOJO
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.repositories.GamesRepository
@@ -21,7 +19,7 @@ import kotlinx.coroutines.withContext
 class GamesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val gamesRepository =
-        GamesRepository(GamesDataBase.getInstance(application.applicationContext).gameDao())
+        GamesRepository()
 
     private val _resultGames = MutableLiveData<List<Game>>()
     val resultGames: LiveData<List<Game>>
@@ -77,16 +75,6 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
                     _wantToPlayGames.value = emptyList()
                 }
             }
-        }
-    }
-
-    fun fetchGameFromLocalDatabase(ID: Long): GameEntity {
-        return gamesRepository.fetchGame(ID)
-    }
-
-    fun saveGameToLocalDatabase(gameEntity: GameEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            gamesRepository.saveGameToLocalDatabase(gameEntity)
         }
     }
 

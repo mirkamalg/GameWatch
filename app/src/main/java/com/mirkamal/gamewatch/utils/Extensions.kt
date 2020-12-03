@@ -8,7 +8,6 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.Game
-import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.model.pojo.GamePOJO
 
 /**
@@ -32,26 +31,6 @@ fun GamePOJO.toGameEntity(): Game {
         this.url ?: "null",
         this.videos ?: emptyList(),
         "null"
-    )
-}
-
-fun Game.toGameEntity(): GameEntity {
-    return GameEntity(
-        this.id,
-        this.rating,
-        this.artworks.joinToString(", "),
-        this.cover,
-        this.first_release_date,
-        this.genres.joinToString(", "),
-        this.involved_companies.joinToString(", "),
-        this.name,
-        this.platforms.joinToString(", "),
-        this.screenshots.joinToString(", "),
-        this.similar_games.joinToString(", "),
-        this.summary,
-        this.url,
-        this.videos.joinToString(", "),
-        this.coverURL
     )
 }
 

@@ -17,7 +17,6 @@ import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.ViewSkeletonScreen
 import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.model.entity.GameEntity
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.DealsListAdapter
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
@@ -36,7 +35,6 @@ class GameDetailsFragment : Fragment() {
 
     private val gamesViewModel: GamesViewModel by viewModels()
     private val args: GameDetailsFragmentArgs by navArgs()
-    private lateinit var gameEntity: GameEntity
 
     private lateinit var screenshotsAdapter: ScreenshotsListAdapter
     private lateinit var gameDealsAdapter: DealsListAdapter
@@ -64,8 +62,6 @@ class GameDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gameEntity = gamesViewModel.fetchGameFromLocalDatabase(args.gameID)
-
         OverScrollDecoratorHelper.setUpOverScroll(scrollViewGameDetails)
 
         configureGameData()
@@ -74,7 +70,7 @@ class GameDetailsFragment : Fragment() {
         setOnClickListeners()
         configureObservers()
     }
-    
+
     override fun onStart() {
         super.onStart()
         loadImages()
@@ -83,12 +79,13 @@ class GameDetailsFragment : Fragment() {
     }
 
     private fun configureGameData() {
-        dropDownTextViewGame.setTitleText(gameEntity.name)
-        dropDownTextViewGame.setContentText(gameEntity.summary)
+        dropDownTextViewGame.setTitleText(args.game.name)
+        dropDownTextViewGame.setContentText(args.game.summary)
 
         //TODO update to spannable string
-        textViewRating.text = "${gameEntity.rating}/100"
-        gamesViewModel.fetchGenre(gameEntity.genres)
+        textViewRating.text = "${args.game.rating}/100"
+        gamesViewModel.fetchGenre(args.game.genres.joinToString(", "))
+
     }
 
     private fun configureShimmerAnimations() {
@@ -145,23 +142,21 @@ class GameDetailsFragment : Fragment() {
 
     private fun loadImages() {
         if (screenshotsAdapter.currentList.isEmpty()) {
-            gamesViewModel.loadScreenShots(args.gameID)
+            gamesViewModel.loadScreenShots(args.game.id)
         }
 
-        gamesViewModel.loadCoverPhoto(gameEntity.id)
+        gamesViewModel.loadCoverPhoto(args.game.id)
     }
 
     private fun loadDeals() {
         if (gameDealsAdapter.currentList.isEmpty()) {
-            gamesViewModel.fetchDeals(gameEntity.name.split(" ").joinToString("+"))
+            gamesViewModel.fetchDeals(args.game.name.split(" ").joinToString("+"))
         }
     }
 
     private fun loadSimilarGames() {
         if (similarGamesAdapter.currentList.isEmpty()) {
-            gamesViewModel.fetchSimilarGames(gameEntity.similar_games.split(", ").map {
-                it.toLong()
-            })
+            gamesViewModel.fetchSimilarGames(args.game.similar_games)
         }
     }
 

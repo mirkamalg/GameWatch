@@ -1,8 +1,12 @@
 package com.mirkamal.gamewatch.model.entity
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by Mirkamal on 19 October 2020
  */
+@Parcelize
 data class Game(
     var id: Long,
     var rating: Int,
@@ -19,4 +23,4 @@ data class Game(
     var url: String,
     var videos: List<Long>,
     var coverURL: String
-)
+): Parcelable

@@ -11,11 +11,11 @@ import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.viewholders.Di
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class DiscoverGamesListAdapter: ListAdapter<Game, DiscoverGamesListViewHolder>(DiscoverGameDiffCallback()) {
+class DiscoverGamesListAdapter(private val listener: (Game) -> Unit): ListAdapter<Game, DiscoverGamesListViewHolder>(DiscoverGameDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscoverGamesListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemDiscoverGamesBinding.inflate(layoutInflater, parent, false)
-        return DiscoverGamesListViewHolder.from(binding)
+        return DiscoverGamesListViewHolder.from(binding, listener)
     }
 
     override fun onBindViewHolder(holder: DiscoverGamesListViewHolder, position: Int) {
