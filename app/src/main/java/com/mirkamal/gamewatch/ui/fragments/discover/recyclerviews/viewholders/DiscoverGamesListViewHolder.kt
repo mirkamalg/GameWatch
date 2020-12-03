@@ -12,7 +12,10 @@ import com.mirkamal.gamewatch.utils.XBOX_IDs
 /**
  * Created by Mirkamal on 18 October 2020
  */
-class DiscoverGamesListViewHolder private constructor(private val binding: ItemDiscoverGamesBinding) :
+class DiscoverGamesListViewHolder private constructor(
+    private val binding: ItemDiscoverGamesBinding,
+    private val listener: (Game) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(game: Game) {
@@ -25,6 +28,9 @@ class DiscoverGamesListViewHolder private constructor(private val binding: ItemD
         binding.textViewGameName.isSelected = true
 
         configurePlatformIcons(game)
+        itemView.setOnClickListener {
+            listener(game)
+        }
     }
 
     private fun configurePlatformIcons(game: Game) {
@@ -37,8 +43,11 @@ class DiscoverGamesListViewHolder private constructor(private val binding: ItemD
     }
 
     companion object {
-        fun from(binding: ItemDiscoverGamesBinding): DiscoverGamesListViewHolder {
-            return DiscoverGamesListViewHolder(binding)
+        fun from(
+            binding: ItemDiscoverGamesBinding,
+            listener: (Game) -> Unit
+        ): DiscoverGamesListViewHolder {
+            return DiscoverGamesListViewHolder(binding, listener)
         }
     }
 
