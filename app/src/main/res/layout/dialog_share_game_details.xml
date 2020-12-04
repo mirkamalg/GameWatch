@@ -31,11 +31,13 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardViewContainerImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginTop="24dp"
+        android:outlineAmbientShadowColor="@color/colorShadowPrimary"
+        android:outlineSpotShadowColor="@color/colorShadowPrimary"
         app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
+        app:cardElevation="6dp"
         app:layout_constraintBottom_toTopOf="@id/textViewLabelImage"
         app:layout_constraintEnd_toStartOf="@+id/cardViewContainerText"
         app:layout_constraintHorizontal_bias="0.5"
@@ -43,9 +45,11 @@
         app:layout_constraintTop_toBottomOf="@id/textViewShareLabel">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_image" />
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_image"
+            app:tint="?colorPrimary"
+            android:layout_gravity="center"/>
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -53,22 +57,24 @@
         android:id="@+id/textViewLabelImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="@font/ptsans_regular"
         android:text="@string/msg_image"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/cardViewContainerImage"
         app:layout_constraintStart_toStartOf="@id/cardViewContainerImage"
-        app:layout_constraintTop_toBottomOf="@id/cardViewContainerImage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintTop_toBottomOf="@id/cardViewContainerImage" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardViewContainerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:outlineAmbientShadowColor="@color/colorShadowPrimary"
+        android:outlineSpotShadowColor="@color/colorShadowPrimary"
         app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
+        app:cardElevation="6dp"
         app:layout_constraintBottom_toBottomOf="@id/cardViewContainerImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -76,21 +82,23 @@
         app:layout_constraintTop_toTopOf="@id/cardViewContainerImage">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_text" />
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_text"
+            app:tint="?colorPrimary"
+            android:layout_gravity="center"/>
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/textViewLabelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/textViewLabelImage"
-        app:layout_constraintBottom_toBottomOf="@id/textViewLabelImage"
-        app:layout_constraintStart_toStartOf="@id/cardViewContainerText"
-        app:layout_constraintEnd_toEndOf="@id/cardViewContainerText"
-        android:textSize="24sp"
         android:fontFamily="@font/ptsans_regular"
-        android:text="@string/msg_text"/>
+        android:text="@string/msg_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewLabelImage"
+        app:layout_constraintEnd_toEndOf="@id/cardViewContainerText"
+        app:layout_constraintStart_toStartOf="@id/cardViewContainerText"
+        app:layout_constraintTop_toTopOf="@id/textViewLabelImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

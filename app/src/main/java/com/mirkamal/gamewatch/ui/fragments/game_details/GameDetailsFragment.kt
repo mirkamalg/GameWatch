@@ -168,7 +168,7 @@ class GameDetailsFragment : Fragment() {
             imageViewerCover.show()
         }
         imageViewShare.setOnClickListener {
-            findNavController().navigate(GameDetailsFragmentDirections.actionGameDetailsFragmentToBottomSheetShareGameDetails())
+            findNavController().navigate(GameDetailsFragmentDirections.actionGameDetailsFragmentToBottomSheetShareGameDetails(args.game))
         }
     }
 
