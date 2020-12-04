@@ -9,17 +9,17 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
         android:background="?attr/colorOnPrimary"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:layout_gravity="center"
             android:fontFamily="@font/ptsans_bold"
             android:text="@string/title_my_games"
-            android:layout_gravity="center"/>
+            android:textSize="24sp" />
 
     </FrameLayout>
 
@@ -27,8 +27,8 @@
         android:id="@+id/swipeRefreshLayoutMyGames"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,11 +38,12 @@
                 android:id="@+id/recyclerViewMyGames"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:clipToPadding="false"
+                android:paddingTop="2dp"
                 android:paddingBottom="60dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:paddingTop="2dp"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageViewDiscover"
