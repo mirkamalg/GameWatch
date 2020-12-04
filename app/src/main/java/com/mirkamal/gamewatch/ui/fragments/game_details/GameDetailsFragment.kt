@@ -214,7 +214,7 @@ class GameDetailsFragment : Fragment() {
 
         imageViewerOverlayViewCover.findViewById<ImageView>(R.id.imageViewClose)
             .setOnClickListener {
-                imageViewerCover.dismiss()
+                imageViewerCover.close()
             }
         imageViewOverlayViewScreenshots.findViewById<ImageView>(R.id.imageViewClose)
             .setOnClickListener {
