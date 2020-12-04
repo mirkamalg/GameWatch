@@ -33,10 +33,10 @@ class MyGamesFragment : Fragment() {
 
     private val db = Firebase.firestore
     private val email = Firebase.auth.currentUser?.email ?: ""
-    private val myGamesListAdapter = MyGamesListAdapter { game ->
+    private val myGamesListAdapter = MyGamesListAdapter {
         findNavController().navigate(
             HostFragmentDirections.actionHostFragmentToGameDetailsFragment(
-                game
+                it
             )
         )
     }
@@ -53,6 +53,14 @@ class MyGamesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Set delete listener
+        myGamesListAdapter.deleteListener = { position, id ->
+            val temp = myGamesListAdapter.currentList.toMutableList()
+            temp.removeAt(position)
+            myGamesListAdapter.submitList(temp)
+            myGamesListAdapter.notifyDataSetChanged()
+            removeGameFromFirebaseDB(id)
+        }
         configureFragment()
         configureSwipeRefreshLayout()
     }
@@ -106,22 +114,7 @@ class MyGamesFragment : Fragment() {
                 Toast.makeText(context, "Game removed!", Toast.LENGTH_SHORT).show()
 
                 //Add game to "Want to play" array in firebase
-                db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
-                    if (it.exists()) {
-                        val games = it.get(GAMES_KEY) as ArrayList<Long>
-
-                        if (games.contains(game)) {
-                            games.remove(game)
-                            db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
-                                hashMapOf(
-                                    GAMES_KEY to games
-                                ), SetOptions.merge()
-                            )
-                        }
-                    }
-
-                    updateVisibility()
-                }
+                removeGameFromFirebaseDB(game)
             }
         }
 
@@ -156,6 +149,25 @@ class MyGamesFragment : Fragment() {
             overlayLayout.isVisible = true
             progressBarMyGames.isVisible = true
             refreshMyGames()
+        }
+    }
+
+    private fun removeGameFromFirebaseDB(game: Long) {
+        db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
+            if (it.exists()) {
+                val games = it.get(GAMES_KEY) as ArrayList<Long>
+
+                if (games.contains(game)) {
+                    games.remove(game)
+                    db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
+                        hashMapOf(
+                            GAMES_KEY to games
+                        ), SetOptions.merge()
+                    )
+                }
+            }
+
+            updateVisibility()
         }
     }
 }
