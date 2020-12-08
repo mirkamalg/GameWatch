@@ -1,8 +1,7 @@
 package com.mirkamal.gamewatch.utils.libs
 
-import android.content.Context
+import android.content.ContentResolver
 import android.graphics.Bitmap
-import android.net.Uri
 import android.provider.MediaStore
 import com.mirkamal.gamewatch.model.entity.Game
 import java.io.ByteArrayOutputStream
@@ -17,15 +16,14 @@ object MessageGenerator {
         return "Check this game out! I found it using GameWatch App for Android.\n\n${game.name}\n\n${game.summary}\n\nFor more information:\n${game.url}"
     }
 
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+    fun getImageFile(resolver: ContentResolver, inImage: Bitmap): String {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(
-            inContext.contentResolver,
+        return MediaStore.Images.Media.insertImage(
+            resolver,
             inImage,
-            "Title",
-            null
+            "temp",
+            "temp"
         )
-        return Uri.parse(path)
     }
 }
