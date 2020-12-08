@@ -1,6 +1,7 @@
 package com.mirkamal.gamewatch.ui.fragments.dialogs
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,11 +47,12 @@ class BottomSheetShareGameDetails : BottomSheetDialogFragment() {
             context?.let { c ->
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                     val bitmap = Glide.with(c).asBitmap()
-                        .load(args.game.coverURL.replace("t_screenshot_med", "t_screenshot_huge"))
+                        .load(args.game.coverURL.replace("t_thumb", "t_screenshot_huge"))
                         .submit().get()
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "image/*"
-                    intent.putExtra(Intent.EXTRA_STREAM, MessageGenerator.getImageUri(c, bitmap))
+                    val path = MessageGenerator.getImageFile(requireActivity().applicationContext.contentResolver, bitmap)
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path))
                     startActivity(Intent.createChooser(intent, "Share using"))
                     dismiss()
                 }
