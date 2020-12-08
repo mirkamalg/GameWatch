@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -45,6 +47,8 @@ class BottomSheetShareGameDetails : BottomSheetDialogFragment() {
 
         cardViewContainerImage.setOnClickListener {
             context?.let { c ->
+
+                progressBar.isVisible = true
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                     val bitmap = Glide.with(c).asBitmap()
                         .load(args.game.coverURL.replace("t_thumb", "t_screenshot_huge"))
@@ -54,7 +58,7 @@ class BottomSheetShareGameDetails : BottomSheetDialogFragment() {
                     val path = MessageGenerator.getImageFile(requireActivity().applicationContext.contentResolver, bitmap)
                     intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path))
                     startActivity(Intent.createChooser(intent, "Share using"))
-                    dismiss()
+                    findNavController().popBackStack()
                 }
             }
         }

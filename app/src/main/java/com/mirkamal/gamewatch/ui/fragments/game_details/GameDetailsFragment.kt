@@ -16,11 +16,17 @@ import com.bumptech.glide.Glide
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.ViewSkeletonScreen
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.DealsListAdapter
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.screenshots.ScreenshotsListAdapter
 import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.similar_games.SimilarGamesListAdapter
+import com.mirkamal.gamewatch.utils.GAMES_KEY
+import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION_KEY
 import com.mirkamal.gamewatch.utils.loadImage
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -51,6 +57,9 @@ class GameDetailsFragment : Fragment() {
     private lateinit var imageViewerScreenshots: StfalconImageViewer<ScreenshotPOJO>
     private lateinit var imageViewerCover: StfalconImageViewer<String>
 
+    private val db = Firebase.firestore
+    private val email = Firebase.auth.currentUser?.email ?: ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,6 +85,7 @@ class GameDetailsFragment : Fragment() {
         loadImages()
         loadDeals()
         loadSimilarGames()
+        loadAdditionStatus()
     }
 
     private fun configureGameData() {
@@ -160,6 +170,19 @@ class GameDetailsFragment : Fragment() {
         }
     }
 
+    private fun loadAdditionStatus() {
+        db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
+            if (it.exists()) {
+                val gameIDs = it.get(GAMES_KEY) as ArrayList<Long>
+                if (gameIDs.contains(args.game.id)) {
+                    imageViewAdd.setImageResource(R.drawable.ic_tick)
+                }
+                imageViewAdd.isVisible = true
+                progressBarAdd.isVisible = false
+            }
+        }
+    }
+
     private fun setOnClickListeners() {
         imageViewGoBack.setOnClickListener {
             findNavController().popBackStack()
@@ -173,6 +196,34 @@ class GameDetailsFragment : Fragment() {
                     args.game
                 )
             )
+        }
+        imageViewAdd.setOnClickListener { view ->
+            view.visibility = View.INVISIBLE
+            progressBarAdd.isVisible = true
+            db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
+                if (it.exists()) {
+                    val gameIDs = it.get(GAMES_KEY) as ArrayList<Long>
+                    if (!gameIDs.contains(args.game.id)) {
+                        gameIDs.add(args.game.id)
+                        db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
+                            hashMapOf(
+                                GAMES_KEY to gameIDs
+                            ), SetOptions.merge()
+                        )
+                        imageViewAdd.setImageResource(R.drawable.ic_tick)
+                    } else {
+                        gameIDs.remove(args.game.id)
+                        db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
+                            hashMapOf(
+                                GAMES_KEY to gameIDs
+                            ), SetOptions.merge()
+                        )
+                        imageViewAdd.setImageResource(R.drawable.ic_add)
+                    }
+                    view.isVisible = true
+                    progressBarAdd.isVisible = false
+                }
+            }
         }
     }
 

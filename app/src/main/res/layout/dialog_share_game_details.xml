@@ -5,6 +5,19 @@
     android:layout_height="wrap_content"
     android:background="@drawable/drawable_dropdown_textview_bg">
 
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.Wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        app:SpinKit_Color="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewContainerImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cardViewContainerImage"
+        android:visibility="gone"/>
+
     <View
         android:id="@+id/viewHandle"
         android:layout_width="0dp"
@@ -47,9 +60,9 @@
         <ImageView
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_image"
-            app:tint="?colorPrimary"
-            android:layout_gravity="center"/>
+            app:tint="?colorPrimary" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -84,9 +97,9 @@
         <ImageView
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_text"
-            app:tint="?colorPrimary"
-            android:layout_gravity="center"/>
+            app:tint="?colorPrimary" />
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
