@@ -38,6 +38,26 @@
             app:layout_constraintStart_toEndOf="@id/imageViewGoBack"
             app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
 
+        <ProgressBar
+            android:id="@+id/progressBarAdd"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewAdd"
+            app:layout_constraintEnd_toEndOf="@id/imageViewAdd"
+            app:layout_constraintStart_toStartOf="@id/imageViewAdd"
+            app:layout_constraintTop_toTopOf="@id/imageViewAdd" />
+
+        <ImageView
+            android:id="@+id/imageViewAdd"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_add"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewShare"
+            app:layout_constraintEnd_toStartOf="@id/imageViewShare"
+            app:layout_constraintTop_toTopOf="@id/imageViewShare" />
+
         <ImageView
             android:id="@+id/imageViewShare"
             android:layout_width="32dp"
