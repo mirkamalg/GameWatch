@@ -55,30 +55,5 @@
         android:id="@+id/hostFragment"
         android:name="com.mirkamal.gamewatch.ui.fragments.host.HostFragment"
         android:label="HostFragment"
-        tools:layout="@layout/fragment_host">
-        <action
-            android:id="@+id/action_hostFragment_to_gameDetailsFragment"
-            app:destination="@id/gameDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/gameDetailsFragment"
-        android:name="com.mirkamal.gamewatch.ui.fragments.game_details.GameDetailsFragment"
-        android:label="GameDetailsFragment"
-        tools:layout="@layout/fragment_game_details">
-        <argument
-            android:name="game"
-            app:argType="com.mirkamal.gamewatch.model.entity.Game" />
-        <action
-            android:id="@+id/action_gameDetailsFragment_to_bottomSheetShareGameDetails"
-            app:destination="@id/bottomSheetShareGameDetails" />
-    </fragment>
-    <dialog
-        android:id="@+id/bottomSheetShareGameDetails"
-        android:name="com.mirkamal.gamewatch.ui.fragments.dialogs.BottomSheetShareGameDetails"
-        android:label="BottomSheetShareGameDetails"
-        tools:layout="@layout/dialog_share_game_details">
-        <argument
-            android:name="game"
-            app:argType="com.mirkamal.gamewatch.model.entity.Game" />
-    </dialog>
+        tools:layout="@layout/fragment_host"/>
 </navigation>

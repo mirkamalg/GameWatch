@@ -1,10 +1,12 @@
-package com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals
+package com.mirkamal.gamewatch.ui.activities.game_details.recyclerviews.deals
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.pojo.GameDealPOJO
+import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.DealsListViewHolder
+import com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.deals.GameDealDiffCallback
 
 /**
  * Created by Mirkamal on 02 November 2020

@@ -1,5 +1,6 @@
 package com.mirkamal.gamewatch.ui.fragments.discover
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +10,6 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
@@ -20,8 +20,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.ui.activities.game_details.GameDetailsActivity
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
-import com.mirkamal.gamewatch.ui.fragments.host.HostFragmentDirections
 import com.mirkamal.gamewatch.utils.*
 import com.mirkamal.gamewatch.viewmodels.GamesViewModel
 import kotlinx.android.synthetic.main.fragment_inner_discover.*
@@ -82,7 +82,9 @@ class InnerDiscoverFragment : Fragment() {
 
     private fun configureRecyclerViewForGames() {
         discoverGamesListAdapter = DiscoverGamesListAdapter {
-            findNavController().navigate(HostFragmentDirections.actionHostFragmentToGameDetailsFragment(it))
+            val intent = Intent(context, GameDetailsActivity::class.java)
+            intent.putExtra(EXTRA_GAME_KEY, it)
+            startActivity(intent)
         }
         recyclerViewDiscover.adapter = discoverGamesListAdapter
 
