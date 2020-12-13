@@ -11,7 +11,7 @@ import com.mirkamal.gamewatch.utils.loadImage
 /**
  * Created by Mirkamal on 15 November 2020
  */
-class SimilarGamesListViewHolder private constructor(itemView: View) :
+class SimilarGamesListViewHolder private constructor(itemView: View, private val listener: (Game) -> Unit) :
     RecyclerView.ViewHolder(itemView) {
 
     fun bind(game: Game) {
@@ -19,11 +19,15 @@ class SimilarGamesListViewHolder private constructor(itemView: View) :
         val gameName = itemView.findViewById<TextView>(R.id.textViewGameName)
         gameName.text = game.name
         gameName.isSelected = true
+
+        itemView.setOnClickListener {
+            listener(game)
+        }
     }
 
     companion object {
-        fun from(itemView: View): SimilarGamesListViewHolder {
-            return SimilarGamesListViewHolder(itemView)
+        fun from(itemView: View, listener: (Game) -> Unit): SimilarGamesListViewHolder {
+            return SimilarGamesListViewHolder(itemView, listener)
         }
     }
 }

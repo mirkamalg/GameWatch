@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.game_details.GameDetailsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorOnPrimary"
+        android:elevation="2dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewGameDetailsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/ptsans_regular"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="@string/title_game_details"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
+            app:layout_constraintStart_toEndOf="@id/imageViewGoBack"
+            app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+
+        <ProgressBar
+            android:id="@+id/progressBarAdd"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewAdd"
+            app:layout_constraintEnd_toEndOf="@id/imageViewAdd"
+            app:layout_constraintStart_toStartOf="@id/imageViewAdd"
+            app:layout_constraintTop_toTopOf="@id/imageViewAdd" />
+
+        <ImageView
+            android:id="@+id/imageViewAdd"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_add"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewShare"
+            app:layout_constraintEnd_toStartOf="@id/imageViewShare"
+            app:layout_constraintTop_toTopOf="@id/imageViewShare" />
+
+        <ImageView
+            android:id="@+id/imageViewShare"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="24dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_share"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewGoBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageViewGoBack" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewGameDetails"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:elevation="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageViewCover"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="2:1.5"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <hakobastvatsatryan.DropdownTextView
+                android:id="@+id/dropDownTextViewGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:bg_drawable_expanded="@drawable/drawable_dropdown_textview_bg"
+                app:bg_drawable_regular="@drawable/drawable_dropdown_textview_bg"
+                app:content_font="@font/ptsans_regular"
+                app:content_padding="8dp"
+                app:content_text="Placeholder"
+                app:content_text_color="@color/dark_gray"
+                app:content_text_size="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewCover"
+                app:panel_padding="8dp"
+                app:title_font="@font/ptsans_bold"
+                app:title_text="Placeholder"
+                app:title_text_color="@android:color/black"
+                app:title_text_size="18sp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/dark_gray"
+                app:layout_constraintBottom_toBottomOf="@id/textViewRating"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dropDownTextViewGame" />
+
+            <ImageView
+                android:id="@+id/imageViewStar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_star"
+                app:layout_constraintEnd_toStartOf="@id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dropDownTextViewGame" />
+
+            <TextView
+                android:id="@+id/textViewRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewStar"
+                tools:text="80/100" />
+
+            <ImageView
+                android:id="@+id/imageViewControllerButtons"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_controller_buttons"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view"
+                app:layout_constraintTop_toTopOf="@id/imageViewStar" />
+
+            <TextView
+                android:id="@+id/textViewGenre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/ptsans_regular"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/view"
+                app:layout_constraintTop_toBottomOf="@id/imageViewControllerButtons"
+                tools:text="Genre" />
+
+            <TextView
+                android:id="@+id/textViewScreenshotsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_screenshots"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewScreenshots"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewScreenshotsLabel"
+                tools:listitem="@layout/item_screenshots" />
+
+            <TextView
+                android:id="@+id/textViewSalesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_deals"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewScreenshots" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewDeals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:minHeight="120dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewSalesLabel"
+                tools:listitem="@layout/item_game_deals" />
+
+            <ImageView
+                android:id="@+id/imageViewPlaceHolderDeals"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="16dp"
+                android:src="@drawable/drawable_no_data_concept"
+                app:layout_constraintBottom_toBottomOf="@id/recyclerViewDeals"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/recyclerViewDeals" />
+
+
+            <TextView
+                android:id="@+id/textViewCrackStatusLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_crack_status"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerViewDeals" />
+
+            <ImageView
+                android:id="@+id/imageViewCrackStatus"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_shield"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewCrackStatusLabel" />
+
+            <TextView
+                android:id="@+id/textViewCrackStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/ptsans_bold"
+                android:text="@string/msg_uncracked"
+                android:textColor="@color/colorGreen"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewCrackStatus" />
+
+            <TextView
+                android:id="@+id/textViewSimilarGamesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_similar_games"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewCrackStatus" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSimilarGames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewSimilarGamesLabel"
+                tools:listitem="@layout/item_similar_games" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

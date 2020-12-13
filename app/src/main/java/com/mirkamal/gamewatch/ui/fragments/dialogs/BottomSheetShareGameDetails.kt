@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.model.entity.Game
 import com.mirkamal.gamewatch.utils.libs.MessageGenerator
 import kotlinx.android.synthetic.main.dialog_share_game_details.*
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +22,7 @@ import kotlinx.coroutines.launch
  */
 class BottomSheetShareGameDetails : BottomSheetDialogFragment() {
 
-    private val args: BottomSheetShareGameDetailsArgs by navArgs()
+    private lateinit var game: Game
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +39,7 @@ class BottomSheetShareGameDetails : BottomSheetDialogFragment() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_SUBJECT, "Check this game out!")
-            intent.putExtra(Intent.EXTRA_TEXT, MessageGenerator.generateShareGameText(args.game))
+            intent.putExtra(Intent.EXTRA_TEXT, MessageGenerator.generateShareGameText(game))
             startActivity(Intent.createChooser(intent, "Share using"))
             dismiss()
         }
@@ -51,16 +50,20 @@ class BottomSheetShareGameDetails : BottomSheetDialogFragment() {
                 progressBar.isVisible = true
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                     val bitmap = Glide.with(c).asBitmap()
-                        .load(args.game.coverURL.replace("t_thumb", "t_screenshot_huge"))
+                        .load(game.coverURL.replace("t_thumb", "t_screenshot_huge"))
                         .submit().get()
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "image/*"
                     val path = MessageGenerator.getImageFile(requireActivity().applicationContext.contentResolver, bitmap)
                     intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path))
                     startActivity(Intent.createChooser(intent, "Share using"))
-                    findNavController().popBackStack()
+                    dismiss()
                 }
             }
         }
+    }
+
+    fun injectGame(game: Game) {
+        this.game = game
     }
 }

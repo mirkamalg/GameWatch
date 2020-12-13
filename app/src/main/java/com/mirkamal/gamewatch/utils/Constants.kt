@@ -33,3 +33,6 @@ const val EMAIL_KEY = "email"
 
 //Local database
 const val LOCAL_DATABASE_NAME = "gamesdb"
+
+//Intent keys
+const val EXTRA_GAME_KEY = "EXTRA_GAME_KEY"
