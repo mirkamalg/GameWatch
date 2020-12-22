@@ -28,4 +28,8 @@
     <string name="title_share">Share</string>
     <string name="msg_image">Image</string>
     <string name="msg_text">Text</string>
+    <string name="action_edit">EDIT</string>
+    <string name="action_settings">Settings</string>
+    <string name="msg_edit_profile">Edit Profile</string>
+    <string name="msg_source_code">Source Code</string>
 </resources>
