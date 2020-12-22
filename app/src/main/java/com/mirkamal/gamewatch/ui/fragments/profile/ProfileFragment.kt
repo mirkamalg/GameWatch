@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.ui.fragments.dialogs.BottomSheetUploadPhoto
 import com.mirkamal.gamewatch.utils.BIO_KEY
 import com.mirkamal.gamewatch.utils.USERNAME_KEY
 import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION_KEY
@@ -26,6 +27,8 @@ class ProfileFragment : Fragment() {
     private val db = Firebase.firestore
     private val email = Firebase.auth.currentUser?.email ?: ""
 
+    private lateinit var uploadDialog: BottomSheetUploadPhoto
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,13 +40,25 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        uploadDialog = BottomSheetUploadPhoto()
         configureTexts()
+        setOnClickListeners()
     }
 
     override fun onStart() {
         super.onStart()
 
         fetchUserData()
+    }
+
+    private fun setOnClickListeners() {
+        profilePictureContainer.setOnClickListener {
+            uploadDialog.show(childFragmentManager, "upload_dialog")
+        }
+
+        imageViewProfileCover.setOnClickListener {
+            uploadDialog.show(childFragmentManager, "upload_dialog")
+        }
     }
 
     private fun fetchUserData() {
@@ -53,7 +68,8 @@ class ProfileFragment : Fragment() {
         }
 
         val threeMegabytes = (1024 * 1024 * 3).toLong()
-        val profilePictureReference = Firebase.storage.reference.child("user_pictures/$email/profile.png")
+        val profilePictureReference =
+            Firebase.storage.reference.child("user_pictures/$email/profile.png")
         profilePictureReference.getBytes(threeMegabytes).addOnSuccessListener {
             imageViewProfilePicture.setImageBitmap(BitmapFactory.decodeByteArray(it, 0, it.size))
         }

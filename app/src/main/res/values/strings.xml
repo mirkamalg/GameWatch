@@ -31,4 +31,7 @@
     <string name="action_settings">Settings</string>
     <string name="msg_edit_profile">Edit Profile</string>
     <string name="msg_source_code">Source Code</string>
+    <string name="msg_upload">Upload</string>
+    <string name="msg_profile">Profile</string>
+    <string name="cover">Cover</string>
 </resources>
