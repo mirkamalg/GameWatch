@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/drawable_dropdown_textview_bg">
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.Wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        app:SpinKit_Color="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewContainerProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cardViewContainerProfile"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/viewHandle"
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/drawable_handle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <TextView
+        android:id="@+id/textViewUploadLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/ptsans_bold"
+        android:text="@string/msg_upload"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewHandle" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewContainerProfile"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="24dp"
+        android:outlineAmbientShadowColor="@color/colorShadowPrimary"
+        android:outlineSpotShadowColor="@color/colorShadowPrimary"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/textViewLabelProfile"
+        app:layout_constraintEnd_toStartOf="@+id/cardViewContainerCover"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewUploadLabel">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_person"
+            app:tint="?colorPrimary" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/textViewLabelProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/ptsans_regular"
+        android:text="@string/msg_profile"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/cardViewContainerProfile"
+        app:layout_constraintStart_toStartOf="@id/cardViewContainerProfile"
+        app:layout_constraintTop_toBottomOf="@id/cardViewContainerProfile" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewContainerCover"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:outlineAmbientShadowColor="@color/colorShadowPrimary"
+        android:outlineSpotShadowColor="@color/colorShadowPrimary"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@id/cardViewContainerProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cardViewContainerProfile"
+        app:layout_constraintTop_toTopOf="@id/cardViewContainerProfile">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_cover_image"
+            app:tint="?colorPrimary" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/textViewLabelCover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ptsans_regular"
+        android:text="@string/cover"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewLabelProfile"
+        app:layout_constraintEnd_toEndOf="@id/cardViewContainerCover"
+        app:layout_constraintStart_toStartOf="@id/cardViewContainerCover"
+        app:layout_constraintTop_toTopOf="@id/textViewLabelProfile" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
