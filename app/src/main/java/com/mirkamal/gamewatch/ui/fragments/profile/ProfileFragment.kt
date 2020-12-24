@@ -119,7 +119,7 @@ class ProfileFragment : Fragment() {
                 newWidthPercent = oldWidthPercent + (0.00075f * (oldScrollY - scrollY))
             }
 
-            if (newBias >= 0) {
+            if (newBias in 0.0..0.5) {
                 parameters.horizontalBias = newBias
                 parameters.matchConstraintPercentWidth = newWidthPercent
             }
