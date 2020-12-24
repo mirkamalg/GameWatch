@@ -139,4 +139,7 @@ dependencies {
 
     //Image viewer
     implementation 'com.github.stfalcon:stfalcon-imageviewer:1.0.1'
+
+    //Image cropper
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 }

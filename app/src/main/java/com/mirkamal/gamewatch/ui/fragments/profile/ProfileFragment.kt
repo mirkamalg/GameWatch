@@ -1,10 +1,13 @@
 package com.mirkamal.gamewatch.ui.fragments.profile
 
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.auth
@@ -40,9 +43,12 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        uploadDialog = BottomSheetUploadPhoto()
         configureTexts()
         setOnClickListeners()
+        configureUploadDialog()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            configureScrollView()
+        }
     }
 
     override fun onStart() {
@@ -85,5 +91,40 @@ class ProfileFragment : Fragment() {
 
     private fun configureTexts() {
         textViewEmail.text = email
+    }
+
+    private fun configureUploadDialog() {
+        uploadDialog = BottomSheetUploadPhoto {
+            fetchUserData()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun configureScrollView() {
+        scrollViewProfile.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            //Animation on scroll is handled here
+            val parameters = profilePictureContainer.layoutParams as ConstraintLayout.LayoutParams
+
+            val oldBias = parameters.horizontalBias
+            val newBias: Float
+
+            val oldWidthPercent = parameters.matchConstraintPercentWidth
+            val newWidthPercent: Float
+
+            if (oldScrollY < scrollY) {
+                newBias = 0.5f - (0.002f * scrollY)
+                newWidthPercent = 0.3f - (0.00075f * scrollY)
+            } else {
+                newBias = oldBias + (0.002f * (oldScrollY - scrollY))
+                newWidthPercent = oldWidthPercent + (0.00075f * (oldScrollY - scrollY))
+            }
+
+            if (newBias in 0.0..0.5) {
+                parameters.horizontalBias = newBias
+                parameters.matchConstraintPercentWidth = newWidthPercent
+            }
+
+            profilePictureContainer.layoutParams = parameters
+        }
     }
 }
