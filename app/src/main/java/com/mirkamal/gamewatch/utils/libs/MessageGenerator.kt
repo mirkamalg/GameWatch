@@ -3,7 +3,7 @@ package com.mirkamal.gamewatch.utils.libs
 import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.provider.MediaStore
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import java.io.ByteArrayOutputStream
 
 

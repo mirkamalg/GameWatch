@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.mirkamal.gamewatch.databinding.ItemMyGamesBinding
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 
 /**
  * Created by Mirkamal on 24 October 2020

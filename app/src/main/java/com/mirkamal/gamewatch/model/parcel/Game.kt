@@ -1,4 +1,4 @@
-package com.mirkamal.gamewatch.model.entity
+package com.mirkamal.gamewatch.model.parcel
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

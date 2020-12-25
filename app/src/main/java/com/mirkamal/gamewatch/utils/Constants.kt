@@ -33,9 +33,16 @@ const val GAMES_KEY = "games"
 const val EMAIL_KEY = "email"
 const val USERNAME_KEY = "username"
 const val BIO_KEY = "bio"
+const val STEAM_KEY = "steam"
+const val EPIC_GAMES_KEY = "epic_games"
+const val UPLAY_KEY = "uplay"
+const val DISCORD_KEY = "discord"
+const val DISPLAY_NAME_KEY = "display_name"
+const val URL_KEY = "url"
 
 //Local database
 const val LOCAL_DATABASE_NAME = "gamesdb"
 
 //Intent keys
 const val EXTRA_GAME_KEY = "EXTRA_GAME_KEY"
+const val EXTRA_PROFILE_DATA_KEY = "EXTRA_PROFILE_DATA_KEY"

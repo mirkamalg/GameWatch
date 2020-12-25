@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.utils.libs.MessageGenerator
 import kotlinx.android.synthetic.main.dialog_share_game_details.*
 import kotlinx.coroutines.Dispatchers

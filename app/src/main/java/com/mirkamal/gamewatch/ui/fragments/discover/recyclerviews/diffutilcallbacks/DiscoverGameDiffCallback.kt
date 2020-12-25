@@ -1,7 +1,7 @@
 package com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.diffutilcallbacks
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 
 /**
  * Created by Mirkamal on 18 October 2020

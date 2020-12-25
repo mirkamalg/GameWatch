@@ -1,7 +1,7 @@
 package com.mirkamal.gamewatch.repositories
 
 import android.util.Log
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.model.pojo.CoverPOJO
 import com.mirkamal.gamewatch.model.pojo.GameDealPOJO
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO

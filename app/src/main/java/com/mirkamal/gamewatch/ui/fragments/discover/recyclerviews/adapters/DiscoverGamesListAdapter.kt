@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.mirkamal.gamewatch.databinding.ItemDiscoverGamesBinding
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.diffutilcallbacks.DiscoverGameDiffCallback
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.viewholders.DiscoverGamesListViewHolder
 

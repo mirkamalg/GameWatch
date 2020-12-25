@@ -1,13 +1,15 @@
 package com.mirkamal.gamewatch.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.model.pojo.GamePOJO
 
 /**
@@ -39,7 +41,7 @@ fun ImageView.loadImage(url: String) {
     Glide
         .with(this.context)
         .load(url)
-        .placeholder(R.drawable.drawable_loading_placeholder)
+//        .placeholder(R.drawable.drawable_loading_placeholder)
         .centerCrop()
         .into(this)
 }
@@ -47,4 +49,9 @@ fun ImageView.loadImage(url: String) {
 fun Context.isDarkThemeOn(): Boolean {
     return resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+}
+
+fun Fragment.openURL(URL: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(URL))
+    startActivity(intent)
 }
