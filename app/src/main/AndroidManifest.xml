@@ -3,8 +3,8 @@
     package="com.mirkamal.gamewatch">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GameWatch">
+        <activity android:name=".ui.activities.edit_profile.EditProfileActivity"></activity>
         <activity
             android:name=".ui.activities.main.MainActivity"
             android:screenOrientation="portrait"
@@ -26,9 +27,9 @@
         <activity
             android:name=".ui.activities.game_details.GameDetailsActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
         <meta-data
             android:name="firebase_performance_logcat_enabled"

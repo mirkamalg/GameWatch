@@ -23,7 +23,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.ui.activities.game_details.recyclerviews.deals.DealsListAdapter
 import com.mirkamal.gamewatch.ui.fragments.dialogs.BottomSheetShareGameDetails

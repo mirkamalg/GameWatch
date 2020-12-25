@@ -7,7 +7,7 @@
 
         <variable
             name="game"
-            type="com.mirkamal.gamewatch.model.entity.Game" />
+            type="com.mirkamal.gamewatch.model.parcel.Game" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

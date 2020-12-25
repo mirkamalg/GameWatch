@@ -97,7 +97,7 @@ class BottomSheetUploadPhoto(val onCancel: () -> Unit) : BottomSheetDialogFragme
                                 .show()
                             dismiss()
                         }.addOnFailureListener {
-                            Log.e("UPLOAD_PROFILE_PICTURE", it.message ?: "", it)
+
                         }
                     }
                     UPLOAD.COVER -> {

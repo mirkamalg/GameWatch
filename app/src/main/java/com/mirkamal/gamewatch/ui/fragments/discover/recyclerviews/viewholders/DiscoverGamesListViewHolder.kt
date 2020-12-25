@@ -3,7 +3,7 @@ package com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.viewholders
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.mirkamal.gamewatch.databinding.ItemDiscoverGamesBinding
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.utils.NINTENDO_SWITCH_ID
 import com.mirkamal.gamewatch.utils.PC_ID
 import com.mirkamal.gamewatch.utils.PLAYSTATION_IDs

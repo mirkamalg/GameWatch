@@ -1,7 +1,7 @@
-package com.mirkamal.gamewatch.ui.fragments.game_details.recyclerviews.similar_games
+package com.mirkamal.gamewatch.ui.activities.game_details.recyclerviews.similar_games
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 
 /**
  * Created by Mirkamal on 15 November 2020

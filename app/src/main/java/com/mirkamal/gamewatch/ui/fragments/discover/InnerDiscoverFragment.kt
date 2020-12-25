@@ -19,7 +19,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.ui.activities.game_details.GameDetailsActivity
 import com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.adapters.DiscoverGamesListAdapter
 import com.mirkamal.gamewatch.utils.*

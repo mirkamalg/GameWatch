@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.utils.loadImage
 
 /**

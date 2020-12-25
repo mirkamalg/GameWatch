@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mirkamal.gamewatch.model.entity.Game
+import com.mirkamal.gamewatch.model.parcel.Game
 import com.mirkamal.gamewatch.model.pojo.GameDealPOJO
 import com.mirkamal.gamewatch.model.pojo.ScreenshotPOJO
 import com.mirkamal.gamewatch.repositories.GamesRepository
