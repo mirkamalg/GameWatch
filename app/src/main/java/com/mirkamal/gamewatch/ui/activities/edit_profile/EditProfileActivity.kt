@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.parcel.ProfileData
 import com.mirkamal.gamewatch.utils.*
@@ -73,6 +74,15 @@ class EditProfileActivity : AppCompatActivity() {
         textInputEditTextSteamURL.doAfterTextChanged {
             profileViewModel.validateSteamURL(it.toString())
         }
+        textInputEditTextEpicGamesEmail.doAfterTextChanged {
+            profileViewModel.validateEmail(it.toString())
+        }
+        textInputEditTextUplayURL.doAfterTextChanged {
+            profileViewModel.validateUplayURL(it.toString())
+        }
+        textInputEditTextDiscordTag.doAfterTextChanged {
+            profileViewModel.validateDiscordTag(it.toString())
+        }
     }
 
     private fun configureObservers() {
@@ -108,6 +118,50 @@ class EditProfileActivity : AppCompatActivity() {
                 textInputLayoutSteamURL.error = null
             }
         }
+        profileViewModel.epicGamesEmailValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutEpicGamesEmail.error = it.message
+            } else {
+                textInputLayoutEpicGamesEmail.error = null
+            }
+        }
+        profileViewModel.uplayURLValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutUplayURL.error = it.message
+            } else {
+                textInputLayoutUplayURL.error = null
+            }
+        }
+        profileViewModel.discordTagValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutDiscordTag.error = it.message
+            } else {
+                textInputLayoutDiscordTag.error = null
+            }
+        }
+        profileViewModel.updateProfileResult.observe(this) {
+            when (it) {
+                SUCCESS -> {
+                    Snackbar.make(
+                        buttonSave,
+                        "Profile successfully updated.",
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                }
+                FAILURE -> {
+                    Snackbar.make(
+                        buttonSave,
+                        "Failed to update profile. Try again.",
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+
+            overlayLayout.isVisible = false
+            progressBar.isVisible = false
+        }
     }
 
     private fun handleExtraData() {
@@ -120,13 +174,13 @@ class EditProfileActivity : AppCompatActivity() {
         textInputEditTextSteamURL.setText(profileData.steam[URL_KEY] ?: "")
 
         textInputEditTextEpicGamesDisplayName.setText(profileData.epicGames[DISPLAY_NAME_KEY] ?: "")
-        textInputEditTextEpicGamesURL.setText(profileData.epicGames[URL_KEY] ?: "")
+        textInputEditTextEpicGamesEmail.setText(profileData.epicGames[URL_KEY] ?: "")
 
         textInputEditTextUplayDisplayName.setText(profileData.uplay[DISPLAY_NAME_KEY] ?: "")
         textInputEditTextUplayURL.setText(profileData.uplay[URL_KEY] ?: "")
 
         textInputEditTextDiscordDisplayName.setText(profileData.discord[DISPLAY_NAME_KEY] ?: "")
-        textInputEditTextDiscordURL.setText(profileData.discord[URL_KEY] ?: "")
+        textInputEditTextDiscordTag.setText(profileData.discord[URL_KEY] ?: "")
     }
 
     private fun setOnClickListeners() {
@@ -144,6 +198,28 @@ class EditProfileActivity : AppCompatActivity() {
         }
         cardViewDiscord.setOnClickListener {
             updateCardVisibilities(DISCORD_KEY)
+        }
+        buttonSave.setOnClickListener {
+            if (isAllFieldsValid()) {
+                overlayLayout.isVisible = true
+                progressBar.isVisible = true
+
+                profileViewModel.updateUserInfo(
+                    textInputEditTextUsername.text.toString(),
+                    textInputEditTextBio.text.toString().trim(),
+                    textInputEditTextSteamDisplayName.text.toString(),
+                    textInputEditTextSteamURL.text.toString(),
+                    textInputEditTextEpicGamesDisplayName.text.toString(),
+                    textInputEditTextEpicGamesEmail.text.toString(),
+                    textInputEditTextUplayDisplayName.text.toString(),
+                    textInputEditTextUplayURL.text.toString(),
+                    textInputEditTextDiscordDisplayName.text.toString(),
+                    textInputEditTextDiscordTag.text.toString()
+                )
+            } else {
+                Snackbar.make(buttonSave, "Make sure all fields are valid.", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
@@ -180,5 +256,18 @@ class EditProfileActivity : AppCompatActivity() {
                 layouts[2].isVisible = false
             }
         }
+    }
+
+    private fun isAllFieldsValid(): Boolean {
+        return textInputLayoutUsername.error.isNullOrEmpty() &&
+                textInputLayoutBio.error.isNullOrEmpty() &&
+                textInputLayoutSteamDisplayName.error.isNullOrEmpty() &&
+                textInputLayoutSteamURL.error.isNullOrEmpty() &&
+                textInputLayoutEpicGamesDisplayName.error.isNullOrEmpty() &&
+                textInputLayoutSteamURL.error.isNullOrEmpty() &&
+                textInputLayoutUplayDisplayName.error.isNullOrEmpty() &&
+                textInputLayoutUplayURL.error.isNullOrEmpty() &&
+                textInputLayoutDiscordDisplayName.error.isNullOrEmpty() &&
+                textInputLayoutDiscordTag.error.isNullOrEmpty()
     }
 }

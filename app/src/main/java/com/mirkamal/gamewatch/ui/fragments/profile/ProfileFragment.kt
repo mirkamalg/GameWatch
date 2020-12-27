@@ -75,90 +75,93 @@ class ProfileFragment : Fragment() {
             openURL("https://github.com/Re1r0/GameWatch")
         }
         imageViewEditProfile.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfileActivity::class.java)
-            val profileData =
-                ProfileData(
-                    textViewUsername.text.toString(),
-                    textViewBio.text.toString(),
-                    profilePictureDownloadURL,
-                    accounts[0],
-                    accounts[1],
-                    accounts[2],
-                    accounts[3]
-                )
-            intent.putExtra(EXTRA_PROFILE_DATA_KEY, profileData)
-            startActivity(intent)
+            if (this::profilePictureDownloadURL.isInitialized) {
+                val intent = Intent(requireContext(), EditProfileActivity::class.java)
+                val profileData =
+                    ProfileData(
+                        textViewUsername.text.toString(),
+                        textViewBio.text.toString(),
+                        profilePictureDownloadURL,
+                        accounts[0],
+                        accounts[1],
+                        accounts[2],
+                        accounts[3]
+                    )
+                intent.putExtra(EXTRA_PROFILE_DATA_KEY, profileData)
+                startActivity(intent)
+            }
         }
     }
 
     private fun fetchUserData() {
-        db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener { documentSnapshot ->
-            textViewUsername.text = documentSnapshot[USERNAME_KEY] as String
-            textViewBio.text = documentSnapshot[BIO_KEY] as String
-            textViewGameCount.text = getString(
-                R.string.msg_game_count_profile,
-                (documentSnapshot[GAMES_KEY] as List<*>).size
-            )
+        db.collection(USER_DATA_COLLECTION_KEY).document(email).get()
+            .addOnSuccessListener { documentSnapshot ->
+                textViewUsername.text = documentSnapshot[USERNAME_KEY] as String
+                textViewBio.text = documentSnapshot[BIO_KEY] as String
+                textViewGameCount.text = getString(
+                    R.string.msg_game_count_profile,
+                    (documentSnapshot[GAMES_KEY] as List<*>).size
+                )
 
-            // Handle accounts
-            val steam = documentSnapshot[STEAM_KEY] as Map<String, String>?
-            accounts.add(steam ?: emptyMap())
+                // Handle accounts
+                val steam = documentSnapshot[STEAM_KEY] as Map<String, String>?
+                accounts.add(steam ?: emptyMap())
 
-            val displayNameSteam = steam?.get(DISPLAY_NAME_KEY) ?: ""
+                val displayNameSteam = steam?.get(DISPLAY_NAME_KEY) ?: ""
 
-            if (displayNameSteam.isNotBlank()) {
-                textViewSteamDisplayName.text = displayNameSteam
-                linearLayoutSteam.setOnClickListener {
-                    steam?.get(URL_KEY)?.let { openURL(it) }
+                if (displayNameSteam.isNotBlank()) {
+                    textViewSteamDisplayName.text = displayNameSteam
+                    linearLayoutSteam.setOnClickListener {
+                        steam?.get(URL_KEY)?.let { openURL(it) }
+                    }
+                } else {
+                    linearLayoutSteam.isVisible = false
                 }
-            } else {
-                linearLayoutSteam.isVisible = false
-            }
 
-            val epicGames = documentSnapshot[EPIC_GAMES_KEY] as Map<String, String>?
-            accounts.add(epicGames ?: emptyMap())
+                val epicGames = documentSnapshot[EPIC_GAMES_KEY] as Map<String, String>?
+                accounts.add(epicGames ?: emptyMap())
 
-            val displayNameEpicGames = epicGames?.get(DISPLAY_NAME_KEY) ?: ""
+                val displayNameEpicGames = epicGames?.get(DISPLAY_NAME_KEY) ?: ""
 
 
-            if (displayNameEpicGames.isNotBlank()) {
-                textViewEpicGamesDisplayName.text = displayNameEpicGames
-                linearLayoutEpicGames.setOnClickListener {
-                    epicGames?.get(URL_KEY)?.let { openURL(it) }
+                if (displayNameEpicGames.isNotBlank()) {
+                    textViewEpicGamesDisplayName.text = displayNameEpicGames
+                    linearLayoutEpicGames.setOnClickListener {
+                        epicGames?.get(URL_KEY)?.let { openURL(it) }
+                    }
+                } else {
+                    linearLayoutEpicGames.isVisible = false
                 }
-            } else {
-                linearLayoutEpicGames.isVisible = false
-            }
 
-            val uplay = documentSnapshot[UPLAY_KEY] as Map<String, String>?
-            accounts.add(uplay ?: emptyMap())
+                val uplay = documentSnapshot[UPLAY_KEY] as Map<String, String>?
+                accounts.add(uplay ?: emptyMap())
 
-            val displayNameUplay = uplay?.get(DISPLAY_NAME_KEY) ?: ""
+                val displayNameUplay = uplay?.get(DISPLAY_NAME_KEY) ?: ""
 
-            if (displayNameUplay.isNotBlank()) {
-                textViewUplayDisplayName.text = displayNameEpicGames
-                linearLayoutUplay.setOnClickListener {
-                    uplay?.get(URL_KEY)?.let { openURL(it) }
+                if (displayNameUplay.isNotBlank()) {
+                    textViewUplayDisplayName.text = displayNameEpicGames
+                    linearLayoutUplay.setOnClickListener {
+                        uplay?.get(URL_KEY)?.let { openURL(it) }
+                    }
+                } else {
+                    linearLayoutUplay.isVisible = false
                 }
-            } else {
-                linearLayoutUplay.isVisible = false
-            }
 
-            val discord = documentSnapshot[DISCORD_KEY] as Map<String, String>?
-            accounts.add(discord ?: emptyMap())
+                val discord = documentSnapshot[DISCORD_KEY] as Map<String, String>?
+                accounts.add(discord ?: emptyMap())
 
-            val displayNameDiscord = discord?.get(DISPLAY_NAME_KEY) ?: ""
+                val displayNameDiscord = discord?.get(DISPLAY_NAME_KEY) ?: ""
 
-            if (displayNameDiscord.isNotBlank()) {
-                textViewDiscordDisplayName.text = displayNameEpicGames
-                linearLayoutDiscord.setOnClickListener {
-                    discord?.get(URL_KEY)?.let { openURL(it) }
+                if (displayNameDiscord.isNotBlank()) {
+                    textViewDiscordDisplayName.text = displayNameEpicGames
+                    linearLayoutDiscord.setOnClickListener {
+                        discord?.get(URL_KEY)?.let { openURL(it) }
+                    }
+                } else {
+                    linearLayoutDiscord.isVisible = false
                 }
-            } else {
-                linearLayoutDiscord.isVisible = false
-            }
 
-        }
+            }
 
         val threeMegabytes = (1024 * 1024 * 3).toLong()
         val profilePictureReference =
