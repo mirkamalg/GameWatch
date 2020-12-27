@@ -7,14 +7,21 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.ViewModelProvider
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.parcel.ProfileData
 import com.mirkamal.gamewatch.utils.*
+import com.mirkamal.gamewatch.viewmodels.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var profileData: ProfileData
+
+    private val profileViewModel: ProfileViewModel by lazy {
+        ViewModelProvider(this).get(ProfileViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +35,79 @@ class EditProfileActivity : AppCompatActivity() {
 
         setOnClickListeners()
         handleExtraData()
+        configureEditTextValidation()
+        configureObservers()
     }
 
     override fun onStart() {
         super.onStart()
 
         imageViewProfilePicture.loadImage(profileData.profilePictureURL)
+    }
+
+    private fun configureEditTextValidation() {
+        //Display names
+        textInputEditTextUsername.doAfterTextChanged {
+            textInputLayoutUsername.error = null
+            profileViewModel.validateUsername(it.toString())
+        }
+        textInputEditTextSteamDisplayName.doAfterTextChanged {
+            textInputLayoutSteamDisplayName.error = null
+            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_STEAM)
+        }
+        textInputEditTextEpicGamesDisplayName.doAfterTextChanged {
+            textInputLayoutEpicGamesDisplayName.error = null
+            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_EPIC_GAMES)
+        }
+        textInputEditTextUplayDisplayName.doAfterTextChanged {
+            textInputLayoutUplayDisplayName.error = null
+            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_UPLAY)
+        }
+        textInputEditTextDiscordDisplayName.doAfterTextChanged {
+            textInputLayoutDiscordDisplayName.error = null
+            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_DISCORD)
+        }
+
+
+        //Others
+        textInputEditTextSteamURL.doAfterTextChanged {
+            profileViewModel.validateSteamURL(it.toString())
+        }
+    }
+
+    private fun configureObservers() {
+        profileViewModel.userNameValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutUsername.error = it.message
+            }
+        }
+        profileViewModel.steamDisplayNameValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutSteamDisplayName.error = it.message
+            }
+        }
+        profileViewModel.epicGamesDisplayNameValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutEpicGamesDisplayName.error = it.message
+            }
+        }
+        profileViewModel.uplayDisplayNameValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutUplayDisplayName.error = it.message
+            }
+        }
+        profileViewModel.discordDisplayNameValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutDiscordDisplayName.error = it.message
+            }
+        }
+        profileViewModel.steamURLValidationResult.observe(this) {
+            if (!it.isValid) {
+                textInputLayoutSteamURL.error = it.message
+            } else {
+                textInputLayoutSteamURL.error = null
+            }
+        }
     }
 
     private fun handleExtraData() {
