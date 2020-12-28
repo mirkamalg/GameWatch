@@ -15,10 +15,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
-import com.mirkamal.gamewatch.utils.EMAIL_KEY
-import com.mirkamal.gamewatch.utils.GAMES_KEY
-import com.mirkamal.gamewatch.utils.USER_DATA_COLLECTION_KEY
-import com.mirkamal.gamewatch.utils.Validator
+import com.mirkamal.gamewatch.utils.*
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -93,7 +90,9 @@ class LoginFragment : Fragment() {
                             .set(
                                 hashMapOf(
                                     EMAIL_KEY to currentUser.email,
-                                    GAMES_KEY to emptyList<Long>()
+                                    GAMES_KEY to emptyList<Long>(),
+                                    USERNAME_KEY to "",
+                                    BIO_KEY to ""
                                 )
                             )
                     }
