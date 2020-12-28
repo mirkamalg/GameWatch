@@ -1,24 +1,36 @@
 package com.mirkamal.gamewatch.ui.activities.edit_profile
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.parcel.ProfileData
 import com.mirkamal.gamewatch.utils.*
 import com.mirkamal.gamewatch.viewmodels.ProfileViewModel
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var profileData: ProfileData
+
+    private val storageReference = Firebase.storage.reference
+    private val email = Firebase.auth.currentUser?.email ?: ""
 
     private val profileViewModel: ProfileViewModel by lazy {
         ViewModelProvider(this).get(ProfileViewModel::class.java)
@@ -44,6 +56,46 @@ class EditProfileActivity : AppCompatActivity() {
         super.onStart()
 
         imageViewProfilePicture.loadImage(profileData.profilePictureURL)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val resultUri: Uri = result.uri
+                val profilePictureReference =
+                    storageReference.child("user_pictures/$email/profile.png")
+
+                progressBar.isVisible = true
+                overlayLayout.isVisible = true
+
+                val uploadTask = profilePictureReference.putFile(resultUri)
+                uploadTask.addOnSuccessListener {
+                    Toast.makeText(applicationContext, "Profile picture updated!", Toast.LENGTH_SHORT)
+                        .show()
+
+                    profilePictureReference.downloadUrl.addOnSuccessListener {
+                        imageViewProfilePicture.loadImage(it.toString())
+                        progressBar.isVisible = false
+                        overlayLayout.isVisible = false
+                    }.addOnFailureListener {
+                        progressBar.isVisible = false
+                        overlayLayout.isVisible = false
+                    }
+                }.addOnFailureListener {
+                    Log.e("EditProfileActivity", "Update profile pic failed", it)
+
+                    progressBar.isVisible = false
+                    overlayLayout.isVisible = false
+                }
+
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Log.e("IMAGE_CROPPER", result.error.message ?: "", result.error)
+            }
+        }
     }
 
     private fun configureEditTextValidation() {
@@ -219,6 +271,15 @@ class EditProfileActivity : AppCompatActivity() {
             } else {
                 Snackbar.make(buttonSave, "Make sure all fields are valid.", Snackbar.LENGTH_SHORT)
                     .show()
+            }
+        }
+        profilePictureContainer.setOnClickListener {
+            applicationContext.let { context ->
+                CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .start(this)
             }
         }
     }
