@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -38,6 +39,8 @@ class ProfileFragment : Fragment() {
 
     private val accounts: ArrayList<Map<String, String>> = arrayListOf()
 
+    private val completedDownloadCount = MutableLiveData(0)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +55,7 @@ class ProfileFragment : Fragment() {
         configureTexts()
         setOnClickListeners()
         configureUploadDialog()
+        configureObservers()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             configureScrollView()
         }
@@ -61,6 +65,15 @@ class ProfileFragment : Fragment() {
         super.onStart()
 
         fetchUserData()
+    }
+
+    private fun configureObservers() {
+        completedDownloadCount.observe(viewLifecycleOwner) {
+            if (it == 2) {
+                overlayLayout.isVisible = false
+                progressBar.isVisible = false
+            }
+        }
     }
 
     private fun setOnClickListeners() {
@@ -178,6 +191,8 @@ class ProfileFragment : Fragment() {
             profilePictureReference.downloadUrl.addOnSuccessListener {
                 profilePictureDownloadURL = it.toString()
             }
+
+            completedDownloadCount.value = completedDownloadCount.value?.plus(1)
         }
 
         val coverImageReference = Firebase.storage.reference.child("user_pictures/$email/cover.png")
@@ -185,6 +200,8 @@ class ProfileFragment : Fragment() {
             val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
             Blurry.with(context).animate(1000).async().from(bitmap).into(imageViewProfileCover)
             viewGradient.isVisible = true
+
+            completedDownloadCount.value = completedDownloadCount.value?.plus(1)
         }
     }
 
