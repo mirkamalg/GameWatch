@@ -46,4 +46,5 @@
     <string name="action_save">Save</string>
     <string name="msg_general_information">General information</string>
     <string name="msg_accounts">Accounts</string>
+    <string name="msg_tag">Tag</string>
 </resources>

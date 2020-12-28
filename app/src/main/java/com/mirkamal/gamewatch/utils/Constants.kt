@@ -46,3 +46,16 @@ const val LOCAL_DATABASE_NAME = "gamesdb"
 //Intent keys
 const val EXTRA_GAME_KEY = "EXTRA_GAME_KEY"
 const val EXTRA_PROFILE_DATA_KEY = "EXTRA_PROFILE_DATA_KEY"
+
+//Account types
+const val ACCOUNT_STEAM = "ACCOUNT_STEAM"
+const val ACCOUNT_EPIC_GAMES = "ACCOUNT_EPIC_GAMES"
+const val ACCOUNT_UPLAY = "ACCOUNT_UPLAY"
+const val ACCOUNT_DISCORD = "ACCOUNT_DISCORD"
+
+//Regex
+const val REGEX_STEAM_PROFILE_URL = "(?:https?:\\/\\/)?steamcommunity\\.com\\/(?:profiles|id)\\/[a-zA-Z0-9]+"
+
+//Status
+const val SUCCESS = "SUCCESS"
+const val FAILURE = "FAILURE"

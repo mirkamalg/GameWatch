@@ -7,6 +7,28 @@
     android:background="@color/primaryDarkNight"
     tools:context=".ui.activities.edit_profile.EditProfileActivity">
 
+    <View
+        android:id="@+id/overlayLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blackAlpha"
+        android:elevation="10dp"
+        android:visibility="gone" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.WanderingCubes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:elevation="11dp"
+        android:visibility="gone"
+        app:SpinKit_Color="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -126,7 +148,10 @@
                     android:id="@+id/textInputEditTextUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="text"
+                    android:maxLength="15"
+                    android:singleLine="true" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -136,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="@string/msg_bio"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 app:layout_constraintEnd_toEndOf="@id/textInputLayoutUsername"
                 app:layout_constraintStart_toStartOf="@id/textInputLayoutUsername"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayoutUsername">
@@ -145,7 +170,9 @@
                     android:id="@+id/textInputEditTextBio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textMultiLine"
+                    android:maxLines="8" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -278,16 +305,16 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textInputLayoutEpicGamesURL"
+                            android:id="@+id/textInputLayoutEpicGamesEmail"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:hint="@string/msg_profile_url"
+                            android:hint="@string/info_email"
                             android:inputType="text">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/textInputEditTextEpicGamesURL"
+                                android:id="@+id/textInputEditTextEpicGamesEmail"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textEmailAddress" />
@@ -418,19 +445,21 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textInputLayoutDiscordURL"
+                            android:id="@+id/textInputLayoutDiscordTag"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:hint="@string/msg_profile_url"
+                            android:hint="@string/msg_tag"
                             android:inputType="text">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/textInputEditTextDiscordURL"
+                                android:id="@+id/textInputEditTextDiscordTag"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textEmailAddress" />
+                                android:inputType="textEmailAddress"
+                                android:maxLength="5" />
+
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>

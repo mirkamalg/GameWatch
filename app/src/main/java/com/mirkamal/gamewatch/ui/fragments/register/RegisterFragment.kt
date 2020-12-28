@@ -83,25 +83,30 @@ class RegisterFragment : Fragment() {
         val rPassword = textInputEditTextRepeatPassword.text.toString()
 
         if (email.isEmpty()) {
-            textInputEditTextEmail.error = "Field is empty!"
+            textInputLayoutEmail.error = "Field is empty!"
         } else {
             flag = Validator.validateEmail(email)
             if (!flag) {
-                textInputEditTextEmail.error = "Email is invalid!"
+                textInputLayoutEmail.error = "Email is invalid!"
+            } else {
+                textInputLayoutEmail.error = null
             }
         }
 
         if (password.isEmpty()) {
             flag = false
-            textInputEditTextPassword.error = "Field is empty!"
+            textInputLayoutPassword.error = "Field is empty!"
         } else {
             flag = Validator.validatePassword(password)
             if (!flag) {
-                textInputEditTextPassword.error = "Email is invalid!"
+                textInputLayoutPassword.error = "Password is invalid!"
             } else {
+                textInputLayoutPassword.error = null
                 if (password != rPassword) {
                     flag = false
-                    textInputEditTextRepeatPassword.error = "Password doesn't match!"
+                    textInputLayoutRepeatPassword.error = "Password doesn't match!"
+                } else {
+                    textInputLayoutRepeatPassword.error = null
                 }
             }
         }

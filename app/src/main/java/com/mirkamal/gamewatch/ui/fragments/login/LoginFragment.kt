@@ -84,10 +84,12 @@ class LoginFragment : Fragment() {
         // Create user document in firebase if it doesn't exist
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser?.isEmailVerified!!) {
-            Firebase.firestore.collection(USER_DATA_COLLECTION_KEY).document(currentUser.email ?: "").get()
+            Firebase.firestore.collection(USER_DATA_COLLECTION_KEY)
+                .document(currentUser.email ?: "").get()
                 .addOnSuccessListener {
                     if (!it.exists()) {
-                        Firebase.firestore.collection(USER_DATA_COLLECTION_KEY).document(currentUser.email ?: "")
+                        Firebase.firestore.collection(USER_DATA_COLLECTION_KEY)
+                            .document(currentUser.email ?: "")
                             .set(
                                 hashMapOf(
                                     EMAIL_KEY to currentUser.email,
@@ -122,16 +124,21 @@ class LoginFragment : Fragment() {
 
     private fun validateFields(): Boolean {
         return if (Validator.validateEmail(textInputEditTextEmail.text.toString())) {
+            textInputLayoutEmail.error = null
+
             if (Validator.validatePassword(textInputEditTextPassword.text.toString())) {
+                textInputLayoutPassword.error = null
                 true
             } else {
-                textInputEditTextPassword.error = "Password is invalid"
+                textInputLayoutPassword.error = "Password is invalid"
                 false
             }
         } else {
-            textInputEditTextEmail.error = "Email is invalid"
+            textInputLayoutEmail.error = "Email is invalid"
             if (!Validator.validatePassword(textInputEditTextPassword.text.toString())) {
-                textInputEditTextPassword.error = "Password is invalid"
+                textInputLayoutPassword.error = "Password is invalid"
+            } else {
+                textInputLayoutPassword.error = null
             }
             false
         }
