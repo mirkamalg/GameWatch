@@ -48,4 +48,5 @@
     <string name="msg_general_information">General information</string>
     <string name="msg_accounts">Accounts</string>
     <string name="msg_tag">Tag</string>
+    <string name="msg_game_count_my_games">You\'ve added %1s games so far!</string>
 </resources>
