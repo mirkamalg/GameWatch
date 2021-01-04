@@ -41,6 +41,8 @@ class MyGamesFragment : Fragment() {
     }
     private val viewModel: GamesViewModel by viewModels()
 
+    private var animateRecyclerView = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,8 +76,18 @@ class MyGamesFragment : Fragment() {
         viewModel.wantToPlayGames.observe(viewLifecycleOwner, {
             myGamesListAdapter.submitList(it)
             myGamesListAdapter.notifyDataSetChanged()
+
+            if (animateRecyclerView) {
+                recyclerViewMyGames.scheduleLayoutAnimation()
+                animateRecyclerView = false
+            }
+
             progressBarMyGames.isVisible = false
             overlayLayout.isVisible = false
+            textViewGameCount.isVisible = true
+
+            textViewGameCount.text = getString(R.string.msg_game_count_my_games, it.size.toString())
+
             updateVisibility()
         })
 

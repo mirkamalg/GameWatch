@@ -46,6 +46,7 @@ const val LOCAL_DATABASE_NAME = "gamesdb"
 //Intent keys
 const val EXTRA_GAME_KEY = "EXTRA_GAME_KEY"
 const val EXTRA_PROFILE_DATA_KEY = "EXTRA_PROFILE_DATA_KEY"
+const val EXTRA_SKIP_SPLASH = "EXTRA_SKIP_SPLASH"
 
 //Account types
 const val ACCOUNT_STEAM = "ACCOUNT_STEAM"

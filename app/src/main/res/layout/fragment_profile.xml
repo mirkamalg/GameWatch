@@ -258,23 +258,24 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/buttonSettings"
-            android:layout_width="wrap_content"
+            android:id="@+id/buttonLogOut"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/outlined_round_corner_bg"
+            android:layout_marginBottom="36dp"
             android:elevation="8dp"
             android:paddingHorizontal="28dp"
-            android:text="@string/action_settings"
-            android:textColor="@color/primaryOrange"
+            android:text="@string/action_log_out"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutAccounts" />
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutAccounts"
+            app:layout_constraintWidth_percent="0.6" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layout_constraintTop_toBottomOf="@id/buttonSettings" />
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="300dp"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/buttonSettings" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
