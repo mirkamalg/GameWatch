@@ -75,7 +75,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputLayoutEmail"
-        app:layout_constraintWidth_percent="0.9">
+        app:layout_constraintWidth_percent="0.9"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTextPassword"
