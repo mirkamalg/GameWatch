@@ -20,6 +20,7 @@ import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.model.parcel.ProfileData
 import com.mirkamal.gamewatch.ui.activities.edit_profile.EditProfileActivity
 import com.mirkamal.gamewatch.ui.fragments.dialogs.BottomSheetUploadPhoto
+import com.mirkamal.gamewatch.ui.fragments.dialogs.DialogLogOutConfirmation
 import com.mirkamal.gamewatch.utils.*
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -34,6 +35,7 @@ class ProfileFragment : Fragment() {
     private val email = Firebase.auth.currentUser?.email ?: ""
 
     private lateinit var uploadDialog: BottomSheetUploadPhoto
+    private lateinit var logOutDialog: DialogLogOutConfirmation
 
     private lateinit var profilePictureDownloadURL: String
 
@@ -54,7 +56,7 @@ class ProfileFragment : Fragment() {
 
         configureTexts()
         setOnClickListeners()
-        configureUploadDialog()
+        configureDialogs()
         configureObservers()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             configureScrollView()
@@ -103,6 +105,9 @@ class ProfileFragment : Fragment() {
                 intent.putExtra(EXTRA_PROFILE_DATA_KEY, profileData)
                 startActivity(intent)
             }
+        }
+        buttonLogOut.setOnClickListener {
+            logOutDialog.show(childFragmentManager, "log_out_dialog")
         }
     }
 
@@ -209,10 +214,11 @@ class ProfileFragment : Fragment() {
         textViewEmail.text = email
     }
 
-    private fun configureUploadDialog() {
+    private fun configureDialogs() {
         uploadDialog = BottomSheetUploadPhoto {
             fetchUserData()
         }
+        logOutDialog = DialogLogOutConfirmation()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mirkamal.gamewatch.R
+import com.mirkamal.gamewatch.utils.EXTRA_SKIP_SPLASH
 
 /**
  * Created by Mirkamal on 17 October 2020
@@ -37,18 +38,24 @@ class SplashFragment : Fragment() {
 
         configureStatusBarColor()
 
-        if (user == null) {
-            //Not logged in
-            //Navigate to intro
-            handler.postDelayed({
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToIntroContainerFragment())
-            }, 500)
+        val skip = activity?.intent?.getBooleanExtra(EXTRA_SKIP_SPLASH, false)
+
+        if (skip == true) {
+            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
         } else {
-            //Logged in
-            //Navigate to main part
-            handler.postDelayed({
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHostFragment())
-            }, 500)
+            if (user == null) {
+                //Not logged in
+                //Navigate to intro
+                handler.postDelayed({
+                    findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToIntroContainerFragment())
+                }, 500)
+            } else {
+                //Logged in
+                //Navigate to main part
+                handler.postDelayed({
+                    findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHostFragment())
+                }, 500)
+            }
         }
     }
 
