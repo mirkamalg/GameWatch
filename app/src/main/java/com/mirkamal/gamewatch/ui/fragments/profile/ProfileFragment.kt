@@ -128,12 +128,12 @@ class ProfileFragment : Fragment() {
                 val displayNameSteam = steam?.get(DISPLAY_NAME_KEY) ?: ""
 
                 if (displayNameSteam.isNotBlank()) {
-                    textViewSteamDisplayName.text = displayNameSteam
-                    linearLayoutSteam.setOnClickListener {
-                        steam?.get(URL_KEY)?.let { openURL(it) }
-                    }
+                    textViewDisplayNameSteam.text = displayNameSteam
+//                    linearLayoutSteam.setOnClickListener {
+//                        steam?.get(URL_KEY)?.let { openURL(it) }
+//                    }
                 } else {
-                    linearLayoutSteam.isVisible = false
+                    cardViewSteamProfile.isVisible = false
                 }
 
                 val epicGames = documentSnapshot[EPIC_GAMES_KEY] as Map<String, String>?
@@ -143,12 +143,12 @@ class ProfileFragment : Fragment() {
 
 
                 if (displayNameEpicGames.isNotBlank()) {
-                    textViewEpicGamesDisplayName.text = displayNameEpicGames
-                    linearLayoutEpicGames.setOnClickListener {
-                        epicGames?.get(URL_KEY)?.let { openURL(it) }
-                    }
+                    textViewDisplayNameEpicGames.text = displayNameEpicGames
+//                    linearLayoutEpicGames.setOnClickListener {
+//                        epicGames?.get(URL_KEY)?.let { openURL(it) }
+//                    }
                 } else {
-                    linearLayoutEpicGames.isVisible = false
+                    cardViewEpicGamesProfile.isVisible = false
                 }
 
                 val uplay = documentSnapshot[UPLAY_KEY] as Map<String, String>?

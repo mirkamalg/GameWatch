@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/imageViewEpicGamesLogo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
+
+        <Constraint
+            android:id="@+id/textViewDisplayNameEpicGames"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/imageViewEpicGamesLogo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/textViewEpicGamesEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/textViewDisplayNameEpicGames"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameEpicGames" />
+
+        <Constraint
+            android:id="@+id/buttonCopyEpicGamesEmail"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameEpicGames" />
+
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/end"
+        app:deriveConstraintsFrom="@id/start">
+        <Constraint
+            android:id="@id/imageViewEpicGamesLogo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="@id/textViewDisplayNameEpicGames"
+            app:layout_constraintTop_toTopOf="@id/textViewDisplayNameEpicGames"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <Constraint
+            android:id="@+id/textViewDisplayNameEpicGames"
+            android:layout_marginStart="16dp" />
+
+        <Constraint
+            android:id="@+id/textViewEpicGamesEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonCopyEpicGamesEmail"
+            app:layout_constraintStart_toStartOf="@id/textViewDisplayNameEpicGames"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameEpicGames" />
+
+        <Constraint
+            android:id="@+id/buttonCopyEpicGamesEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameEpicGames" />
+
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="300">
+
+        <OnClick app:clickAction="toggle" />
+
+    </Transition>
+</MotionScene>
