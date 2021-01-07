@@ -53,4 +53,6 @@
     <string name="msg_log_out_dialog">You are logging out.\nAre you sure?</string>
     <string name="action_uppercase_yes">YES</string>
     <string name="action_uppercase_no">NO</string>
+    <string name="msg_search_some_games">Search some games!</string>
+    <string name="msg_discover_nothing_found">Oops! We couldn\'t find anything.</string>
 </resources>
