@@ -32,7 +32,7 @@
             app:SpinKit_Color="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="@id/linearLayoutAccounts"
             app:layout_constraintStart_toStartOf="@id/linearLayoutAccounts"
-            app:layout_constraintTop_toTopOf="@id/linearLayoutAccounts"
+            app:layout_constraintTop_toTopOf="@id/bioContainer"
             tools:visibility="gone" />
 
         <ImageView
@@ -244,19 +244,19 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ptsans_regular"
                         android:text="NeverMore"
-                        android:textSize="36sp"
+                        android:textSize="24sp"
                         app:layout_constraintStart_toEndOf="@id/imageViewSteamLogo"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/buttonCopy"
+                        android:id="@+id/buttonCopySteamURL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_copy" />
 
                     <ImageButton
-                        android:id="@+id/buttonOpen"
+                        android:id="@+id/buttonOpenSteamURL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -293,7 +293,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ptsans_regular"
                         android:text="NeverMore"
-                        android:textSize="36sp"
+                        android:textSize="24sp"
                         app:layout_constraintStart_toEndOf="@id/imageViewSteamLogo"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -319,56 +319,96 @@
 
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/linearLayoutUplay"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewUplayProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="16dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_uplay" />
-
-                <TextView
-                    android:id="@+id/textViewUplayDisplayName"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.motion.widget.MotionLayout
+                    android:id="@+id/motionLayoutUplay"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/ptsans_regular"
-                    android:textSize="36sp"
-                    tools:text="NeverMore" />
+                    android:padding="8dp"
+                    app:layoutDescription="@xml/fragment_profile_uplay_card_scene">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageViewUplayLogo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_uplay" />
 
-            <LinearLayout
-                android:id="@+id/linearLayoutDiscord"
+                    <TextView
+                        android:id="@+id/textViewDisplayNameUplay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ptsans_regular"
+                        android:text="NeverMore"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toEndOf="@id/imageViewSteamLogo"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/buttonCopyUplayURL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_copy" />
+
+                    <ImageButton
+                        android:id="@+id/buttonOpenUplayURL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_open" />
+
+                </androidx.constraintlayout.motion.widget.MotionLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewDiscordProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="16dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_discord" />
-
-                <TextView
-                    android:id="@+id/textViewDiscordDisplayName"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.motion.widget.MotionLayout
+                    android:id="@+id/motionLayoutDiscord"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/ptsans_regular"
-                    android:textSize="36sp"
-                    tools:text="NeverMore" />
+                    android:padding="8dp"
+                    app:layoutDescription="@xml/fragment_profile_discord_card_scene">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageViewDiscordLogo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_discord" />
 
+                    <TextView
+                        android:id="@+id/textViewDisplayNameDiscord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ptsans_regular"
+                        android:text="NeverMore"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toEndOf="@id/imageViewSteamLogo"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/buttonCopyDiscordTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_copy" />
+
+                </androidx.constraintlayout.motion.widget.MotionLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 

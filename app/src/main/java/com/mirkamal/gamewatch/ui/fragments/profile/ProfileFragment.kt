@@ -129,9 +129,12 @@ class ProfileFragment : Fragment() {
 
                 if (displayNameSteam.isNotBlank()) {
                     textViewDisplayNameSteam.text = displayNameSteam
-//                    linearLayoutSteam.setOnClickListener {
-//                        steam?.get(URL_KEY)?.let { openURL(it) }
-//                    }
+                    buttonCopySteamURL.setOnClickListener {
+                        copyToClipboard(steam?.get(URL_KEY) ?: "")
+                    }
+                    buttonOpenSteamURL.setOnClickListener {
+                        openURL(steam?.get(URL_KEY) ?: "https://store.steampowered.com/")
+                    }
                 } else {
                     cardViewSteamProfile.isVisible = false
                 }
@@ -144,9 +147,9 @@ class ProfileFragment : Fragment() {
 
                 if (displayNameEpicGames.isNotBlank()) {
                     textViewDisplayNameEpicGames.text = displayNameEpicGames
-//                    linearLayoutEpicGames.setOnClickListener {
-//                        epicGames?.get(URL_KEY)?.let { openURL(it) }
-//                    }
+                    buttonCopyEpicGamesEmail.setOnClickListener {
+                        copyToClipboard(epicGames?.get(URL_KEY) ?: "")
+                    }
                 } else {
                     cardViewEpicGamesProfile.isVisible = false
                 }
@@ -157,26 +160,30 @@ class ProfileFragment : Fragment() {
                 val displayNameUplay = uplay?.get(DISPLAY_NAME_KEY) ?: ""
 
                 if (displayNameUplay.isNotBlank()) {
-                    textViewUplayDisplayName.text = displayNameEpicGames
-                    linearLayoutUplay.setOnClickListener {
-                        uplay?.get(URL_KEY)?.let { openURL(it) }
+                    textViewDisplayNameUplay.text = displayNameUplay
+                    buttonCopyUplayURL.setOnClickListener {
+                        copyToClipboard(uplay?.get(URL_KEY) ?: "")
+                    }
+                    buttonOpenUplayURL.setOnClickListener {
+                        openURL(uplay?.get(URL_KEY) ?: "https://ubisoftconnect.com/en-US/")
                     }
                 } else {
-                    linearLayoutUplay.isVisible = false
+                    cardViewUplayProfile.isVisible = false
                 }
 
                 val discord = documentSnapshot[DISCORD_KEY] as Map<String, String>?
                 accounts.add(discord ?: emptyMap())
 
                 val displayNameDiscord = discord?.get(DISPLAY_NAME_KEY) ?: ""
+                val discordTag = discord?.get(URL_KEY) ?: ""
 
                 if (displayNameDiscord.isNotBlank()) {
-                    textViewDiscordDisplayName.text = displayNameEpicGames
-                    linearLayoutDiscord.setOnClickListener {
-                        discord?.get(URL_KEY)?.let { openURL(it) }
+                    textViewDisplayNameDiscord.text = displayNameDiscord
+                    buttonCopyDiscordTag.setOnClickListener {
+                        copyToClipboard("$displayNameDiscord$discordTag")
                     }
                 } else {
-                    linearLayoutDiscord.isVisible = false
+                    cardViewDiscordProfile.isVisible = false
                 }
 
             }
