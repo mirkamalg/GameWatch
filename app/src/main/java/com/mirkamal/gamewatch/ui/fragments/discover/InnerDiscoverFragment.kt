@@ -3,6 +3,8 @@ package com.mirkamal.gamewatch.ui.fragments.discover
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -137,6 +139,22 @@ class InnerDiscoverFragment : Fragment() {
         gamesViewModel.resultGames.observe(viewLifecycleOwner, {
             discoverGamesListAdapter.submitList(it)
             hideLoadingAnimation()
+
+            if (it.isNotEmpty()) {
+                animationViewDiscoverGames.isVisible = false
+                textViewDiscoverGamesLabel.isVisible = false
+            } else {
+                animationViewDiscoverGames.isVisible = true
+                textViewDiscoverGamesLabel.isVisible = true
+
+                textViewDiscoverGamesLabel.text = getString(R.string.msg_discover_nothing_found)
+
+                animationViewDiscoverGames.setAnimation("empty_box_anim.json")
+                animationViewDiscoverGames.repeatCount = 0
+                Handler(Looper.getMainLooper()).postDelayed({
+                    animationViewDiscoverGames.playAnimation()
+                }, 200)
+            }
         })
     }
 

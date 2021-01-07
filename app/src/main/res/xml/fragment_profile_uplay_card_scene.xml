@@ -4,7 +4,7 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/imageViewSteamLogo"
+            android:id="@+id/imageViewUplayLogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="16dp"
@@ -14,38 +14,38 @@
             app:layout_constraintVertical_bias="0" />
 
         <Constraint
-            android:id="@+id/textViewDisplayNameSteam"
+            android:id="@+id/textViewDisplayNameUplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/imageViewSteamLogo"
-            app:layout_constraintTop_toTopOf="@id/imageViewSteamLogo"
-            app:layout_constraintBottom_toBottomOf="@id/imageViewSteamLogo"/>
+            app:layout_constraintBottom_toBottomOf="@id/imageViewUplayLogo"
+            app:layout_constraintStart_toEndOf="@id/imageViewUplayLogo"
+            app:layout_constraintTop_toTopOf="@id/imageViewUplayLogo" />
 
         <Constraint
-            android:id="@+id/buttonCopySteamURL"
+            android:id="@+id/buttonCopyUplayURL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/buttonOpenSteamURL"
+            app:layout_constraintEnd_toStartOf="@id/buttonOpenUplayURL"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="@id/textViewDisplayNameSteam"
-            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameSteam" />
+            app:layout_constraintStart_toStartOf="@id/textViewDisplayNameUplay"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameUplay" />
 
         <Constraint
-            android:id="@+id/buttonOpenSteamURL"
+            android:id="@+id/buttonOpenUplayURL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/buttonCopySteamURL"
+            app:layout_constraintBottom_toBottomOf="@id/buttonCopyUplayURL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@id/buttonCopySteamURL"
-            app:layout_constraintTop_toTopOf="@id/buttonCopySteamURL" />
+            app:layout_constraintStart_toEndOf="@id/buttonCopyUplayURL"
+            app:layout_constraintTop_toTopOf="@id/buttonCopyUplayURL" />
 
     </ConstraintSet>
 
@@ -53,42 +53,41 @@
         android:id="@+id/end"
         app:deriveConstraintsFrom="@id/start">
         <Constraint
-            android:id="@id/imageViewSteamLogo"
+            android:id="@id/imageViewUplayLogo"
             android:layout_width="35dp"
             android:layout_height="35dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            android:layout_marginBottom="16dp"/>
+            app:layout_constraintVertical_bias="0" />
 
         <Constraint
-            android:id="@+id/textViewDisplayNameSteam"
+            android:id="@+id/textViewDisplayNameUplay"
             android:layout_marginStart="16dp" />
 
         <Constraint
-            android:id="@+id/buttonCopySteamURL"
+            android:id="@+id/buttonCopyUplayURL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/buttonOpenSteamURL"
+            app:layout_constraintEnd_toStartOf="@id/buttonOpenUplayURL"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="@id/textViewDisplayNameSteam"
-            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameSteam" />
+            app:layout_constraintStart_toStartOf="@id/textViewDisplayNameUplay"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayNameUplay" />
 
         <Constraint
-            android:id="@+id/buttonOpenSteamURL"
+            android:id="@+id/buttonOpenUplayURL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/buttonCopySteamURL"
+            app:layout_constraintBottom_toBottomOf="@id/buttonCopyUplayURL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@id/buttonCopySteamURL"
-            app:layout_constraintTop_toTopOf="@id/buttonCopySteamURL" />
+            app:layout_constraintStart_toEndOf="@id/buttonCopyUplayURL"
+            app:layout_constraintTop_toTopOf="@id/buttonCopyUplayURL" />
 
     </ConstraintSet>
 

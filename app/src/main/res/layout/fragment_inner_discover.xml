@@ -8,6 +8,8 @@
         android:id="@+id/searchViewDiscover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="9dp"
+        app:floatingSearch_backgroundColor="?attr/colorOnPrimary"
         app:floatingSearch_close_search_on_keyboard_dismiss="true"
         app:floatingSearch_leftActionMode="showSearch"
         app:floatingSearch_searchBarMarginLeft="16dp"
@@ -19,20 +21,47 @@
         app:floatingSearch_suggestionsListAnimDuration="250"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewDiscoverGamesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        android:fontFamily="@font/ptsans_regular"
+        android:text="@string/msg_search_some_games"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@id/animationViewDiscoverGames"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/animationViewDiscoverGames"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationViewDiscoverGames"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:floatingSearch_backgroundColor="?attr/colorOnPrimary"
-        android:elevation="9dp"/>
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="search_anim.json"
+        app:lottie_repeatCount="-1"
+        app:lottie_repeatMode="reverse"
+        app:lottie_speed="1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDiscover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:clipToPadding="false"
+        android:paddingHorizontal="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="64dp"
-        android:clipToPadding="false"
-        android:paddingHorizontal="8dp"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/progressBarDiscoverGames"
@@ -40,11 +69,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:visibility="gone"
         app:SpinKit_Color="?attr/colorPrimary"
-        app:layout_constraintTop_toTopOf="@id/recyclerViewDiscover"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recyclerViewDiscover" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

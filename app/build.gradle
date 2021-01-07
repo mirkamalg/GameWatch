@@ -142,4 +142,7 @@ dependencies {
 
     //Image cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
+    //Lottie for animations
+    implementation 'com.airbnb.android:lottie:3.6.0'
 }

@@ -1,11 +1,14 @@
 package com.mirkamal.gamewatch.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.net.Uri
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -54,4 +57,14 @@ fun Context.isDarkThemeOn(): Boolean {
 fun Fragment.openURL(URL: String) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(URL))
     startActivity(intent)
+}
+
+fun Fragment.copyToClipboard(text: String) {
+    if (text.isNotEmpty()) {
+        val clip = ClipData.newPlainText("gamewatch_label", text)
+        (context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
+            .setPrimaryClip(clip)
+
+        Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show()
+    }
 }
