@@ -92,11 +92,18 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureRecyclerViewForGames() {
-        discoverGamesListAdapter = DiscoverGamesListAdapter {
-            val intent = Intent(context, GameDetailsActivity::class.java)
-            intent.putExtra(EXTRA_GAME_KEY, it)
-            startActivity(intent)
-        }
+        discoverGamesListAdapter = DiscoverGamesListAdapter({
+            startGameDetailsActivity(it)
+        }, { game, menuItemID ->
+            when (menuItemID) {
+                R.id.itemViewGame -> {
+                    startGameDetailsActivity(game)
+                }
+                R.id.itemAddGame -> {
+                    addGameToFirebase(game)
+                }
+            }
+        })
         recyclerViewDiscover.adapter = discoverGamesListAdapter
 
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
@@ -121,22 +128,8 @@ class InnerDiscoverFragment : Fragment() {
                 discoverGamesListAdapter.submitList(tempList)
                 discoverGamesListAdapter.notifyDataSetChanged()
 
+                addGameToFirebase(game)
                 Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
-
-                //Add game to "games" array in firebase
-                db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
-                    if (it.exists()) {
-                        val gameIDs = it.get(GAMES_KEY) as ArrayList<Long>
-                        if (!gameIDs.contains(game.id)) {
-                            gameIDs.add(game.id)
-                            db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
-                                hashMapOf(
-                                    GAMES_KEY to gameIDs
-                                ), SetOptions.merge()
-                            )
-                        }
-                    }
-                }
             }
         }
 
@@ -189,5 +182,32 @@ class InnerDiscoverFragment : Fragment() {
 
     private fun hideLoadingAnimation() {
         progressBarDiscoverGames.isVisible = false
+    }
+
+    private fun addGameToFirebase(game: Game) {
+        //Add game to "games" array in firebase
+        db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
+            if (it.exists()) {
+                val gameIDs = it.get(GAMES_KEY) as ArrayList<Long>
+                if (!gameIDs.contains(game.id)) {
+                    gameIDs.add(game.id)
+                    db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
+                        hashMapOf(
+                            GAMES_KEY to gameIDs
+                        ), SetOptions.merge()
+                    ).addOnSuccessListener {
+                        Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Game is already added!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun startGameDetailsActivity(game: Game) {
+        val intent = Intent(context, GameDetailsActivity::class.java)
+        intent.putExtra(EXTRA_GAME_KEY, game)
+        startActivity(intent)
     }
 }
