@@ -61,6 +61,7 @@
         android:paddingHorizontal="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="64dp"
+        android:layoutAnimation="@anim/recyclerview_layout_animation"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.github.ybq.android.spinkit.SpinKitView
@@ -69,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:elevation="3dp"
         android:visibility="gone"
         app:SpinKit_Color="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"

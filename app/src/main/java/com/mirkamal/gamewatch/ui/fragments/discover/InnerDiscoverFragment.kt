@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieDrawable
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.google.firebase.auth.ktx.auth
@@ -70,7 +71,15 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureFragmentForUsers() {
+        searchViewDiscover.isVisible = false
+        animationViewDiscoverGames.setAnimation("coming_soon_anim.json")
+        animationViewDiscoverGames.repeatCount = -1
 
+        textViewDiscoverGamesLabel.text = getString(R.string.msg_not_available_yet)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            animationViewDiscoverGames.playAnimation()
+        }, 200)
     }
 
     private fun configureFragmentForGames() {
@@ -151,6 +160,7 @@ class InnerDiscoverFragment : Fragment() {
 
                 animationViewDiscoverGames.setAnimation("empty_box_anim.json")
                 animationViewDiscoverGames.repeatCount = 0
+                animationViewDiscoverGames.repeatMode = LottieDrawable.RESTART
                 Handler(Looper.getMainLooper()).postDelayed({
                     animationViewDiscoverGames.playAnimation()
                 }, 200)

@@ -54,4 +54,5 @@
     <string name="action_uppercase_no">NO</string>
     <string name="msg_search_some_games">Search some games!</string>
     <string name="msg_discover_nothing_found">Oops! We couldn\'t find anything.</string>
+    <string name="msg_not_available_yet">Not available yet... 🥺</string>
 </resources>
