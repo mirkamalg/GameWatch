@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:paddingBottom="80dp">
 
         <View
@@ -159,6 +160,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:animateLayoutChanges="true"
             app:cardCornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="@id/emailAndUsernameContainer"
             app:layout_constraintStart_toStartOf="@id/emailAndUsernameContainer"

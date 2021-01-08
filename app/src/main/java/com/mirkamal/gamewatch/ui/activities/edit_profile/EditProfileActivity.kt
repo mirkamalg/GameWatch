@@ -213,6 +213,7 @@ class EditProfileActivity : AppCompatActivity() {
 
             overlayLayout.isVisible = false
             progressBar.isVisible = false
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
 
@@ -255,6 +256,10 @@ class EditProfileActivity : AppCompatActivity() {
             if (isAllFieldsValid()) {
                 overlayLayout.isVisible = true
                 progressBar.isVisible = true
+                window?.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
 
                 profileViewModel.updateUserInfo(
                     textInputEditTextUsername.text.toString(),
