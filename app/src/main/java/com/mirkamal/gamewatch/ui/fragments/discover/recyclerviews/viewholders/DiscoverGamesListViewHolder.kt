@@ -1,6 +1,5 @@
 package com.mirkamal.gamewatch.ui.fragments.discover.recyclerviews.viewholders
 
-import android.widget.ImageButton
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -24,19 +23,8 @@ class DiscoverGamesListViewHolder private constructor(
     fun bind(game: Game, menuListener: (Game, Int) -> Unit) {
         binding.apply {
             this.game = game
-            executePendingBindings()
-        }
 
-        //Make textview selected for marquee
-        binding.textViewGameName.isSelected = true
-
-        configurePlatformIcons(game)
-        itemView.setOnClickListener {
-            listener(game)
-        }
-
-        itemView.findViewById<ImageButton>(R.id.buttonMoreDiscoverGamesItem)
-            .setOnClickListener { buttonMore ->
+            this.buttonMoreDiscoverGamesItem.setOnClickListener { buttonMore ->
                 val popUp = PopupMenu(buttonMore.context, buttonMore)
                 val inflater = popUp.menuInflater
                 inflater.inflate(R.menu.discover_games_item_menu, popUp.menu)
@@ -47,6 +35,17 @@ class DiscoverGamesListViewHolder private constructor(
                 }
                 popUp.show()
             }
+
+            executePendingBindings()
+        }
+
+        //Make textview selected for marquee
+        binding.textViewGameName.isSelected = true
+
+        configurePlatformIcons(game)
+        itemView.setOnClickListener {
+            listener(game)
+        }
     }
 
     private fun configurePlatformIcons(game: Game) {

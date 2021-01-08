@@ -13,12 +13,12 @@ class MyGamesListAdapter(
     private val listener: (game: Game) -> Unit
 ) : ListAdapter<Game, MyGamesListViewHolder>(MyGamesDiffCallback()) {
 
-    lateinit var deleteListener: (Int, Long) -> Unit
+    lateinit var menuListener: (Int, Game, Int) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyGamesListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemMyGamesBinding.inflate(layoutInflater, parent, false)
-        return MyGamesListViewHolder.from(binding, listener, deleteListener)
+        return MyGamesListViewHolder.from(binding, listener, menuListener)
     }
 
     override fun onBindViewHolder(holder: MyGamesListViewHolder, position: Int) {

@@ -35,9 +35,7 @@ class MyGamesFragment : Fragment() {
     private val db = Firebase.firestore
     private val email = Firebase.auth.currentUser?.email ?: ""
     private val myGamesListAdapter = MyGamesListAdapter {
-        val intent = Intent(context, GameDetailsActivity::class.java)
-        intent.putExtra(EXTRA_GAME_KEY, it)
-        startActivity(intent)
+        startGameDetailsActivity(it)
     }
     private val viewModel: GamesViewModel by viewModels()
 
@@ -55,12 +53,19 @@ class MyGamesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //Set delete listener
-        myGamesListAdapter.deleteListener = { position, id ->
-            val temp = myGamesListAdapter.currentList.toMutableList()
-            temp.removeAt(position)
-            myGamesListAdapter.submitList(temp)
-            myGamesListAdapter.notifyDataSetChanged()
-            removeGameFromFirebaseDB(id)
+        myGamesListAdapter.menuListener = { position, game, menuItemID ->
+            when (menuItemID) {
+                R.id.itemViewGame -> {
+                    startGameDetailsActivity(game)
+                }
+                R.id.itemDeleteGame -> {
+                    val temp = myGamesListAdapter.currentList.toMutableList()
+                    temp.removeAt(position)
+                    myGamesListAdapter.submitList(temp)
+                    myGamesListAdapter.notifyDataSetChanged()
+                    removeGameFromFirebaseDB(game.id)
+                }
+            }
         }
         configureFragment()
         configureSwipeRefreshLayout()
@@ -180,5 +185,11 @@ class MyGamesFragment : Fragment() {
 
             updateVisibility()
         }
+    }
+
+    private fun startGameDetailsActivity(game: Game) {
+        val intent = Intent(context, GameDetailsActivity::class.java)
+        intent.putExtra(EXTRA_GAME_KEY, game)
+        startActivity(intent)
     }
 }

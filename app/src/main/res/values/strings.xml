@@ -57,4 +57,5 @@
     <string name="msg_not_available_yet">Not available yet... 🥺</string>
     <string name="action_view_game">View game</string>
     <string name="action_add_game">Add game</string>
+    <string name="action_remove_game">Remove game</string>
 </resources>
