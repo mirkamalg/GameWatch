@@ -35,10 +35,10 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = Firebase.auth
-        setOnClickListener()
+        setOnClickListeners()
     }
 
-    private fun setOnClickListener() {
+    private fun setOnClickListeners() {
         buttonSignUp.setOnClickListener {
             if (validateFields()) {
                 overlayLayout.isVisible = true
@@ -54,6 +54,9 @@ class RegisterFragment : Fragment() {
                     }
                 }
             }
+        }
+        buttonGoBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

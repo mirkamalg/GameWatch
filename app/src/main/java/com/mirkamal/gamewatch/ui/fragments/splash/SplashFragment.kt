@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
@@ -53,6 +54,7 @@ class SplashFragment : Fragment() {
                 //Logged in
                 //Navigate to main part
                 handler.postDelayed({
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHostFragment())
                 }, 500)
             }
