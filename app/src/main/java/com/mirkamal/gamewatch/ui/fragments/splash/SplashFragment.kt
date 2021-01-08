@@ -48,6 +48,7 @@ class SplashFragment : Fragment() {
                 //Not logged in
                 //Navigate to intro
                 handler.postDelayed({
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToIntroContainerFragment())
                 }, 500)
             } else {
