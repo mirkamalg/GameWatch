@@ -1,7 +1,10 @@
 package com.mirkamal.gamewatch.ui.fragments.login
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +12,17 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.utils.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import java.io.ByteArrayOutputStream
 
 
 /**
@@ -25,6 +31,9 @@ import kotlinx.android.synthetic.main.fragment_login.*
 class LoginFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
+    private val storageReference = Firebase.storage.reference
+
+    private val uploadedPicturesCount = MutableLiveData(0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +52,16 @@ class LoginFragment : Fragment() {
         configureAuth()
         setTextFont()
         setOnClickListeners()
+        observeValue()
+    }
+
+    private fun observeValue() {
+        uploadedPicturesCount.observe(viewLifecycleOwner) {
+            if (it == 2) {
+                //Navigate to main part
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHostFragment())
+            }
+        }
     }
 
     private fun configureAuth() {
@@ -80,29 +99,71 @@ class LoginFragment : Fragment() {
     private fun onSuccessfulSignIn() {
         // Create user document in firebase if it doesn't exist
         val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser?.isEmailVerified!!) {
-            Firebase.firestore.collection(USER_DATA_COLLECTION_KEY)
-                .document(currentUser.email ?: "").get()
-                .addOnSuccessListener {
-                    if (!it.exists()) {
-                        Firebase.firestore.collection(USER_DATA_COLLECTION_KEY)
-                            .document(currentUser.email ?: "")
-                            .set(
-                                hashMapOf(
-                                    EMAIL_KEY to currentUser.email,
-                                    GAMES_KEY to emptyList<Long>(),
-                                    USERNAME_KEY to "",
-                                    BIO_KEY to ""
-                                )
-                            )
-                    }
-                }
 
-            //Navigate to main part
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHostFragment())
-        } else {
-            Toast.makeText(context, "Please, verify your mail!", Toast.LENGTH_SHORT).show()
-            FirebaseAuth.getInstance().signOut()
+//        if (currentUser?.isEmailVerified!!) {
+        Firebase.firestore.collection(USER_DATA_COLLECTION_KEY)
+            .document(currentUser?.email ?: "").get()
+            .addOnSuccessListener {
+                if (!it.exists()) {
+                    Firebase.firestore.collection(USER_DATA_COLLECTION_KEY)
+                        .document(currentUser?.email ?: "")
+                        .set(
+                            hashMapOf(
+                                EMAIL_KEY to currentUser?.email,
+                                GAMES_KEY to emptyList<Long>(),
+                                USERNAME_KEY to "Undefinedc",
+                                BIO_KEY to ""
+                            )
+                        )
+                }
+            }
+
+        // Upload placeholder profile picture
+        val profilePictureReference =
+            storageReference.child("user_pictures/${currentUser?.email}/profile.png")
+
+        profilePictureReference.downloadUrl.addOnSuccessListener {
+            uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
+        }.addOnFailureListener {
+            val bitmapProfile = BitmapFactory.decodeResource(
+                context?.resources,
+                R.drawable.profile_picture_placeholder
+            )
+            val profileStream = ByteArrayOutputStream()
+            bitmapProfile.compress(Bitmap.CompressFormat.JPEG, 100, profileStream)
+            val profileBytes = profileStream.toByteArray()
+
+            profilePictureReference.putBytes(profileBytes).addOnSuccessListener {
+                uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
+            }
+            Log.e("HERE", it.message.toString(), it)
+        }
+
+        //Upload placeholder cover picture
+        val coverPictureReference =
+            storageReference.child("user_pictures/${currentUser?.email}/cover.png")
+
+        coverPictureReference.downloadUrl.addOnSuccessListener {
+            uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
+        }.addOnFailureListener {
+            val bitmapCover =
+                BitmapFactory.decodeResource(
+                    context?.resources,
+                    R.drawable.cover_picture_placeholder
+                )
+            val coverStream = ByteArrayOutputStream()
+            bitmapCover.compress(Bitmap.CompressFormat.JPEG, 100, coverStream)
+            val coverBytes = coverStream.toByteArray()
+
+            coverPictureReference.putBytes(coverBytes).addOnSuccessListener {
+                uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
+            }
+            Log.e("HERE", it.message.toString(), it)
+        }
+
+//        } else {
+//            Toast.makeText(context, "Please, verify your mail!", Toast.LENGTH_SHORT).show()
+//            FirebaseAuth.getInstance().signOut()
 
 //            try {
 //                val intent = Intent(Intent.ACTION_MAIN)
@@ -110,10 +171,7 @@ class LoginFragment : Fragment() {
 //                activity?.startActivity(intent)
 //            } catch (e: Exception) {
 //            }
-        }
-
-
-        overlayLayout.isVisible = false
+//        }
     }
 
     private fun onFailedSignIn(e: Exception) {

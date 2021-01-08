@@ -100,25 +100,25 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun validateDisplayName(displayName: String, account: String) {
-        val validationResult = ValidationResult()
-        viewModelScope.launch(Dispatchers.IO) {
-            if (displayName.isBlank()) {
-                validationResult.isValid = false
-                validationResult.message = "Display name cannot be blank."
-                withContext(Dispatchers.Main) {
-                    when (account) {
-                        ACCOUNT_STEAM -> _steamDisplayNameValidationResult.value = validationResult
-                        ACCOUNT_EPIC_GAMES -> _epicGamesDisplayNameValidationResult.value =
-                            validationResult
-                        ACCOUNT_UPLAY -> _uplayDisplayNameValidationResult.value = validationResult
-                        ACCOUNT_DISCORD -> _discordDisplayNameValidationResult.value =
-                            validationResult
-                    }
-                }
-            }
-        }
-    }
+//    fun validateDisplayName(displayName: String, account: String) {
+//        val validationResult = ValidationResult()
+//        viewModelScope.launch(Dispatchers.IO) {
+//            if (displayName.isBlank()) {
+//                validationResult.isValid = false
+//                validationResult.message = "Display name cannot be blank."
+//                withContext(Dispatchers.Main) {
+//                    when (account) {
+//                        ACCOUNT_STEAM -> _steamDisplayNameValidationResult.value = validationResult
+//                        ACCOUNT_EPIC_GAMES -> _epicGamesDisplayNameValidationResult.value =
+//                            validationResult
+//                        ACCOUNT_UPLAY -> _uplayDisplayNameValidationResult.value = validationResult
+//                        ACCOUNT_DISCORD -> _discordDisplayNameValidationResult.value =
+//                            validationResult
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     fun validateSteamURL(URL: String) {
         val validationResult = ValidationResult()

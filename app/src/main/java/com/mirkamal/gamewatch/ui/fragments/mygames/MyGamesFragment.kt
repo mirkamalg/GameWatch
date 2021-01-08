@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -35,9 +34,7 @@ class MyGamesFragment : Fragment() {
     private val db = Firebase.firestore
     private val email = Firebase.auth.currentUser?.email ?: ""
     private val myGamesListAdapter = MyGamesListAdapter {
-        val intent = Intent(context, GameDetailsActivity::class.java)
-        intent.putExtra(EXTRA_GAME_KEY, it)
-        startActivity(intent)
+        startGameDetailsActivity(it)
     }
     private val viewModel: GamesViewModel by viewModels()
 
@@ -55,12 +52,19 @@ class MyGamesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //Set delete listener
-        myGamesListAdapter.deleteListener = { position, id ->
-            val temp = myGamesListAdapter.currentList.toMutableList()
-            temp.removeAt(position)
-            myGamesListAdapter.submitList(temp)
-            myGamesListAdapter.notifyDataSetChanged()
-            removeGameFromFirebaseDB(id)
+        myGamesListAdapter.menuListener = { position, game, menuItemID ->
+            when (menuItemID) {
+                R.id.itemViewGame -> {
+                    startGameDetailsActivity(game)
+                }
+                R.id.itemDeleteGame -> {
+                    val temp = myGamesListAdapter.currentList.toMutableList()
+                    temp.removeAt(position)
+                    myGamesListAdapter.submitList(temp)
+                    myGamesListAdapter.notifyDataSetChanged()
+                    removeGameFromFirebaseDB(game.id)
+                }
+            }
         }
         configureFragment()
         configureSwipeRefreshLayout()
@@ -74,21 +78,40 @@ class MyGamesFragment : Fragment() {
 
     private fun configureFragment() {
         viewModel.wantToPlayGames.observe(viewLifecycleOwner, {
-            myGamesListAdapter.submitList(it)
-            myGamesListAdapter.notifyDataSetChanged()
+            if (it != null) {
+                myGamesListAdapter.submitList(it)
+                myGamesListAdapter.notifyDataSetChanged()
 
-            if (animateRecyclerView) {
-                recyclerViewMyGames.scheduleLayoutAnimation()
-                animateRecyclerView = false
+                if (animateRecyclerView) {
+                    recyclerViewMyGames.scheduleLayoutAnimation()
+                    animateRecyclerView = false
+                }
+
+                progressBarMyGames.isVisible = false
+                overlayLayout.isVisible = false
+                animationViewMyGames.visibility = View.INVISIBLE
+                textViewNoConnectionMyGames.visibility = View.INVISIBLE
+                textViewGameCount.isVisible = true
+
+                textViewGameCount.text =
+                    getString(R.string.msg_game_count_my_games, it.size.toString())
+
+                updateVisibility()
+            } else {
+                progressBarMyGames.isVisible = false
+                overlayLayout.isVisible = false
+
+                imageViewDiscover.isVisible = false
+                textViewDiscover.isVisible = false
+
+                if (myGamesListAdapter.currentList.isEmpty()) {
+                    animationViewMyGames.isVisible = true
+                    textViewNoConnectionMyGames.isVisible = true
+                } else {
+                    Toast.makeText(context, "Network problem occurred.", Toast.LENGTH_SHORT).show()
+                }
+                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
-
-            progressBarMyGames.isVisible = false
-            overlayLayout.isVisible = false
-            textViewGameCount.isVisible = true
-
-            textViewGameCount.text = getString(R.string.msg_game_count_my_games, it.size.toString())
-
-            updateVisibility()
         })
 
         recyclerViewMyGames.adapter = myGamesListAdapter
@@ -100,37 +123,37 @@ class MyGamesFragment : Fragment() {
             )
         )
 
-        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
-            ItemTouchHelper.SimpleCallback(
-                0,
-                ItemTouchHelper.RIGHT
-            ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                val pos = viewHolder.adapterPosition
-                val game = myGamesListAdapter.currentList[pos].id
-                val tempList = arrayListOf<Game>()
-                tempList.addAll(myGamesListAdapter.currentList)
-                tempList.removeAt(pos)
-                myGamesListAdapter.submitList(tempList)
-                myGamesListAdapter.notifyDataSetChanged()
-
-                Toast.makeText(context, "Game removed!", Toast.LENGTH_SHORT).show()
-
-                //Add game to "Want to play" array in firebase
-                removeGameFromFirebaseDB(game)
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerViewMyGames)
+//        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+//            ItemTouchHelper.SimpleCallback(
+//                0,
+//                ItemTouchHelper.RIGHT
+//            ) {
+//            override fun onMove(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder,
+//                target: RecyclerView.ViewHolder
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+//                val pos = viewHolder.adapterPosition
+//                val game = myGamesListAdapter.currentList[pos].id
+//                val tempList = arrayListOf<Game>()
+//                tempList.addAll(myGamesListAdapter.currentList)
+//                tempList.removeAt(pos)
+//                myGamesListAdapter.submitList(tempList)
+//                myGamesListAdapter.notifyDataSetChanged()
+//
+//                Toast.makeText(context, "Game removed!", Toast.LENGTH_SHORT).show()
+//
+//                //Add game to "Want to play" array in firebase
+//                removeGameFromFirebaseDB(game)
+//            }
+//        }
+//
+//        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+//        itemTouchHelper.attachToRecyclerView(recyclerViewMyGames)
     }
 
     private fun updateVisibility() {
@@ -143,6 +166,8 @@ class MyGamesFragment : Fragment() {
             imageViewDiscover.isVisible = false
             textViewDiscover.isVisible = false
         }
+
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
     private fun refreshMyGames() {
@@ -159,6 +184,12 @@ class MyGamesFragment : Fragment() {
             swipeRefreshLayoutMyGames.isRefreshing = false
             overlayLayout.isVisible = true
             progressBarMyGames.isVisible = true
+            animationViewMyGames.visibility = View.INVISIBLE
+
+            activity?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
             refreshMyGames()
         }
     }
@@ -180,5 +211,11 @@ class MyGamesFragment : Fragment() {
 
             updateVisibility()
         }
+    }
+
+    private fun startGameDetailsActivity(game: Game) {
+        val intent = Intent(context, GameDetailsActivity::class.java)
+        intent.putExtra(EXTRA_GAME_KEY, game)
+        startActivity(intent)
     }
 }

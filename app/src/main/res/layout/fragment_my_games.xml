@@ -42,10 +42,10 @@
                 android:layout_margin="16dp"
                 android:fontFamily="@font/ptsans_regular"
                 android:textSize="18sp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/msg_game_count_my_games"
-                android:visibility="invisible"/>
+                tools:text="@string/msg_game_count_my_games" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewMyGames"
@@ -59,6 +59,33 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewGameCount" />
+
+            <TextView
+                android:id="@+id/textViewNoConnectionMyGames"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ptsans_regular"
+                android:text="@string/msg_no_connection"
+                android:textSize="24sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/animationViewMyGames"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationViewMyGames"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="no_internet_anim.json"
+                app:lottie_repeatCount="-1"
+                app:lottie_repeatMode="reverse"
+                app:lottie_speed="0.9" />
 
             <ImageView
                 android:id="@+id/imageViewDiscover"

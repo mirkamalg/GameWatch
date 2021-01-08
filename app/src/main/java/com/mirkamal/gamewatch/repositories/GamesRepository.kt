@@ -151,7 +151,7 @@ class GamesRepository() : ParentRepository() {
                 null
             }
         } catch (e: IOException) {
-            arrayListOf()
+            null
         }
     }
 

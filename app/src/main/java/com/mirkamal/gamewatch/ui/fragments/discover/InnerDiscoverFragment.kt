@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieDrawable
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion
 import com.google.firebase.auth.ktx.auth
@@ -70,7 +71,15 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureFragmentForUsers() {
+        searchViewDiscover.isVisible = false
+        animationViewDiscoverGames.setAnimation("coming_soon_anim.json")
+        animationViewDiscoverGames.repeatCount = -1
 
+        textViewDiscoverGamesLabel.text = getString(R.string.msg_not_available_yet)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            animationViewDiscoverGames.playAnimation()
+        }, 200)
     }
 
     private fun configureFragmentForGames() {
@@ -83,11 +92,18 @@ class InnerDiscoverFragment : Fragment() {
     }
 
     private fun configureRecyclerViewForGames() {
-        discoverGamesListAdapter = DiscoverGamesListAdapter {
-            val intent = Intent(context, GameDetailsActivity::class.java)
-            intent.putExtra(EXTRA_GAME_KEY, it)
-            startActivity(intent)
-        }
+        discoverGamesListAdapter = DiscoverGamesListAdapter({
+            startGameDetailsActivity(it)
+        }, { game, menuItemID ->
+            when (menuItemID) {
+                R.id.itemViewGame -> {
+                    startGameDetailsActivity(game)
+                }
+                R.id.itemAddGame -> {
+                    addGameToFirebase(game)
+                }
+            }
+        })
         recyclerViewDiscover.adapter = discoverGamesListAdapter
 
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
@@ -112,22 +128,8 @@ class InnerDiscoverFragment : Fragment() {
                 discoverGamesListAdapter.submitList(tempList)
                 discoverGamesListAdapter.notifyDataSetChanged()
 
+                addGameToFirebase(game)
                 Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
-
-                //Add game to "games" array in firebase
-                db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
-                    if (it.exists()) {
-                        val gameIDs = it.get(GAMES_KEY) as ArrayList<Long>
-                        if (!gameIDs.contains(game.id)) {
-                            gameIDs.add(game.id)
-                            db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
-                                hashMapOf(
-                                    GAMES_KEY to gameIDs
-                                ), SetOptions.merge()
-                            )
-                        }
-                    }
-                }
             }
         }
 
@@ -151,6 +153,7 @@ class InnerDiscoverFragment : Fragment() {
 
                 animationViewDiscoverGames.setAnimation("empty_box_anim.json")
                 animationViewDiscoverGames.repeatCount = 0
+                animationViewDiscoverGames.repeatMode = LottieDrawable.RESTART
                 Handler(Looper.getMainLooper()).postDelayed({
                     animationViewDiscoverGames.playAnimation()
                 }, 200)
@@ -179,5 +182,32 @@ class InnerDiscoverFragment : Fragment() {
 
     private fun hideLoadingAnimation() {
         progressBarDiscoverGames.isVisible = false
+    }
+
+    private fun addGameToFirebase(game: Game) {
+        //Add game to "games" array in firebase
+        db.collection(USER_DATA_COLLECTION_KEY).document(email).get().addOnSuccessListener {
+            if (it.exists()) {
+                val gameIDs = it.get(GAMES_KEY) as ArrayList<Long>
+                if (!gameIDs.contains(game.id)) {
+                    gameIDs.add(game.id)
+                    db.collection(USER_DATA_COLLECTION_KEY).document(email).set(
+                        hashMapOf(
+                            GAMES_KEY to gameIDs
+                        ), SetOptions.merge()
+                    ).addOnSuccessListener {
+                        Toast.makeText(context, "Game added!", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Game is already added!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun startGameDetailsActivity(game: Game) {
+        val intent = Intent(context, GameDetailsActivity::class.java)
+        intent.putExtra(EXTRA_GAME_KEY, game)
+        startActivity(intent)
     }
 }

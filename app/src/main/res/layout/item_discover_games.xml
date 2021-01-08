@@ -91,10 +91,10 @@
                 android:id="@+id/linearLayoutPlatforms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@id/imageViewController"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/buttonMoreDiscoverGamesItem"
                 app:layout_constraintTop_toTopOf="@id/imageViewController">
 
                 <ImageView
@@ -146,6 +146,17 @@
                     tools:visibility="visible" />
 
             </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/buttonMoreDiscoverGamesItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_three_dots_vert"
+                app:layout_constraintBottom_toBottomOf="@id/imageViewController"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imageViewController" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

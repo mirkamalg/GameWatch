@@ -55,4 +55,9 @@
     <string name="action_uppercase_no">NO</string>
     <string name="msg_search_some_games">Search some games!</string>
     <string name="msg_discover_nothing_found">Oops! We couldn\'t find anything.</string>
+    <string name="msg_not_available_yet">Not available yet... 🥺</string>
+    <string name="action_view_game">View game</string>
+    <string name="action_add_game">Add game</string>
+    <string name="action_remove_game">Remove game</string>
+    <string name="msg_no_connection">No connection</string>
 </resources>

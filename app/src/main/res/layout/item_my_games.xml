@@ -19,14 +19,14 @@
             imageURL="@{game.coverURL.replace(`t_thumb`, `t_screenshot_med`)}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintWidth_percent="0.18"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="16dp"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:src="@drawable/drawable_loading_placeholder"/>
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.18"
+            tools:src="@drawable/drawable_loading_placeholder" />
 
         <TextView
             android:id="@+id/textViewGameName"
@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/ptsans_regular"
             android:marqueeRepeatLimit="marquee_forever"
@@ -41,22 +42,21 @@
             android:text="@{game.name}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@id/imageViewGameItem"
+            app:layout_constraintEnd_toStartOf="@id/buttonMoreMyGamesItem"
             app:layout_constraintStart_toEndOf="@id/imageViewGameItem"
             app:layout_constraintTop_toTopOf="@id/imageViewGameItem"
-            tools:text="Game name here"
-            app:layout_constraintEnd_toStartOf="@id/imageViewDelete"
-            android:layout_marginEnd="8dp"/>
+            tools:text="Game name here" />
 
-        <ImageView
-            android:id="@+id/imageViewDelete"
+        <ImageButton
+            android:id="@+id/buttonMoreMyGamesItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_delete"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="70dp"
-            app:layout_constraintTop_toTopOf="@id/textViewGameName"
-            app:layout_constraintBottom_toBottomOf="@id/textViewGameName"/>
+            android:layout_marginBottom="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_three_dots_vert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -54,6 +55,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        disableUserInteraction()
         configureTexts()
         setOnClickListeners()
         configureDialogs()
@@ -63,8 +65,21 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun disableUserInteraction() {
+        activity?.window?.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
+    }
+
     override fun onStart() {
         super.onStart()
+
+        fetchUserData()
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         fetchUserData()
     }
@@ -74,6 +89,8 @@ class ProfileFragment : Fragment() {
             if (it == 2) {
                 overlayLayout.isVisible = false
                 progressBar.isVisible = false
+
+                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         }
     }
@@ -115,19 +132,26 @@ class ProfileFragment : Fragment() {
         db.collection(USER_DATA_COLLECTION_KEY).document(email).get()
             .addOnSuccessListener { documentSnapshot ->
                 textViewUsername.text = documentSnapshot[USERNAME_KEY] as String
-                textViewBio.text = documentSnapshot[BIO_KEY] as String
+
+                val bio = documentSnapshot[BIO_KEY] as String
+                textViewBio.text = bio
+                bioContainer.isVisible = !bio.isEmpty()
+
                 textViewGameCount.text = getString(
                     R.string.msg_game_count_profile,
                     (documentSnapshot[GAMES_KEY] as List<*>).size
                 )
 
                 // Handle accounts
+                accounts.clear()
+
                 val steam = documentSnapshot[STEAM_KEY] as Map<String, String>?
                 accounts.add(steam ?: emptyMap())
 
                 val displayNameSteam = steam?.get(DISPLAY_NAME_KEY) ?: ""
 
                 if (displayNameSteam.isNotBlank()) {
+                    cardViewSteamProfile.isVisible = true
                     textViewDisplayNameSteam.text = displayNameSteam
                     buttonCopySteamURL.setOnClickListener {
                         copyToClipboard(steam?.get(URL_KEY) ?: "")
@@ -146,6 +170,7 @@ class ProfileFragment : Fragment() {
 
 
                 if (displayNameEpicGames.isNotBlank()) {
+                    cardViewEpicGamesProfile.isVisible = true
                     textViewDisplayNameEpicGames.text = displayNameEpicGames
                     buttonCopyEpicGamesEmail.setOnClickListener {
                         copyToClipboard(epicGames?.get(URL_KEY) ?: "")
@@ -160,6 +185,7 @@ class ProfileFragment : Fragment() {
                 val displayNameUplay = uplay?.get(DISPLAY_NAME_KEY) ?: ""
 
                 if (displayNameUplay.isNotBlank()) {
+                    cardViewUplayProfile.isVisible = true
                     textViewDisplayNameUplay.text = displayNameUplay
                     buttonCopyUplayURL.setOnClickListener {
                         copyToClipboard(uplay?.get(URL_KEY) ?: "")
@@ -178,6 +204,7 @@ class ProfileFragment : Fragment() {
                 val discordTag = discord?.get(URL_KEY) ?: ""
 
                 if (displayNameDiscord.isNotBlank()) {
+                    cardViewDiscordProfile.isVisible = true
                     textViewDisplayNameDiscord.text = displayNameDiscord
                     buttonCopyDiscordTag.setOnClickListener {
                         copyToClipboard("$displayNameDiscord$discordTag")

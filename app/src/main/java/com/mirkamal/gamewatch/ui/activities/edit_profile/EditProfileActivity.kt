@@ -106,19 +106,19 @@ class EditProfileActivity : AppCompatActivity() {
         }
         textInputEditTextSteamDisplayName.doAfterTextChanged {
             textInputLayoutSteamDisplayName.error = null
-            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_STEAM)
+//            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_STEAM)
         }
         textInputEditTextEpicGamesDisplayName.doAfterTextChanged {
             textInputLayoutEpicGamesDisplayName.error = null
-            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_EPIC_GAMES)
+//            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_EPIC_GAMES)
         }
         textInputEditTextUplayDisplayName.doAfterTextChanged {
             textInputLayoutUplayDisplayName.error = null
-            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_UPLAY)
+//            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_UPLAY)
         }
         textInputEditTextDiscordDisplayName.doAfterTextChanged {
             textInputLayoutDiscordDisplayName.error = null
-            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_DISCORD)
+//            profileViewModel.validateDisplayName(it.toString(), ACCOUNT_DISCORD)
         }
 
 
@@ -213,6 +213,7 @@ class EditProfileActivity : AppCompatActivity() {
 
             overlayLayout.isVisible = false
             progressBar.isVisible = false
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
     }
 
@@ -255,6 +256,10 @@ class EditProfileActivity : AppCompatActivity() {
             if (isAllFieldsValid()) {
                 overlayLayout.isVisible = true
                 progressBar.isVisible = true
+                window?.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
 
                 profileViewModel.updateUserInfo(
                     textInputEditTextUsername.text.toString(),

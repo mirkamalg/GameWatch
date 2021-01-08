@@ -1,6 +1,8 @@
 package com.mirkamal.gamewatch.ui.fragments.mygames.recyclerviews
 
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.mirkamal.gamewatch.R
 import com.mirkamal.gamewatch.databinding.ItemMyGamesBinding
 import com.mirkamal.gamewatch.model.parcel.Game
 
@@ -10,14 +12,22 @@ import com.mirkamal.gamewatch.model.parcel.Game
 class MyGamesListViewHolder private constructor(
     private val binding: ItemMyGamesBinding,
     private val listener: (game: Game) -> Unit,
-    private val deleteListener: (position: Int, id: Long) -> Unit
+    private val menuListener: (Int, Game, Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(game: Game) {
         binding.apply {
             this.game = game
-            this.imageViewDelete.setOnClickListener {
-                deleteListener(adapterPosition, game.id)
+            this.buttonMoreMyGamesItem.setOnClickListener { buttonMore ->
+                val popUp = PopupMenu(buttonMore.context, buttonMore)
+                val inflater = popUp.menuInflater
+                inflater.inflate(R.menu.my_games_item_menu, popUp.menu)
+
+                popUp.setOnMenuItemClickListener {
+                    menuListener(adapterPosition, game, it.itemId)
+                    true
+                }
+                popUp.show()
             }
             executePendingBindings()
         }
@@ -30,7 +40,7 @@ class MyGamesListViewHolder private constructor(
         fun from(
             binding: ItemMyGamesBinding,
             listener: (game: Game) -> Unit,
-            deleteListener: (position: Int, id: Long) -> Unit
+            deleteListener: (Int, Game, Int) -> Unit
         ): MyGamesListViewHolder {
             return MyGamesListViewHolder(binding, listener, deleteListener)
         }

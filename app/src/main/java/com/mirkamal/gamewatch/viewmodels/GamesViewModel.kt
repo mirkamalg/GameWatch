@@ -69,11 +69,7 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
             val response = gamesRepository.fetchGamesByIDs(ids)
 
             withContext(Dispatchers.Main) {
-                if (response != null) {
-                    _wantToPlayGames.value = response
-                } else {
-                    _wantToPlayGames.value = emptyList()
-                }
+                _wantToPlayGames.value = response
             }
         }
     }
