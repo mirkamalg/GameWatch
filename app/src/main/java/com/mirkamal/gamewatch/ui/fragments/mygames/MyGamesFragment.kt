@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -145,6 +146,8 @@ class MyGamesFragment : Fragment() {
             imageViewDiscover.isVisible = false
             textViewDiscover.isVisible = false
         }
+
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 
     private fun refreshMyGames() {
@@ -161,6 +164,11 @@ class MyGamesFragment : Fragment() {
             swipeRefreshLayoutMyGames.isRefreshing = false
             overlayLayout.isVisible = true
             progressBarMyGames.isVisible = true
+
+            activity?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
             refreshMyGames()
         }
     }
