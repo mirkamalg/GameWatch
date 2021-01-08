@@ -55,7 +55,8 @@ const val ACCOUNT_UPLAY = "ACCOUNT_UPLAY"
 const val ACCOUNT_DISCORD = "ACCOUNT_DISCORD"
 
 //Regex
-const val REGEX_STEAM_PROFILE_URL = "(?:https?:\\/\\/)?steamcommunity\\.com\\/(?:profiles|id)\\/[a-zA-Z0-9]+"
+const val REGEX_STEAM_PROFILE_URL =
+    "(?:https?:\\/\\/)?steamcommunity\\.com\\/(?:profiles|id)\\/[a-zA-Z0-9_-]+"
 
 //Status
 const val SUCCESS = "SUCCESS"
