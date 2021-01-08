@@ -78,6 +78,12 @@ class ProfileFragment : Fragment() {
         fetchUserData()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        fetchUserData()
+    }
+
     private fun configureObservers() {
         completedDownloadCount.observe(viewLifecycleOwner) {
             if (it == 2) {
@@ -126,19 +132,26 @@ class ProfileFragment : Fragment() {
         db.collection(USER_DATA_COLLECTION_KEY).document(email).get()
             .addOnSuccessListener { documentSnapshot ->
                 textViewUsername.text = documentSnapshot[USERNAME_KEY] as String
-                textViewBio.text = documentSnapshot[BIO_KEY] as String
+
+                val bio = documentSnapshot[BIO_KEY] as String
+                textViewBio.text = bio
+                bioContainer.isVisible = !bio.isEmpty()
+
                 textViewGameCount.text = getString(
                     R.string.msg_game_count_profile,
                     (documentSnapshot[GAMES_KEY] as List<*>).size
                 )
 
                 // Handle accounts
+                accounts.clear()
+
                 val steam = documentSnapshot[STEAM_KEY] as Map<String, String>?
                 accounts.add(steam ?: emptyMap())
 
                 val displayNameSteam = steam?.get(DISPLAY_NAME_KEY) ?: ""
 
                 if (displayNameSteam.isNotBlank()) {
+                    cardViewSteamProfile.isVisible = true
                     textViewDisplayNameSteam.text = displayNameSteam
                     buttonCopySteamURL.setOnClickListener {
                         copyToClipboard(steam?.get(URL_KEY) ?: "")
@@ -157,6 +170,7 @@ class ProfileFragment : Fragment() {
 
 
                 if (displayNameEpicGames.isNotBlank()) {
+                    cardViewEpicGamesProfile.isVisible = true
                     textViewDisplayNameEpicGames.text = displayNameEpicGames
                     buttonCopyEpicGamesEmail.setOnClickListener {
                         copyToClipboard(epicGames?.get(URL_KEY) ?: "")
@@ -171,6 +185,7 @@ class ProfileFragment : Fragment() {
                 val displayNameUplay = uplay?.get(DISPLAY_NAME_KEY) ?: ""
 
                 if (displayNameUplay.isNotBlank()) {
+                    cardViewUplayProfile.isVisible = true
                     textViewDisplayNameUplay.text = displayNameUplay
                     buttonCopyUplayURL.setOnClickListener {
                         copyToClipboard(uplay?.get(URL_KEY) ?: "")
@@ -189,6 +204,7 @@ class ProfileFragment : Fragment() {
                 val discordTag = discord?.get(URL_KEY) ?: ""
 
                 if (displayNameDiscord.isNotBlank()) {
+                    cardViewDiscordProfile.isVisible = true
                     textViewDisplayNameDiscord.text = displayNameDiscord
                     buttonCopyDiscordTag.setOnClickListener {
                         copyToClipboard("$displayNameDiscord$discordTag")
