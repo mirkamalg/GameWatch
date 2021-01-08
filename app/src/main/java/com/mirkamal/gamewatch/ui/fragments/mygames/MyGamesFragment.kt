@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -105,37 +102,37 @@ class MyGamesFragment : Fragment() {
             )
         )
 
-        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
-            ItemTouchHelper.SimpleCallback(
-                0,
-                ItemTouchHelper.RIGHT
-            ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                val pos = viewHolder.adapterPosition
-                val game = myGamesListAdapter.currentList[pos].id
-                val tempList = arrayListOf<Game>()
-                tempList.addAll(myGamesListAdapter.currentList)
-                tempList.removeAt(pos)
-                myGamesListAdapter.submitList(tempList)
-                myGamesListAdapter.notifyDataSetChanged()
-
-                Toast.makeText(context, "Game removed!", Toast.LENGTH_SHORT).show()
-
-                //Add game to "Want to play" array in firebase
-                removeGameFromFirebaseDB(game)
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerViewMyGames)
+//        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+//            ItemTouchHelper.SimpleCallback(
+//                0,
+//                ItemTouchHelper.RIGHT
+//            ) {
+//            override fun onMove(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder,
+//                target: RecyclerView.ViewHolder
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+//                val pos = viewHolder.adapterPosition
+//                val game = myGamesListAdapter.currentList[pos].id
+//                val tempList = arrayListOf<Game>()
+//                tempList.addAll(myGamesListAdapter.currentList)
+//                tempList.removeAt(pos)
+//                myGamesListAdapter.submitList(tempList)
+//                myGamesListAdapter.notifyDataSetChanged()
+//
+//                Toast.makeText(context, "Game removed!", Toast.LENGTH_SHORT).show()
+//
+//                //Add game to "Want to play" array in firebase
+//                removeGameFromFirebaseDB(game)
+//            }
+//        }
+//
+//        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+//        itemTouchHelper.attachToRecyclerView(recyclerViewMyGames)
     }
 
     private fun updateVisibility() {
