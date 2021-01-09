@@ -115,7 +115,7 @@ class LoginFragment : Fragment() {
                             hashMapOf(
                                 EMAIL_KEY to currentUser?.email,
                                 GAMES_KEY to emptyList<Long>(),
-                                USERNAME_KEY to "Undefinedc",
+                                USERNAME_KEY to "Undefined",
                                 BIO_KEY to ""
                             )
                         )
