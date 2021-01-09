@@ -59,4 +59,7 @@
     <string name="action_add_game">Add game</string>
     <string name="action_remove_game">Remove game</string>
     <string name="msg_no_connection">No connection</string>
+    <string name="action_forgot_password">Forgot password?</string>
+    <string name="action_reset_password">Reset password</string>
+    <string name="info_reset_password">Enter your account\'s email in order to receive\npassword reset instructions.</string>
 </resources>
