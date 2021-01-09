@@ -149,7 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:maxLength="15"
+                    android:maxLength="20"
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -231,7 +231,8 @@
                                 android:id="@+id/textInputEditTextSteamDisplayName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textEmailAddress" />
+                                android:inputType="textEmailAddress"
+                                android:maxLength="20" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -295,7 +296,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:hint="@string/msg_display_name"
-                            android:inputType="text">
+                            android:inputType="text"
+                            android:maxLength="20">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/textInputEditTextEpicGamesDisplayName"
@@ -371,7 +373,8 @@
                                 android:id="@+id/textInputEditTextUplayDisplayName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textEmailAddress" />
+                                android:inputType="textEmailAddress"
+                                android:maxLength="20" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -441,7 +444,8 @@
                                 android:id="@+id/textInputEditTextDiscordDisplayName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textEmailAddress" />
+                                android:inputType="textEmailAddress"
+                                android:maxLength="20" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
