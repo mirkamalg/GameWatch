@@ -188,20 +188,21 @@ class LoginFragment : Fragment() {
         return if (Validator.validateEmail(textInputEditTextEmail.text.toString())) {
             textInputLayoutEmail.error = null
 
-            if (Validator.validatePassword(textInputEditTextPassword.text.toString())) {
-                textInputLayoutPassword.error = null
-                true
-            } else {
-                textInputLayoutPassword.error = "Password is invalid"
-                false
-            }
+//            if (Validator.validatePassword(textInputEditTextPassword.text.toString())) {
+//                textInputLayoutPassword.error = null
+//                true
+//            } else {
+//                textInputLayoutPassword.error = "Password is invalid"
+//                false
+//            }
+            true
         } else {
             textInputLayoutEmail.error = "Email is invalid"
-            if (!Validator.validatePassword(textInputEditTextPassword.text.toString())) {
-                textInputLayoutPassword.error = "Password is invalid"
-            } else {
-                textInputLayoutPassword.error = null
-            }
+//            if (!Validator.validatePassword(textInputEditTextPassword.text.toString())) {
+//                textInputLayoutPassword.error = "Password is invalid"
+//            } else {
+//                textInputLayoutPassword.error = null
+//            }
             false
         }
     }
