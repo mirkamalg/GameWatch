@@ -2,9 +2,7 @@ package com.mirkamal.gamewatch.ui.fragments.login
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +11,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -50,7 +49,6 @@ class LoginFragment : Fragment() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         configureAuth()
-        setTextFont()
         setOnClickListeners()
         observeValue()
     }
@@ -66,11 +64,6 @@ class LoginFragment : Fragment() {
 
     private fun configureAuth() {
         auth = Firebase.auth
-    }
-
-    private fun setTextFont() {
-        val typeface = Typeface.createFromAsset(activity?.assets, "fonts/PT_Sans/PTSans-Italic.ttf")
-        textViewRegister.typeface = typeface
     }
 
     private fun setOnClickListeners() {
@@ -92,7 +85,18 @@ class LoginFragment : Fragment() {
         }
 
         textViewRegister.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+            val extras = FragmentNavigatorExtras(appLogoContainer to "appLogoContainer")
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToRegisterFragment(),
+                extras
+            )
+        }
+        textViewForgotPassword.setOnClickListener {
+            val extras = FragmentNavigatorExtras(appLogoContainer to "appLogoContainer")
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment(),
+                extras
+            )
         }
     }
 
@@ -111,7 +115,7 @@ class LoginFragment : Fragment() {
                             hashMapOf(
                                 EMAIL_KEY to currentUser?.email,
                                 GAMES_KEY to emptyList<Long>(),
-                                USERNAME_KEY to "Undefinedc",
+                                USERNAME_KEY to "Undefined",
                                 BIO_KEY to ""
                             )
                         )
@@ -136,7 +140,6 @@ class LoginFragment : Fragment() {
             profilePictureReference.putBytes(profileBytes).addOnSuccessListener {
                 uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
             }
-            Log.e("HERE", it.message.toString(), it)
         }
 
         //Upload placeholder cover picture
@@ -158,7 +161,6 @@ class LoginFragment : Fragment() {
             coverPictureReference.putBytes(coverBytes).addOnSuccessListener {
                 uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
             }
-            Log.e("HERE", it.message.toString(), it)
         }
 
 //        } else {
@@ -183,20 +185,21 @@ class LoginFragment : Fragment() {
         return if (Validator.validateEmail(textInputEditTextEmail.text.toString())) {
             textInputLayoutEmail.error = null
 
-            if (Validator.validatePassword(textInputEditTextPassword.text.toString())) {
-                textInputLayoutPassword.error = null
-                true
-            } else {
-                textInputLayoutPassword.error = "Password is invalid"
-                false
-            }
+//            if (Validator.validatePassword(textInputEditTextPassword.text.toString())) {
+//                textInputLayoutPassword.error = null
+//                true
+//            } else {
+//                textInputLayoutPassword.error = "Password is invalid"
+//                false
+//            }
+            true
         } else {
             textInputLayoutEmail.error = "Email is invalid"
-            if (!Validator.validatePassword(textInputEditTextPassword.text.toString())) {
-                textInputLayoutPassword.error = "Password is invalid"
-            } else {
-                textInputLayoutPassword.error = null
-            }
+//            if (!Validator.validatePassword(textInputEditTextPassword.text.toString())) {
+//                textInputLayoutPassword.error = "Password is invalid"
+//            } else {
+//                textInputLayoutPassword.error = null
+//            }
             false
         }
     }

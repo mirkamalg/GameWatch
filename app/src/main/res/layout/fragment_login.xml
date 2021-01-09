@@ -5,9 +5,11 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/appLogoContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
+        android:transitionName="appLogoContainer"
         app:cardCornerRadius="16dp"
         app:cardElevation="36dp"
         app:layout_constraintBottom_toTopOf="@id/textInputLayoutEmail"
@@ -87,16 +89,41 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:id="@+id/textViewForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/ptsans_regular"
+        android:text="@string/action_forgot_password"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+
+    <View
+        android:id="@+id/separatorRegister"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@id/buttonLogin"
+        app:layout_constraintStart_toStartOf="@id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@id/textViewForgotPassword"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <TextView
         android:id="@+id/textViewRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/ptsans_regular"
         android:text="@string/action_are_you_a_new_member"
         android:textColor="?attr/colorPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@id/separatorRegister" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogin"
@@ -112,9 +139,9 @@
         android:id="@+id/overlayLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#B3000000"
-        android:visibility="gone"
-        android:elevation="48dp">
+        android:background="@color/blackAlpha"
+        android:elevation="48dp"
+        android:visibility="gone">
 
         <com.github.ybq.android.spinkit.SpinKitView
             style="@style/SpinKitView.WanderingCubes"

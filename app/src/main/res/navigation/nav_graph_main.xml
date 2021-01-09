@@ -20,7 +20,7 @@
         android:id="@+id/loginFragment"
         android:name="com.mirkamal.gamewatch.ui.fragments.login.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -29,6 +29,9 @@
             app:destination="@id/hostFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -55,10 +58,15 @@
         android:id="@+id/registerFragment"
         android:name="com.mirkamal.gamewatch.ui.fragments.register.RegisterFragment"
         android:label="RegisterFragment"
-        tools:layout="@layout/fragment_register"/>
+        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/hostFragment"
         android:name="com.mirkamal.gamewatch.ui.fragments.host.HostFragment"
         android:label="HostFragment"
-        tools:layout="@layout/fragment_host"/>
+        tools:layout="@layout/fragment_host" />
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.mirkamal.gamewatch.ui.fragments.forgot_password.ForgotPasswordFragment"
+        android:label="ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password" />
 </navigation>

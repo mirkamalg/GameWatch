@@ -14,6 +14,7 @@ import com.mirkamal.gamewatch.utils.libs.livedata.ValidationResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /**
  * Created by Mirkamal on 27 December 2020
@@ -78,16 +79,24 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.IO) {
             when {
                 username.isNotBlank() -> {
-                    db.collection(USER_DATA_COLLECTION_KEY).get()
-                        .addOnSuccessListener { querySnapshot ->
-                            querySnapshot.documents.forEach {
-                                if (it[USERNAME_KEY] == username && it[USERNAME_KEY] != this@ProfileViewModel.username) {
-                                    validationResult.isValid = false
-                                    validationResult.message = "Username is already in use."
-                                    _userNameValidationResult.value = validationResult
+                    if (username.toLowerCase(Locale.ROOT) == "undefined") {
+                        withContext(Dispatchers.Main) {
+                            validationResult.isValid = false
+                            validationResult.message = "This username cannot be used."
+                            _userNameValidationResult.value = validationResult
+                        }
+                    } else {
+                        db.collection(USER_DATA_COLLECTION_KEY).get()
+                            .addOnSuccessListener { querySnapshot ->
+                                querySnapshot.documents.forEach {
+                                    if (it[USERNAME_KEY] == username && it[USERNAME_KEY] != this@ProfileViewModel.username) {
+                                        validationResult.isValid = false
+                                        validationResult.message = "Username is already in use."
+                                        _userNameValidationResult.value = validationResult
+                                    }
                                 }
                             }
-                        }
+                    }
                 }
                 else -> {
                     validationResult.isValid = false
