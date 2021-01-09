@@ -35,7 +35,7 @@
     <string name="msg_profile">Profile</string>
     <string name="cover">Cover</string>
     <string name="msg_game_count_profile">%1d Games</string>
-    <string name="title_edit_profile">Edit profile</string>
+    <string name="title_edit_profile">Edit Profile</string>
     <string name="msg_username">Username</string>
     <string name="msg_bio">Bio</string>
     <string name="msg_display_name">Display name</string>
