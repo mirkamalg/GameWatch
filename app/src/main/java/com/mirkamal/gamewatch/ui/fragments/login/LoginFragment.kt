@@ -3,7 +3,6 @@ package com.mirkamal.gamewatch.ui.fragments.login
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -141,7 +140,6 @@ class LoginFragment : Fragment() {
             profilePictureReference.putBytes(profileBytes).addOnSuccessListener {
                 uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
             }
-            Log.e("HERE", it.message.toString(), it)
         }
 
         //Upload placeholder cover picture
@@ -163,7 +161,6 @@ class LoginFragment : Fragment() {
             coverPictureReference.putBytes(coverBytes).addOnSuccessListener {
                 uploadedPicturesCount.value = uploadedPicturesCount.value?.plus(1)
             }
-            Log.e("HERE", it.message.toString(), it)
         }
 
 //        } else {

@@ -2,6 +2,7 @@ package com.mirkamal.gamewatch.ui.fragments.mygames
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,6 +79,7 @@ class MyGamesFragment : Fragment() {
 
     private fun configureFragment() {
         viewModel.wantToPlayGames.observe(viewLifecycleOwner, {
+            Log.e("MY_GAMES_LIST", "$it")
             if (it != null) {
                 myGamesListAdapter.submitList(it)
                 myGamesListAdapter.notifyDataSetChanged()
